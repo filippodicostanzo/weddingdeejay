@@ -3,11 +3,12 @@
     <Slider/>
     <HomeServices/>
     <HomeAbout/>
-    <HomeArtists/>
+    <HomeArtists :data="artists"/>
     <HomePackages :data="packages"/>
     <HomeVideos/>
     <HomeLocations :data="locations"/>
     <HomeSocial/>
+    <HomePlaylists/>
   </div>
 </template>
 
@@ -20,15 +21,15 @@ export default {
   data() {
     return {
       data: [],
-      deejays: [],
+      artists: [],
       services: [],
       locations: [],
       packages: [],
     }
   },
   mounted() {
-    getData.getDeejays().then((result) => {
-      this.deejays = result;
+    getData.getArtists().then((result) => {
+      this.artists = result;
     });
 
     getData.getServices().then((result) => {

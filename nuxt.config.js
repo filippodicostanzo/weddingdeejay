@@ -35,6 +35,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/fontawesome',
   ],
 
   loading: '~/components/Loading.vue',
@@ -50,6 +51,14 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true,
+      regular: true,
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

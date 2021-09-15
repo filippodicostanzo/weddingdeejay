@@ -11,7 +11,7 @@
 
       <div class="row">
         <div class="col-12">
-          <Carousel/>
+          <Carousel :data="data" source="artists"/>
         </div>
       </div>
     </div>
@@ -20,7 +20,8 @@
 
 <script>
 export default {
-  name: "Artists.vue"
+  name: "Artists.vue",
+  props: ['data']
 }
 </script>
 

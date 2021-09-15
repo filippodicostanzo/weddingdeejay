@@ -1,7 +1,7 @@
 export default {
 
-  async getDeejays() {
-    const res = await fetch('https://weddingdeejay.herokuapp.com/deejays');
+  async getArtists() {
+    const res = await fetch('https://weddingdeejay.herokuapp.com/artists');
     return res.json();
   },
 

@@ -9,14 +9,11 @@
       </div>
       <div class="row">
         <div class="col-12">
-
           <b-tabs pills >
-            <b-tab v-for="pack in data" :title="pack.name">
+            <b-tab v-for="pack in data" :title="pack.name" :key="pack.identifier">
               <b-card-text><div v-html="pack.details"></div></b-card-text>
             </b-tab>
-
           </b-tabs>
-
         </div>
       </div>
     </div>
