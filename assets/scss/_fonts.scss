@@ -1,0 +1,23 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: $Montserrat;
+}
+
+p, a, span {
+  font-family: $Montserrat;
+}
+
+
+h2.heading{
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: $secondary;
+  margin-bottom: 40px;
+}
+
+h4.subtitle{
+  text-align: center;
+  color: $primary;
+  font-family: $AtchitectsDaughter;
+}
+

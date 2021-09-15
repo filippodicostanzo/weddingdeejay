@@ -1,0 +1,32 @@
+{
+  "menu": [
+    {
+      "slug": "services",
+      "name": "services"
+    },
+
+    {
+      "slug": "deejays",
+      "name": "deejays"
+    },
+
+    {
+      "slug": "musicians",
+      "name": "musicians"
+    },
+
+    {
+      "slug": "packages",
+      "name": "packages"
+    },
+    {
+      "slug": "locations",
+      "name": "locations"
+    },
+    {
+      "slug": "contacts",
+      "name": "contacts"
+    }
+  ]
+}
+
