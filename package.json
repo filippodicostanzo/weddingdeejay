@@ -14,13 +14,17 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "aos": "^2.3.4",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "swiper": "^6.7.0",
     "vue-awesome-swiper": "^4.1.1",
-    "vue-scrollto": "^2.20.0"
+    "vue-scrollto": "^2.20.0",
+    "vue2-datepicker": "^3.10.2",
+    "vueisotope": "^3.1.2",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "sass": "^1.39.0",

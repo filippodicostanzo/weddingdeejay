@@ -6,13 +6,8 @@
     },
 
     {
-      "slug": "deejays",
-      "name": "deejays"
-    },
-
-    {
-      "slug": "musicians",
-      "name": "musicians"
+      "slug": "artists",
+      "name": "artists"
     },
 
     {
@@ -20,8 +15,16 @@
       "name": "packages"
     },
     {
-      "slug": "locations",
-      "name": "locations"
+      "slug": "playlists",
+      "name": "playlists"
+    },
+    {
+      "slug": "showcase",
+      "name": "showcase"
+    },
+    {
+      "slug": "quote",
+      "name": "quote"
     },
     {
       "slug": "contacts",

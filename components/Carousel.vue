@@ -2,35 +2,45 @@
   <div v-swiper="swiperOption" class="w-5/6 ml-auto relative" :loadtheme="false">
     <div class="swiper-wrapper">
       <div class="swiper-slide" :key="item.identifier" v-for="item in data">
-        <div class="image-layer" :style="{'background-image': 'url(https://weddingdeejay.herokuapp.com' + item.cover.url + ')'}">
+        <div class="image-layer"
+             :style="{'background-image': 'url(' + item.cover.url + ')'}">
         </div>
         <div class="box-container">
           <h2 class="text-center">{{ item.name }}</h2>
-          <div v-if="source=='artists'">
-            <div>{{item.category.name}}</div>
-            <div>
-              <div class="social">
-                <ul>
-                  <li><a :href="item.social.facebook" target="_blank">
-                    <font-awesome-icon :icon="['fab', 'facebook-f']"/>
-                  </a></li>
-                  <li><a :href="item.social.instagram" target="_blank">
-                    <font-awesome-icon :icon="['fab', 'instagram']"/>
-                  </a></li>
-                </ul>
-              </div>
-            </div>
+          <div v-if="source=='artists'" class="category">
+            <span>{{ item.category.name }}</span>
+          </div>
+
+          <div class="social">
+            <ul>
+              <li><a :href="item.social.facebook" target="_blank">
+                <font-awesome-icon :icon="['fab', 'facebook-f']"/>
+              </a></li>
+              <li><a :href="item.social.instagram" target="_blank">
+                <font-awesome-icon :icon="['fab', 'instagram']"/>
+              </a></li>
+              <li><a :href="item.social.instagram" target="_blank">
+                <font-awesome-icon :icon="['fab', 'youtube']"/>
+              </a></li>
+              <li><a :href="item.social.instagram" target="_blank">
+                <font-awesome-icon :icon="['fab', 'chrome']"/>
+              </a></li>
+            </ul>
           </div>
 
 
-          <p>Lorem ispumg generator</p>
-          <span class="ltx-btn-wrap"><a href="http://recond.like-themes.com/services/voice-recording-2-2/" class="btn btn-xs">Read more</a></span>
+          <div :inner-html.prop="item.biography | truncate(120)" class="biography"></div>
+          <span class="ltx-btn-wrap">
+            <nuxt-link :to="`artists/${item.identifier}`" class="btn btn-xs"
+                       v-if="source=='artists'">Read more</nuxt-link>
+          </span>
         </div>
-
       </div>
     </div>
     <div class="swiper-pagination"></div>
   </div>
+
+
 </template>
 
 <script>

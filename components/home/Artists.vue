@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4 class="subtitle">What we do</h4>
+          <h4 class="subtitle">Our Professional</h4>
           <h2 class="heading text-white">Artists</h2>
         </div>
       </div>

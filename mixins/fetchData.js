@@ -18,7 +18,27 @@ export default {
   async getPackages() {
     const res = await fetch('https://weddingdeejay.herokuapp.com/packages');
     return res.json();
-  }
+  },
+
+  async getCategories() {
+    const res = await fetch('https://weddingdeejay.herokuapp.com/categories');
+    return res.json();
+  },
+  async getPlaylists() {
+    const res = await fetch('https://weddingdeejay.herokuapp.com/playlists?_sort=order:ASC');
+    return res.json();
+  },
+
+  async getVideos() {
+    const res = await fetch('https://api.vimeo.com/users/151602992/videos', {
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer 4b6f8b599830b497b6be580e2cc1c74b'
+      }
+    });
+    return res.json();
+  },
+
 
 }
 

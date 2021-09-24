@@ -1,0 +1,15 @@
+.video-embed {
+  iframe {
+    height: 400px;
+    width: 100% !important;
+
+    #player {
+      border: 15px solid white;
+      box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+    }
+    .player {
+      border: 15px solid white;
+      box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+    }
+  }
+}

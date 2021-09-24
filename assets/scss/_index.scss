@@ -114,7 +114,7 @@ section.artists {
     }
 
     .box-container {
-      padding: 50px 60px 70px;
+      padding: 50px 50px 70px;
       text-align: center;
 
       h2 {
@@ -123,6 +123,39 @@ section.artists {
 
       p {
         font-weight: 300;
+      }
+
+      .biography {
+        font-size: 0.8rem;
+      }
+
+      .category {
+        padding-top: 20px;
+        span {
+          background-color: $primary;
+          padding: 5px;
+          border-radius: 50px;
+          color: $white;
+          font-size: 12px;
+        }
+      }
+
+      .social {
+        padding-top: 20px;
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            display: inline-block;
+            margin: 0 5px;
+
+            a {
+              color: $third;
+            }
+          }
+        }
       }
 
       .btn {
@@ -135,6 +168,27 @@ section.artists {
         border-radius: 50px;
       }
     }
+
+
+  }
+  .swiper-pagination {
+    position: relative;
+    margin-top: 30px;
+
+    span {
+      cursor: pointer;
+      margin: 0 4px
+    }
+
+    .swiper-pagination-bullet {
+      background-color: $white;
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: $primary;
+    }
+
+
   }
 }
 
@@ -186,19 +240,23 @@ section.videos {
 
 section.locations {
   background-color: $primary;
+
   .swiper-slide {
     text-align: center;
+
     img {
       max-width: 200px;
     }
   }
+
   .swiper-pagination {
     position: relative;
     margin-top: 30px;
+
     span {
       cursor: pointer;
-      margin:0 4px
-     }
+      margin: 0 4px
+    }
 
     .swiper-pagination-bullet-active {
       background-color: $white;
@@ -209,6 +267,7 @@ section.locations {
 
 section.social {
   background-color: $grey;
+
   .instagram-image {
     background-size: cover;
     background-position: center;

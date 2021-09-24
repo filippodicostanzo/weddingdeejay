@@ -109,7 +109,7 @@
   }
 
 
-  .swiper-slide-active .thm-btn, .swiper-slide-active .tagline-up, .swiper-slide-active .tagline-down, .swiper-slide-active p{
+  .swiper-slide-active .thm-btn, .swiper-slide-active .tagline-up, .swiper-slide-active .tagline-down, .swiper-slide-active p {
     visibility: visible;
     opacity: 1;
     -webkit-transform: translateY(0) translateX(0);
@@ -179,6 +179,18 @@
     transform: translateY(0) translateX(0)
   }
 
+
+  .swiper-button-next, .swiper-button-prev {
+    color: $primary;
+  }
+
+  .swiper-button-prev {
+    left: 20px;
+  }
+
+  .swiper-button-next {
+    right: 20px;
+  }
 
 
 }

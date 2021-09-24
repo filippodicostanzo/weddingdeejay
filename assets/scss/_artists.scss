@@ -1,0 +1,24 @@
+page.artists {
+  .button-group {
+    text-align: center;
+
+    .button {
+      color: $primary;
+      background-color: $white;
+      border-radius: 50px;
+      min-width: 150px;
+      text-align: center;
+      border: 2px solid $primary;
+      font-family: $Montserrat;
+      font-weight: 700;
+      padding: 5px;
+      margin: 0 10px;
+    }
+
+    .is-checked {
+      color: $white;
+      border-color: $primary;
+      background-color: $primary;
+    }
+  }
+}

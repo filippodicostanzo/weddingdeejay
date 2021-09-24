@@ -5,10 +5,10 @@
     <HomeAbout/>
     <HomeArtists :data="artists"/>
     <HomePackages :data="packages"/>
-    <HomeVideos/>
+    <HomeVideos :data="videos"/>
     <HomeLocations :data="locations"/>
     <HomeSocial/>
-    <HomePlaylists/>
+    <HomePlaylists :data="playlists"/>
   </div>
 </template>
 
@@ -25,6 +25,8 @@ export default {
       services: [],
       locations: [],
       packages: [],
+      playlists: [],
+      videos: [],
     }
   },
   mounted() {
@@ -36,14 +38,21 @@ export default {
       this.services = result;
     })
 
-    getData.getLocations().then((result)=>{
+    getData.getLocations().then((result) => {
       this.locations = result;
     });
 
-    getData.getPackages().then((result)=>{
+    getData.getPackages().then((result) => {
       this.packages = result;
     });
 
+    getData.getPlaylists().then((result) => {
+      this.playlists = result;
+    });
+
+    getData.getVideos().then((result) => {
+      this.videos = [...result.data.slice(0,6)];
+    })
 
   }
 

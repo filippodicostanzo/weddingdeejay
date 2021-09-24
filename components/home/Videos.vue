@@ -7,13 +7,19 @@
           <h2 class="heading text-white">Showcase</h2>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-6" v-for="item in data">
+          <div v-html="item.embed.html" class="video-embed"></div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: "Videos"
+  name: "Videos",
+  props: ['data']
 }
 </script>
 

@@ -23,7 +23,7 @@ export default {
       this.artists = result;
       console.log(this.artists);
       const id = this.$route.params.id;
-      this.artist = this.artists.find(x => x.idenfifier === id);
+      this.artist = this.artists.find(x => x.identifier === id);
       console.log(this.artist);
     });
 

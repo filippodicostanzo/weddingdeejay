@@ -9,13 +9,13 @@ export default {
       lang: 'en'
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
 
@@ -25,9 +25,32 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {
+      src: '@/plugins/vuelidate',
+      mode: 'client'
+    },
+    {
+      src: '~/plugins/aos.js',
+      mode: 'client',
+    },
+
+    {
+      src: '~/plugins/datepicker.js',
+      mode: 'client',
+    },
+
+    {
+      src: '@/plugins/isotope',
+      mode: 'client'
+    },
+    {
       src: '@/plugins/vue-awesome-swiper',
       mode: 'client'
     },
+    {
+      src: '@/plugins/truncate',
+      mode: 'client'
+    },
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,6 +84,5 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  build: {}
 }

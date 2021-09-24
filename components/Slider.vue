@@ -10,8 +10,8 @@
                   <span class="tagline-up">{{ slide.heading }}</span>
                   <h2 class="slider-header">
                     <span class="ltx-desktop">
-                      <svg viewBox="0 0 1100 140">
-                      <text x="4px" y="35%" alignment-baseline="central" dominant-baseline="middle"> {{
+                      <svg viewBox="0 0 1100 120">
+                      <text x="4px" y="45%" alignment-baseline="central" dominant-baseline="middle"> {{
                           slide.text
                         }} </text>
                       </svg>
@@ -33,6 +33,9 @@
 
 
       </div>
+
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
 
     </div>
   </section>

@@ -7,7 +7,7 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide" :key="location.identifier" v-for="location in data">
                 <a :href="location.url" target="_blank">
-                  <img :src="'https://weddingdeejay.herokuapp.com'+ location.logo.url">
+                  <img :src="location.logo.url">
                 </a>
 
               </div>

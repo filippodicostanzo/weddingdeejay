@@ -3,8 +3,13 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4 class="subtitle">What we do</h4>
+          <h4 class="subtitle">Discover our</h4>
           <h2 class="heading text-white">Playlists</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12 col-lg-4 text-center mb-5 pl-4 pr-4" v-for="item in data" :key="item.identifier">
+          <iframe :src="item.url" width="100%" height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
       </div>
     </div>
@@ -13,7 +18,9 @@
 
 <script>
 export default {
-  name: "Playlists.vue"
+  name: "Playlists.vue",
+  props:['data']
+
 }
 </script>
 

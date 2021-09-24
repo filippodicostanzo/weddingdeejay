@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4 class="subtitle">What we do</h4>
-          <h2 class="heading">Packages</h2>
+          <h4 class="subtitle">Postcards from</h4>
+          <h2 class="heading">Events</h2>
         </div>
       </div>
       <div class="row">
