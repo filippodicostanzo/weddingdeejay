@@ -11,7 +11,8 @@
             <span>{{ item.category.name }}</span>
           </div>
 
-          <div class="social">
+
+          <div class="social" v-if="source=='artists'">
             <ul>
               <li><a :href="item.social.facebook" target="_blank">
                 <font-awesome-icon :icon="['fab', 'facebook-f']"/>
@@ -29,7 +30,7 @@
           </div>
 
 
-          <div :inner-html.prop="item.biography | truncate(120)" class="biography"></div>
+          <div :inner-html.prop="item.biography | truncate(120)" class="biography" v-if="source=='artists'"></div>
           <span class="ltx-btn-wrap">
             <nuxt-link :to="`artists/${item.identifier}`" class="btn btn-xs"
                        v-if="source=='artists'">Read more</nuxt-link>
@@ -37,7 +38,8 @@
         </div>
       </div>
     </div>
-    <div class="swiper-pagination"></div>
+    <div class="swiper-pagination-artists" v-if="source==='artists'"></div>
+    <div class="swiper-pagination-services" v-if="source==='services'"></div>
   </div>
 
 
@@ -75,7 +77,7 @@ export default {
         },
         loopFillGroupWithBlank: true,
         pagination: {
-          el: ".swiper-pagination",
+          el: "",
           clickable: true,
         },
         navigation: {
@@ -88,9 +90,15 @@ export default {
       ]
     }
   },
-  mounted() {
 
-  }
+  fetch() {
+    if (this.source === 'artists') {
+      this.swiperOption.pagination.el = '.swiper-pagination-artists';
+    }
+    if (this.source === 'services') {
+      this.swiperOption.pagination.el = '.swiper-pagination-services';
+    }
+  },
 }
 </script>
 
