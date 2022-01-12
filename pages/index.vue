@@ -1,7 +1,7 @@
 <template>
   <div>
     <Slider/>
-    <HomeServices/>
+    <HomeServices :data="services"/>
     <HomeAbout/>
     <HomeArtists :data="artists"/>
     <HomePackages :data="packages"/>
@@ -9,6 +9,7 @@
     <HomeLocations :data="locations"/>
     <HomeSocial/>
     <HomePlaylists :data="playlists"/>
+    <HomeContacts/>
   </div>
 </template>
 

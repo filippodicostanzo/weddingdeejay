@@ -2,35 +2,60 @@ section.services {
   position: relative;
   background-color: $grey;
 
-  .swiper-slide {
-    background-color: $white;
+  .container {
+    position: relative;
+    z-index: 9;
 
-    .image-layer {
-      height: 350px;
-      background-size: cover;
-      background-position: center;
+
+    .swiper-slide {
+      background-color: $white;
+
+      .image-layer {
+        height: 350px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .box-container {
+        padding: 50px 60px 70px;
+        text-align: center;
+
+        h2 {
+          font-weight: 900;
+        }
+
+        p {
+          font-weight: 300;
+        }
+
+        .btn {
+          font-size: 12px;
+          padding: 7px 30px;
+          line-height: 1.6em;
+          min-width: 125px;
+          background-color: $primary;
+          color: $white;
+          border-radius: 50px;
+        }
+      }
     }
 
-    .box-container {
-      padding: 50px 60px 70px;
+    .swiper-pagination-services {
+      position: relative;
       text-align: center;
+      margin-top: 30px;
 
-      h2 {
-        font-weight: 900;
+      span {
+        cursor: pointer;
+        margin: 0 4px
       }
 
-      p {
-        font-weight: 300;
+      .swiper-pagination-bullet {
+        background-color: $fourth;
       }
 
-      .btn {
-        font-size: 12px;
-        padding: 7px 30px;
-        line-height: 1.6em;
-        min-width: 125px;
+      .swiper-pagination-bullet-active {
         background-color: $primary;
-        color: $white;
-        border-radius: 50px;
       }
     }
   }
@@ -47,7 +72,7 @@ section.services {
     width: 100% !important;
 
     .container-fluid {
-      background-image: url(http://recond.like-themes.com/wp-content/uploads/2019/06/long_wave.png?id=10016) !important;
+      background-image: url('assets/images/long-wave.png') !important;
       -webkit-animation: bgscroll 6s linear infinite;
       -moz-animation: bgscroll 6s linear infinite;
       -o-animation: bgscroll 6s linear infinite;
@@ -58,6 +83,7 @@ section.services {
 
     }
   }
+
 
 }
 
@@ -93,12 +119,39 @@ section.about {
       animation: wavepulse .5s ease infinite
     }
   }
+
+  .ltx-block-icon {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+
+    .header {
+      background: transparent;
+      font-weight: 900;
+      padding-left: 60px;
+      padding-bottom: 20px;
+      padding-top: 15px;
+    }
+
+    .desc {
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .image-filter {
+      width: 50px;
+      position: absolute;
+      -webkit-filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+      filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+
+    }
+  }
 }
 
 section.artists {
   position: relative;
   background-color: $black;
-  background-image: url(http://recond.like-themes.com/wp-content/uploads/2018/02/testimonials_parallax.jpg?id=9917) !important;
+  background-image: url('assets/images/parallax-artists.jpg') !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -131,6 +184,7 @@ section.artists {
 
       .category {
         padding-top: 20px;
+
         span {
           background-color: $primary;
           padding: 5px;
@@ -171,8 +225,10 @@ section.artists {
 
 
   }
-  .swiper-pagination {
+
+  .swiper-pagination-artists {
     position: relative;
+    text-align: center;
     margin-top: 30px;
 
     span {
@@ -231,7 +287,7 @@ section.packages {
 }
 
 section.videos {
-  background-image: url(http://recond.like-themes.com/wp-content/uploads/2018/02/noise_50.png?id=9953) !important;
+  background-image: url('assets/images/parallax-showcase.png') !important;
   background-position: 0 0 !important;
   background-repeat: repeat !important;
   background-color: $black;
@@ -279,7 +335,7 @@ section.social {
 }
 
 section.playlists {
-  background-image: url(http://recond.like-themes.com/wp-content/uploads/2018/02/noise_50.png?id=9953) !important;
+  background-image: url('assets/images/parallax-showcase.png') !important;
   background-position: 0 0 !important;
   background-repeat: repeat !important;
   background-color: $black;

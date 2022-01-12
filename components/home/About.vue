@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4 class="subtitle">What we do</h4>
-          <h2 class="heading">Services</h2>
+          <h4 class="subtitle">Ho we</h4>
+          <h2 class="heading">Work</h2>
         </div>
       </div>
       <div class="row">
@@ -13,33 +13,36 @@
             class="ltx-block-icon  has-descr  icons-count-3 align-left ltx-icon-color-main ltx-icon-size-default ltx-header-color-black ltx-icon-type-circle ltx-bg-color-transparent layout-cols1 ltx-icon-ht-right "
             id="like_sc_block_icon_1206785474">
             <li>
-              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style=""><span
-                class="ltx-icon icon-live_instruments bg-transparent"
-                data-mh="ltx-icon-span-like_sc_block_icon_1206785474" style=""></span>
-                <div class="block-right"><h6 class="header"> Live Instruments</h6>
-                  <div class="descr">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
+              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/dj.png')" class="image-filter">
+                </div>
+                <div class="block-right"><h6 class="header"> Professional Djs</h6>
+                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
                     lacus eget.
                   </div>
                 </div>
               </div>
             </li>
             <li>
-              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style=""><span
-                class="ltx-icon icon-several_studios bg-transparent"
-                data-mh="ltx-icon-span-like_sc_block_icon_1206785474" style=""></span>
-                <div class="block-right"><h6 class="header"> Multiple Studios</h6>
-                  <div class="descr">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
+              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/disco-ball.png')" class="image-filter">
+                </div>
+                <div class="block-right"><h6 class="header"> The Best Location</h6>
+                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
                     lacus eget.
                   </div>
                 </div>
               </div>
             </li>
             <li>
-              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style=""><span
-                class="ltx-icon icon-prof_equipmentt bg-transparent"
-                data-mh="ltx-icon-span-like_sc_block_icon_1206785474" style=""></span>
+              <div data-mh="ltx-block-icon-in-1658" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/speaker.png')" class="image-filter">
+                </div>
                 <div class="block-right"><h6 class="header"> Professional Equipment</h6>
-                  <div class="descr">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
+                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
                     augue.
                   </div>
                 </div>
@@ -56,10 +59,10 @@
                   <figure class="wpb_wrapper vc_figure">
                     <div class="vc_single_image-wrapper   vc_box_border_grey">
                       <img width="493" height="452"
-                           src="http://recond.like-themes.com/wp-content/uploads/2019/06/about-monitors.png"
+                           :src="require('assets/images/about-monitors.png')"
                            class="vc_single_image-img attachment-full"
                            alt=""
-                           srcset="http://recond.like-themes.com/wp-content/uploads/2019/06/about-monitors.png 493w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-monitors-300x275.png 300w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-monitors-360x330.png 360w"
+                           :srcset="monitorSourceSet"
                            sizes="(max-width: 493px) 100vw, 493px">
                     </div>
                   </figure>
@@ -68,10 +71,10 @@
                   <figure class="wpb_wrapper vc_figure">
                     <div class="vc_single_image-wrapper   vc_box_border_grey">
                       <img width="700" height="222"
-                           src="http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves.png"
+                           :src="require('assets/images/about-waves.png')"
                            class="vc_single_image-img attachment-full"
                            alt=""
-                           srcset="http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves.png 700w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves-300x95.png 300w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves-360x114.png 360w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves-600x190.png 600w, http://recond.like-themes.com/wp-content/uploads/2019/06/about-waves-550x174.png 550w"
+                           :srcset="this.wavesSourceSet"
                            sizes="(max-width: 700px) 100vw, 700px">
                     </div>
                   </figure>
@@ -85,33 +88,36 @@
             class="ltx-block-icon  has-descr  icons-count-3 align-left ltx-icon-color-main ltx-icon-size-default ltx-header-color-black ltx-icon-type-circle ltx-bg-color-transparent layout-cols1 ltx-icon-ht-right "
             id="like_sc_block_icon_691038514">
             <li>
-              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style=""><span
-                class="ltx-icon icon-arrangement bg-transparent" data-mh="ltx-icon-span-like_sc_block_icon_691038514"
-                style=""></span>
-                <div class="block-right"><h6 class="header"> Own Arrangements</h6>
-                  <div class="descr">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
+              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/sax.png')" class="image-filter">
+                </div>
+                <div class="block-right"><h6 class="header"> With Musicians</h6>
+                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
                     lacus eget.
                   </div>
                 </div>
               </div>
             </li>
             <li>
-              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style=""><span
-                class="ltx-icon icon-go_top bg-transparent" data-mh="ltx-icon-span-like_sc_block_icon_691038514"
-                style=""></span>
-                <div class="block-right"><h6 class="header"> Extra Sound-Quality</h6>
-                  <div class="descr">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
+              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/music.png')" class="image-filter">
+                </div>
+                <div class="block-right"><h6 class="header"> International Repertoire</h6>
+                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
                     augue.
                   </div>
                 </div>
               </div>
             </li>
             <li>
-              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style=""><span
-                class="ltx-icon icon-protection bg-transparent" data-mh="ltx-icon-span-like_sc_block_icon_691038514"
-                style=""></span>
-                <div class="block-right"><h6 class="header"> Rights Protection</h6>
-                  <div class="descr">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
+              <div data-mh="ltx-block-icon-in-1334" class="in matchHeight" style="">
+                <div>
+                  <img :src="require('assets/icons/headphone.png')" class="image-filter">
+                </div>
+                <div class="block-right"><h6 class="header"> Real Support</h6>
+                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
                     augue.
                   </div>
                 </div>
@@ -126,7 +132,18 @@
 
 <script>
 export default {
-  name: "About.vue"
+  name: "About.vue",
+  computed: {
+    wavesSourceSet() {
+      const baseName = 'about-waves'
+      return `${require(`@/assets/images/${baseName}.png`)} 700w, ${require(`@/assets/images/${baseName}-300x95.png`)} 300w, ${require(`@/assets/images/${baseName}-360x114.png`)} 360w, ${require(`@/assets/images/${baseName}-600x190.png`)} 600w, ${require(`@/assets/images/${baseName}-550x174.png`)} 550w`;
+    },
+
+    monitorSourceSet() {
+      const baseName = 'about-monitors'
+      return `${require(`@/assets/images/${baseName}.png`)} 493w, ${require(`@/assets/images/${baseName}-300x275.png`)} 300w, ${require(`@/assets/images/${baseName}-360x330.png`)} 360w`;
+    }
+  }
 }
 </script>
 

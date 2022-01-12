@@ -10,7 +10,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <Carousel/>
+         <Carousel :data="data" source="services"/>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 
 export default {
   name: "Services.vue",
+  props:['data']
 }
 </script>
 
