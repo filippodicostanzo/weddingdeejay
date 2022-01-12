@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -80,6 +82,34 @@ export default {
       solid: true,
       brands: true,
       regular: true,
+    }
+  },
+
+  generate: {
+    routes: async function()  {
+
+      let artists = axios.get('https://weddingdeejay.herokuapp.com/artists').then((res) => {
+        return res.data.map((artist) => {
+          return {
+            route: '/artists/'+ artist.identifier,
+            payload: artist
+          }
+        })
+      });
+
+      let packages = axios.get('https://weddingdeejay.herokuapp.com/packages').then((res) => {
+        return res.data.map((pack) => {
+          return {
+            route: '/packages/' + pack.id,
+            payload: pack
+          }
+        })
+      });
+
+      return Promise.all([artists, packages]).then(values => {
+        return [...values[0], ...values[1]]
+      })
+
     }
   },
 
