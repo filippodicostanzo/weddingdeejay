@@ -2,7 +2,7 @@
   <nav class="primary">
     <ul class="main-menu">
       <li v-for="item in mainmenu" :key="item.slug">
-        <nuxt-link tag="a" :to="item.slug" exact>{{item.name}}</nuxt-link>
+        <nuxt-link tag="a" :to="'/'+item.slug" exact>{{item.name}}</nuxt-link>
       </li>
 
 
