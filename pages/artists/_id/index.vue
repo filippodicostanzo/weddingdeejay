@@ -1,14 +1,19 @@
 <template>
-  <div>
-    {{ artist.name }}
-  </div>
+  <page class="artist">
+    <Title :title="artist.name" image="slider-01" />
+    <div>
+      {{ artist.name }}
+    </div>
+  </page>
 </template>
 
 <script>
 import getData from "@/mixins/fetchData";
+import Title from "../../../components/home/Title";
 
 export default {
   name: "index.vue",
+  components: {Title},
   data() {
     return {
       artists: [],

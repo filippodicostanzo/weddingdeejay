@@ -1,5 +1,6 @@
 <template>
   <page class="artists">
+    <Title title="Artists" image="slider-01"/>
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -26,10 +27,12 @@
 
 <script>
 import getData from "@/mixins/fetchData";
+import Title from "../../components/home/Title";
 
 
 export default {
   name: "index.vue",
+  components: {Title},
   data() {
     return {
       artists: [],
@@ -48,9 +51,9 @@ export default {
           "Deejays": function (el) {
             return el.category.identifier === "deejay";
           },
-          "Saxophonists": function (el) {
-            return el.category.identifier === "saxophonist";
-          },
+          // "Saxophonists": function (el) {
+          //   return el.category.identifier === "saxophonist";
+          // },
 
         },
       }
