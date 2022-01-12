@@ -64,12 +64,6 @@ export default {
           text: 'MUSICIANS',
           subtitle: 'FOR YOUR EVENT'
         },
-        {
-          img: require(`~/assets/images/slider-01.jpg`),
-          heading: 'OUR PROFESSIONAL',
-          text: 'DEEJAYS',
-          subtitle: 'FOR YOUR EVENT'
-        },
       ],
       swiperOption: {
         slidesPerView: 1,
