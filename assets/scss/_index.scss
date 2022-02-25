@@ -28,6 +28,10 @@ section.services {
           font-weight: 300;
         }
 
+        .description {
+          padding: 10px 0 20px;
+        }
+
         .btn {
           font-size: 12px;
           padding: 7px 30px;
@@ -37,6 +41,8 @@ section.services {
           color: $white;
           border-radius: 50px;
         }
+
+
       }
     }
 
@@ -283,6 +289,51 @@ section.packages {
       margin-top: 50px;
     }
 
+    .package {
+      text-align: center;
+      span  {
+        font-weight: 900;
+        color: $primary;
+      }
+      h2 {
+        font-size: 20px;
+        color: $primary;
+        font-weight: 900;
+      }
+      ul {
+        padding: 0;
+        list-style: none;
+        li{
+          font-weight: 300;
+          padding: 5px 0;
+
+
+        }
+      }
+
+    }
+
+    .btn-primary {
+      color: #fff;
+      background-color: #dc2751;
+      border: 0;
+      width: 180px;
+      height: 40px;
+      border-radius: 50px;
+
+      a {
+        color: $white;
+
+        &:hover {
+          color: $grey;
+        }
+
+      }
+      &:active, &:focus {
+        background: $secondary;
+      }
+    }
+
   }
 }
 
@@ -339,4 +390,48 @@ section.playlists {
   background-position: 0 0 !important;
   background-repeat: repeat !important;
   background-color: $black;
+}
+
+section.contacts {
+  background-color: $grey;
+  .contacts-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      font-family: $Montserrat;
+      margin: 30px 0;
+      .image-filter {
+        width: 30px;
+        margin-right: 10px;
+        -webkit-filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+        filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+
+
+      }
+      a {
+        color: $black;
+        transition: 0.3s;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  .social-list {
+    list-style: none;
+    padding: 20px 0 0 0;
+    li {
+      display: inline-block;
+      .image-filter {
+        width: 30px;
+        margin-right: 10px;
+        -webkit-filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+        filter: invert(21%) sepia(38%) saturate(4986%) hue-rotate(328deg) brightness(102%) contrast(94%);
+
+      }
+    }
+  }
 }

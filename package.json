@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "cross-env NUXT_HOST=0.0.0.0 NUXT_PORT=3333 nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -13,21 +13,28 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/recaptcha": "^1.0.4",
     "aos": "^2.3.4",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
+    "lightgallery.js": "^1.4.0",
     "lodash": "^4.17.21",
     "nuxt": "^2.15.7",
+    "nuxt-cookie-control": "^1.9.91",
     "swiper": "^6.7.0",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-js-modal": "^2.0.1",
     "vue-scrollto": "^2.20.0",
     "vue2-datepicker": "^3.10.2",
     "vueisotope": "^3.1.2",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
+    "@nuxtjs/date-fns": "^1.5.0",
+    "cross-env": "^7.0.3",
     "sass": "^1.39.0",
     "sass-loader": "^10.1.0"
   }

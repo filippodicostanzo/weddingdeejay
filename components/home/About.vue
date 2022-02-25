@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h4 class="subtitle">Ho we</h4>
+          <h4 class="subtitle">How we</h4>
           <h2 class="heading">Work</h2>
         </div>
       </div>
@@ -18,8 +18,7 @@
                   <img :src="require('assets/icons/dj.png')" class="image-filter">
                 </div>
                 <div class="block-right"><h6 class="header"> Professional Djs</h6>
-                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
-                    lacus eget.
+                  <div class="desc">Over 20 years of experience DJ’ing in the wedding and events industry.
                   </div>
                 </div>
               </div>
@@ -29,9 +28,8 @@
                 <div>
                   <img :src="require('assets/icons/disco-ball.png')" class="image-filter">
                 </div>
-                <div class="block-right"><h6 class="header"> The Best Location</h6>
-                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
-                    lacus eget.
+                <div class="block-right"><h6 class="header">Best Location</h6>
+                  <div class="desc">We work in all the top hotels and venues on the Amalfi Coast and throughout Italy.
                   </div>
                 </div>
               </div>
@@ -42,15 +40,14 @@
                   <img :src="require('assets/icons/speaker.png')" class="image-filter">
                 </div>
                 <div class="block-right"><h6 class="header"> Professional Equipment</h6>
-                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
-                    augue.
+                  <div class="desc">We use only top-of-the-line professional equipment; turntables, CDJ and controllers.
                   </div>
                 </div>
               </div>
             </li>
           </ul>
         </div>
-        <div class="col-md-6 d-md-none d-lg-block text-center">
+        <div class="col-md-6 d-md-none d-lg-block text-center ltx-speaker">
           <div
             class="ltx-waves-wrapper wpb_column vc_column_container vc_col-sm-6 vc_col-lg-6 vc_col-md-4 vc_hidden-md vc_hidden-sm vc_hidden-xs">
             <div class="vc_column-inner">
@@ -93,8 +90,8 @@
                   <img :src="require('assets/icons/sax.png')" class="image-filter">
                 </div>
                 <div class="block-right"><h6 class="header"> With Musicians</h6>
-                  <div class="desc">Curabitur fermentum vitae eros eu porta. Curabitur et risus egestas, vulputate
-                    lacus eget.
+                  <div class="desc">Enrich your DJ experience by adding in additional live musicians such as sax,
+                    percussion, electric violin and vocals.
                   </div>
                 </div>
               </div>
@@ -105,8 +102,7 @@
                   <img :src="require('assets/icons/music.png')" class="image-filter">
                 </div>
                 <div class="block-right"><h6 class="header"> International Repertoire</h6>
-                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
-                    augue.
+                  <div class="desc">We are experts in all types of musical repertoires and possess a vast musical knowledge.
                   </div>
                 </div>
               </div>
@@ -117,8 +113,7 @@
                   <img :src="require('assets/icons/headphone.png')" class="image-filter">
                 </div>
                 <div class="block-right"><h6 class="header"> Real Support</h6>
-                  <div class="desc">Pellentesque et ex vitae ligula efficitur pretium. Nulla vestibulum aliquam
-                    augue.
+                  <div class="desc">We offer assistance in putting together the perfect custom playlist for your event.
                   </div>
                 </div>
               </div>

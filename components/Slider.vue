@@ -2,19 +2,22 @@
   <section class="slider">
     <div v-swiper="swiperOption" class="w-5/6 ml-auto relative" :loadtheme="false">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" :key="slide" v-for="slide in slides">
+        <div class="swiper-slide" :key="slide.id" v-for="slide in slides">
           <div class="image-layer" :style="{'background-image': 'url(' + slide.img + ')'}">
             <div class="container">
               <div class="row">
                 <div class="col-xl-8 col-lg-8">
                   <span class="tagline-up">{{ slide.heading }}</span>
                   <h2 class="slider-header">
-                    <span class="ltx-desktop">
+                    <span class="ltx-desktop hidden-mobile">
                       <svg viewBox="0 0 1100 120">
-                      <text x="4px" y="45%" alignment-baseline="central" dominant-baseline="middle"> {{
+                      <text x="4px" y="45%" alignment-baseline="central" dominant-baseline="middle" class="hidden-mobile"> {{
                           slide.text
                         }} </text>
                       </svg>
+                    </span>
+                    <span class="ltx-mobile hidden-desktop">
+                      {{slide.text}}
                     </span>
                   </h2>
                   <a class="tagline-down">{{ slide.subtitle }}</a>
@@ -53,12 +56,14 @@ export default {
     return {
       slides: [
         {
+          id: 1,
           img: require(`~/assets/images/slider-01.jpg`),
           heading: 'OUR PROFESSIONAL',
           text: 'DEEJAYS',
           subtitle: 'FOR YOUR EVENT'
         },
         {
+          id: 2,
           img: require(`~/assets/images/slider-02.jpg`),
           heading: 'OUR PROFESSIONAL',
           text: 'MUSICIANS',
@@ -69,6 +74,9 @@ export default {
         slidesPerView: 1,
         loop: true,
         loopFillGroupWithBlank: true,
+        autoplay: {
+          delay: 5000,
+        },
         pagination: {
           el: ".swiper-pagination",
           clickable: true,

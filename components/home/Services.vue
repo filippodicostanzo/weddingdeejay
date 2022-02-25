@@ -1,6 +1,6 @@
 <template>
-  <section class="services pt-100 pb-100" >
-    <div class="container" data-aos="fade-up">
+  <section class="services pt-100 pb-100">
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <h4 class="subtitle">What we do</h4>
@@ -10,7 +10,8 @@
       </div>
       <div class="row">
         <div class="col-12">
-         <Carousel :data="data" source="services"/>
+          <LoadSpinner v-if="data.length===0"/>
+          <Carousel :data="data" source="services"/>
         </div>
       </div>
     </div>
@@ -21,10 +22,14 @@
 </template>
 
 <script>
+import LoadSpinner from "../LoadSpinner";
 
 export default {
   name: "Services.vue",
-  props:['data']
+  components: {LoadSpinner},
+  props: ['data'],
+
+
 }
 </script>
 

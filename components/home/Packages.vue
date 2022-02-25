@@ -9,9 +9,17 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <b-tabs pills >
+          <LoadSpinner v-if="data.length===0"/>
+          <b-tabs pills>
             <b-tab v-for="pack in data" :title="pack.name" :key="pack.identifier">
-              <b-card-text><div v-html="pack.details"></div></b-card-text>
+              <b-card-text>
+                <div v-html="pack.details"></div>
+              </b-card-text>
+              <div class="pt-3 text-center">
+                <button class="btn-primary">
+                  <nuxt-link :to="{ name: 'quote', params: { package: pack }}">Request a quote</nuxt-link>
+                </button>
+              </div>
             </b-tab>
           </b-tabs>
         </div>
@@ -21,9 +29,12 @@
 </template>
 
 <script>
+import LoadSpinner from "../LoadSpinner";
+
 export default {
   name: "Packages.vue",
-  props:['data']
+  components: {LoadSpinner},
+  props: ['data']
 }
 </script>
 

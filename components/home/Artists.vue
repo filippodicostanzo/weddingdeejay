@@ -11,6 +11,7 @@
 
       <div class="row">
         <div class="col-12">
+          <LoadSpinner v-if="data.length===0"/>
           <Carousel :data="data" source="artists"/>
         </div>
       </div>
@@ -19,8 +20,11 @@
 </template>
 
 <script>
+import LoadSpinner from "../LoadSpinner";
+
 export default {
   name: "Artists.vue",
+  components: {LoadSpinner},
   props: ['data']
 }
 </script>

@@ -9,8 +9,7 @@
       <li v-for="item in crumbs">
         <span>&nbsp; /</span>
         <nuxt-link :to="item.to">
-
-          {{item.title}}
+          {{ item.title }}
         </nuxt-link>
       </li>
     </ol>
@@ -18,36 +17,37 @@
 </template>
 
 <script>
-    import * as _ from 'lodash';
+import * as _ from 'lodash';
 
-    export default {
-        name: "Breadcrumbs.vue",
-        computed: {
+export default {
+  name: "Breadcrumbs.vue",
+  props: ['title'],
+  computed: {
 
-            crumbs() {
+    crumbs() {
 
-                const pathArray = this.$route.path.split('/')
-                pathArray.shift()
+      const pathArray = this.$route.path.split('/')
+      pathArray.shift()
+      console.log(pathArray);
+      const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
 
-                const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+        breadcrumbArray.push({
+          to: breadcrumbArray[idx - 1]
+            ? '/' + pathArray[idx - 1] + '/' + path
+            : '/' + path,
+          title: idx+1 !== pathArray.length ? _.startCase(path) : this.title,
+          index: idx
+        })
 
-                    breadcrumbArray.push({
-                        to: breadcrumbArray[idx-1]
-                            ? '/' + pathArray[idx-1] + '/' + path
-                            : '/' + path,
-                        title: _.startCase(path),
-                        index: idx
-                    })
+        console.log(breadcrumbArray);
+        return breadcrumbArray
+      }, [])
 
-                    console.log(breadcrumbArray);
-                    return breadcrumbArray
-                }, [])
-
-                return breadcrumbs
-            }
-
-        }
+      return breadcrumbs
     }
+
+  }
+}
 </script>
 
 <style scoped>

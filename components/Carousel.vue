@@ -31,9 +31,13 @@
 
 
           <div :inner-html.prop="item.biography | truncate(120)" class="biography" v-if="source=='artists'"></div>
+          <div :inner-html.prop="item.description | truncate(105)" class="description" v-if="source=='services'"></div>
           <span class="ltx-btn-wrap">
             <nuxt-link :to="`artists/${item.identifier}`" class="btn btn-xs"
                        v-if="source=='artists'">Read more</nuxt-link>
+
+             <nuxt-link to="/services" class="btn btn-xs"
+                        v-if="source=='services'">Read more</nuxt-link>
           </span>
         </div>
       </div>
@@ -56,13 +60,7 @@ export default {
         spaceBetween: 50,
         // Responsive breakpoints
         breakpoints: {
-          // when window width is <= 499px
-          499: {
-            slidesPerView: 1,
-            spaceBetweenSlides: 50
-          },
-          // when window width is <= 999px
-          999: {
+          768: {
             slidesPerView: 2,
             spaceBetweenSlides: 50
           },

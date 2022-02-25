@@ -1,7 +1,8 @@
 <template>
-  <nuxt-link to="/">
-    <img src="../assets/images/logo.png">
-  </nuxt-link>
+
+    <nuxt-link to="/">
+      <img src="../assets/images/logo.svg">
+    </nuxt-link>
 </template>
 
 <script>

@@ -90,8 +90,9 @@
   }
 
   .swiper-slide h2 {
+
     color: #fff;
-    font-family: var(--special-font);
+
     font-size: 80px;
     line-height: 1.1;
     margin-top: 15px;
@@ -105,22 +106,34 @@
     -webkit-transition: opacity 2000ms ease, -webkit-transform 2000ms ease;
     transition: opacity 2000ms ease, -webkit-transform 2000ms ease;
     transition: transform 2000ms ease, opacity 2000ms ease;
-    transition: transform 2000ms ease, opacity 2000ms ease, -webkit-transform 2000ms ease
+    transition: transform 2000ms ease, opacity 2000ms ease, -webkit-transform 2000ms ease;
+    span {
+      font-family: $Poppins;
+    }
   }
 
 
   .swiper-slide-active .thm-btn, .swiper-slide-active .tagline-up, .swiper-slide-active .tagline-down, .swiper-slide-active p {
     visibility: visible;
     opacity: 1;
-    -webkit-transform: translateY(0) translateX(0);
-    transform: translateY(0) translateX(0)
+    -webkit-transform: translateY(0) translateX(50px);
+    transform: translateY(0) translateX(50px);
+    @media(max-width: 991px) {
+      -webkit-transform: translateY(0) translateX(0);
+      transform: translateY(0) translateX(0)
+    }
   }
 
   .swiper-slide-active h2 {
     visibility: visible;
     opacity: 1;
-    -webkit-transform: translateY(0) translateX(-8px);
-    transform: translateY(0) translateX(-8px)
+    -webkit-transform: translateY(0) translateX(50px);
+    transform: translateY(0) translateX(50px);
+
+    @media(max-width: 991px) {
+      -webkit-transform: translateY(0) translateX(0);
+      transform: translateY(0) translateX(0)
+    }
   }
 
   .thm-btn {

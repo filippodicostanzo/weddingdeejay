@@ -1,0 +1,316 @@
+div.mobile-menu {
+
+  position: absolute;
+  right: 20px;
+
+  .mobile-button {
+
+
+    svg {
+      font-size: 35px;
+      color: $primary;
+    }
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.hidden-mobile {
+  @media only screen and (max-width: 991px) {
+    display: none;
+  }
+}
+
+.hidden-desktop {
+  @media only screen and (min-width: 992px) {
+    display: none;
+  }
+}
+
+
+.b-sidebar-right {
+  background: rgb(34 34 34 / 95%);
+
+  .logo-container {
+    padding-top: 20px;
+    text-align: center;
+    img {
+      max-width: 80%;
+    }
+  }
+
+  ul.main-menu {
+    padding: 20px 0 0 0;
+    list-style: none;
+
+    li {
+      text-align: center;
+      padding: 10px 0;
+
+      a {
+        font-family: $Montserrat;
+        text-transform: uppercase;
+        color: $white;
+        letter-spacing: 1px;
+      }
+
+    }
+  }
+
+  .line {
+    border-top: 1px solid #f0f0f3;
+    margin: 30px auto;
+    width: 80%;
+  }
+
+  ul.contacts-list, ul.social-list {
+    padding: 0;
+    text-align: center;
+    align-items: center;
+
+    li {
+      display: inline-flex;
+      margin: 0 10px;
+
+      a {
+        color: $primary;
+      }
+    }
+  }
+
+
+}
+
+@media only screen and (max-width: 991px) {
+  .services {
+    .background-animation {
+      display: none;
+    }
+  }
+
+  .about {
+    .ltx-speaker {
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .ltx-waves {
+      display: none;
+    }
+  }
+
+
+  .slider {
+    .swiper-slide {
+      .image-layer {
+        height: 500px;
+
+        .tagline-up, .tagline-down {
+          text-align: center;
+
+        }
+
+        .slider-header {
+          text-align: center;
+          font-size: 45px;
+          font-weight: 900;
+
+          .ltx-mobile {
+
+          }
+        }
+      }
+    }
+  }
+
+  .packages {
+    .tabs {
+      li {
+        margin-bottom: 20px;
+      }
+    }
+
+
+  }
+
+  .videos {
+    .video-embed {
+      iframe {
+        height: 250px;
+      }
+    }
+  }
+
+
+  .header-page {
+    .container-fluid {
+      height: 300px;
+      padding-top: 100px;
+    }
+  }
+
+
+  .page-showcase {
+    .video-embed {
+      iframe {
+        height: 250px;
+      }
+    }
+  }
+
+  .page-artist {
+    .line {
+      border-top: 1px solid $secondary;
+      width: 200px !important;
+    }
+  }
+
+  .page-services {
+
+    .no-gutters {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    .image-carousel {
+      div:nth-child(odd) {
+        img {
+          padding: 5px 5px 5px 0;
+        }
+      }
+
+      div:nth-child(even) {
+        img {
+          padding: 5px 0px 5px 5px;
+        }
+      }
+
+
+    }
+  }
+
+
+}
+
+
+@media only screen and (max-width: 767px) {
+  .header {
+    .col-12 {
+      text-align: left;
+
+      img {
+        max-width: 80%;
+      }
+    }
+  }
+
+  section.social .instagram-image {
+    height: 300px;
+  }
+
+  footer {
+    .col-lg-3 {
+      text-align: center;
+
+      ul {
+        li {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  .page-services {
+    .row {
+      padding: 30px 10px !important;
+    }
+
+    .no-gutters {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    .image-carousel {
+      div:nth-child(odd) {
+        img {
+          padding: 5px 5px 5px 0;
+        }
+      }
+
+      div:nth-child(even) {
+        img {
+          padding: 5px 0px 5px 5px;
+        }
+      }
+
+      div:nth-child(9) {
+        display: none;
+      }
+
+
+    }
+  }
+
+  .page-artist {
+    .image-carousel {
+
+      div:nth-child(odd) {
+        img {
+          padding: 5px 5px 5px 0;
+        }
+      }
+
+      div:nth-child(even) {
+        img {
+          padding: 5px 0px 5px 5px;
+        }
+      }
+
+      div:nth-child(9) {
+        display: none;
+      }
+    }
+  }
+
+  .page-packages {
+
+    .row {
+      padding: 30px 10px !important;
+    }
+
+  }
+
+
+  .cookieControl__Bar {
+    p {
+      font-size: 12px !important;
+    }
+  }
+
+  .cookieControl__BarButtons {
+    flex-direction: row !important;
+    button+button {
+      margin: 0 0 0 10px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .header {
+    .col-12 {
+      text-align: center;
+
+      img {
+        max-width: 60%;
+      }
+    }
+  }
+
+  section.social .instagram-image {
+    height: 200px;
+  }
+}

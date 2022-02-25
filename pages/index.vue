@@ -16,6 +16,7 @@
 <script>
 
 import getData from '@/mixins/fetchData';
+import _ from "lodash"
 
 export default {
   mixins: [getData],
@@ -32,11 +33,11 @@ export default {
   },
   mounted() {
     getData.getArtists().then((result) => {
-      this.artists = result;
+      this.artists = _.orderBy(result, ['order'],['asc']);
     });
 
     getData.getServices().then((result) => {
-      this.services = result;
+      this.services = _.orderBy(result, ['order'],['asc']);
     })
 
     getData.getLocations().then((result) => {
@@ -44,7 +45,7 @@ export default {
     });
 
     getData.getPackages().then((result) => {
-      this.packages = result;
+      this.packages = _.orderBy(result, ['order'],['asc']);
     });
 
     getData.getPlaylists().then((result) => {

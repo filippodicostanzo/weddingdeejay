@@ -3,7 +3,7 @@
     <div class="container-fluid" :style="{'background-image': 'url(' + this.background + ')'}">
       <span class="ltx-before"></span>
       <h1>{{ this.title }}</h1>
-      <Breadcrumbs/>
+      <Breadcrumbs :title="this.title"/>
       <span class="ltx-after"></span>
       <div class="ltx-header-icon"></div>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default {
   name: "Title.vue",
