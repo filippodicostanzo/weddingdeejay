@@ -330,7 +330,7 @@ export default {
       country: '',
       date: new Date(),
       location: '',
-      options: ['Specific Moment', 'Entrance', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Other'],
+      options: ['Specific Moment', 'Entrance', 'First Dance', 'Bride with Parent', 'Groom with Parent','Last Dance', 'Other'],
       row: 1,
       songs: [{order: 1, moment: 'Entrance', song: ''}],
       playlists: [{order: 1, description: '', url: ''}],
