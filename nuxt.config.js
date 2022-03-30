@@ -72,6 +72,16 @@ export default {
       mode: 'client',
     },
 
+    {
+      src: '~/plugins/vue-gtag-client.js',
+      mode: 'client',
+    },
+
+    {
+      src: '~/plugins/vue-gtag-server.js',
+      mode: 'client',
+    },
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,7 +91,8 @@ export default {
   buildModules: [
     '@nuxtjs/fontawesome',
     '@nuxtjs/date-fns',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/google-analytics'
   ],
 
   loading: '~/components/Loading.vue',
@@ -145,6 +156,10 @@ export default {
       /* reCAPTCHA options */
       siteKey: process.env.RECAPTCHA_SITE_KEY // for example
     },
+
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID
+    },
     siteDomain: process.env.SITE_DOMANIN || '',
     siteProperty: process.env.SITE_PROPERTY || '',
     siteAddress: process.env.SITE_ADDRESS || '',
@@ -153,6 +168,8 @@ export default {
     linkVimeo: process.env.LINK_VIMEO || '',
     linkTikTok: process.env.LINK_TIKTOK || '',
   },
+
+
 
   cookies: {
     necessary: [
