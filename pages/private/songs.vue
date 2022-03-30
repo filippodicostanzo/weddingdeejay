@@ -61,7 +61,8 @@
 
                 <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.date.$error} ">
                   <label class="form__label">Start</label>
-                  <date-picker v-model.trim="$v.date.$model" type="date" id="date"></date-picker>
+                  <date-picker v-model.trim="$v.date.$model" type="date" id="date"
+                               :disabled-date="notBeforeToday"></date-picker>
 
                   <div v-if="$v.date.$dirty">
                     <div class="error" v-if="!$v.date.required">Date is required</div>
@@ -311,11 +312,14 @@ import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 import {email, minLength, required} from "vuelidate/lib/validators";
 import countries from '../../static/data/countries.json';
+import calendarRules from "@/mixins/calendarRules";
+
 
 Vue.use(Vuelidate)
 
 export default {
   name: "songs.vue",
+  mixins: [calendarRules],
   data() {
     return {
       access: null,
@@ -330,7 +334,7 @@ export default {
       country: '',
       date: new Date(),
       location: '',
-      options: ['Specific Moment', 'Entrance', 'First Dance', 'Bride with Parent', 'Groom with Parent','Last Dance', 'Other'],
+      options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Last Dance', 'Other'],
       row: 1,
       songs: [{order: 1, moment: 'Entrance', song: ''}],
       playlists: [{order: 1, description: '', url: ''}],
@@ -454,6 +458,7 @@ export default {
     deletePlaylistValue(index) {
       this.playlists.splice(index, 1);
     },
+
 
     async submit() {
       try {

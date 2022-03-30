@@ -85,7 +85,7 @@
             <div class="row">
               <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.start.$error} ">
                 <label class="form__label">Start</label>
-                <date-picker v-model.trim="$v.start.$model" type="datetime" id="start"></date-picker>
+                <date-picker v-model.trim="$v.start.$model" type="datetime" id="start" :disabled-date="notBeforeToday"></date-picker>
 
                 <div v-if="$v.start.$dirty">
                   <div class="error" v-if="!$v.start.required">Date is required</div>
@@ -96,7 +96,7 @@
 
               <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.end.$error} ">
                 <label class="form__label">End</label>
-                <date-picker v-model.trim="$v.end.$model" type="datetime" id="end"></date-picker>
+                <date-picker v-model.trim="$v.end.$model" type="datetime" id="end" :disabled-date="notBeforeToday"></date-picker>
                 <div v-if="$v.end.$dirty">
                   <div class="error" v-if="!$v.end.required">Date is required</div>
                 </div>
@@ -325,12 +325,14 @@ import countries from '../static/data/countries.json';
 import Title from "../components/Title";
 import ModalQuote from "../components/ModalQuote";
 import _ from "lodash";
+import calendarRules from "@/mixins/calendarRules";
 
 
 Vue.use(Vuelidate)
 
 export default {
   name: "quote",
+  mixins:[calendarRules],
   components: {Title, ModalQuote},
 
   data() {
