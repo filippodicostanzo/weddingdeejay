@@ -490,7 +490,7 @@ export default {
           name: `${this.groom} & ${this.bride}`,
           email: this.email,
           subject: 'Events Playlist',
-          message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.start}</p><p>Location: ${this.location}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
+          message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.$dateFns.format(this.date, 'dd/MM/yyyy')}</p><p>Location: ${this.location}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
         };
 
         console.log(data);
