@@ -59,8 +59,8 @@
                   </select>
                 </div>
 
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.date.$error} ">
-                  <label class="form__label">Start</label>
+                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.date.$error} ">
+                  <label class="form__label">Event Date</label>
                   <date-picker v-model.trim="$v.date.$model" type="date" id="date"
                                :disabled-date="notBeforeToday"></date-picker>
 
@@ -71,7 +71,7 @@
 
                 </div>
 
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.location.$error }">
+                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.location.$error }">
                   <label class="form__label">Location</label>
                   <input class="form__input" v-model.trim="$v.location.$model" id="location"/>
                   <div v-if="$v.location.$dirty">
@@ -80,6 +80,14 @@
                       {{ $v.location.$params.minLength.min }}
                       letters.
                     </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.guests.$error }">
+                  <label class="form__label">N° of Guests</label>
+                  <input class="form__input" v-model.trim="$v.guests.$model" id="guests"/>
+                  <div v-if="$v.guests.$dirty">
+                    <div class="error" v-if="!$v.guests.required">N° of Guests is required</div>
                   </div>
                 </div>
 
@@ -334,6 +342,7 @@ export default {
       country: '',
       date: new Date(),
       location: '',
+      guests:'',
       options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Last Dance', 'Other'],
       row: 1,
       songs: [{order: 1, moment: 'Entrance', song: ''}],
@@ -365,6 +374,9 @@ export default {
     location: {
       required,
       minLength: minLength(4)
+    },
+    guests: {
+      required,
     },
   },
 
@@ -490,7 +502,7 @@ export default {
           name: `${this.groom} & ${this.bride}`,
           email: this.email,
           subject: 'Events Playlist',
-          message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.$dateFns.format(this.date, 'dd/MM/yyyy')}</p><p>Location: ${this.location}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
+          message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.$dateFns.format(this.date, 'dd/MM/yyyy')}</p><p>Location: ${this.location}</p><p>N° of Guests: ${this.guests}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
         };
 
         console.log(data);
