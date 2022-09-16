@@ -15,7 +15,7 @@
                    @filter="filterOption=arguments[0]" @sort="sortOption=arguments[0]"
                    @layout="currentLayout=arguments[0]">
             <div v-for="(element, index) in artists" :class='[element.category.identifier]' :key="index"
-                 class="col-lg-4 col-md-6 col-12">
+                 class="col-lg-4 col-md-6 col-12 mb-5">
              <BoxArtists :item="element" />
             </div>
           </isotope>
@@ -53,9 +53,9 @@ export default {
           "Deejays": function (el) {
             return el.category.identifier === "deejay";
           },
-          // "Saxophonists": function (el) {
-          //   return el.category.identifier === "saxophonist";
-          // },
+           "Saxophonists": function (el) {
+             return el.category.identifier === "saxophonist";
+           },
 
         },
       }
