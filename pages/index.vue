@@ -33,11 +33,11 @@ export default {
   },
   mounted() {
     getData.getArtists().then((result) => {
-      this.artists = _.orderBy(result, ['order'],['asc']);
+      this.artists = result;
     });
 
     getData.getServices().then((result) => {
-      this.services = _.orderBy(result, ['order'],['asc']);
+      this.services = result;
     })
 
     getData.getLocations().then((result) => {
@@ -45,7 +45,7 @@ export default {
     });
 
     getData.getPackages().then((result) => {
-      this.packages = _.orderBy(result, ['order'],['asc']);
+      this.packages = result;
     });
 
     getData.getPlaylists().then((result) => {

@@ -1,12 +1,12 @@
 export default {
 
   async getArtists() {
-    const res = await fetch('https://weddingdeejay.herokuapp.com/artists');
+    const res = await fetch('https://weddingdeejay.herokuapp.com/artists?_sort=order:ASC');
     return res.json();
   },
 
   async getServices() {
-    const res = await fetch('https://weddingdeejay.herokuapp.com/services');
+    const res = await fetch('https://weddingdeejay.herokuapp.com/services?_sort=order:ASC');
     return res.json();
   },
 
@@ -16,7 +16,7 @@ export default {
   },
 
   async getPackages() {
-    const res = await fetch('https://weddingdeejay.herokuapp.com/packages');
+    const res = await fetch('https://weddingdeejay.herokuapp.com/packages?_sort=order:ASC');
     return res.json();
   },
 
