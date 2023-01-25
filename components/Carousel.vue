@@ -20,10 +20,10 @@
               <li><a :href="item.social.instagram" target="_blank">
                 <font-awesome-icon :icon="['fab', 'instagram']"/>
               </a></li>
-              <li><a :href="item.social.instagram" target="_blank">
+              <li><a :href="item.social.youtube" target="_blank">
                 <font-awesome-icon :icon="['fab', 'youtube']"/>
               </a></li>
-              <li><a :href="item.social.instagram" target="_blank">
+              <li><a :href="item.contacts.website" target="_blank">
                 <font-awesome-icon :icon="['fab', 'chrome']"/>
               </a></li>
             </ul>
