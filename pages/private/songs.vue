@@ -343,7 +343,7 @@ export default {
       date: new Date(),
       location: '',
       guests:'',
-      options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Last Dance', 'Other'],
+      options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Bouquet Toss', 'Last Dance', 'Other'],
       row: 1,
       songs: [{order: 1, moment: 'Entrance', song: ''}],
       playlists: [{order: 1, description: '', url: ''}],
@@ -474,10 +474,10 @@ export default {
 
     async submit() {
       try {
-        const token = await this.$recaptcha.execute('login');
-
-        const qs = require('querystring');
         this.loadingMessage = true;
+
+        const token = await this.$recaptcha.execute('login');
+        const qs = require('querystring');
 
         /** COMPILO LA LISTA DI CANZONI **/
 
@@ -501,7 +501,7 @@ export default {
           namesender: 'Contact Form Wedding Deejay',
           name: `${this.groom} & ${this.bride}`,
           email: this.email,
-          subject: 'Events Playlist',
+          subject: 'Events Playlist - '+ this.$dateFns.format(this.date, 'dd/MM/yyyy'),
           message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.$dateFns.format(this.date, 'dd/MM/yyyy')}</p><p>Location: ${this.location}</p><p>N° of Guests: ${this.guests}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
         };
 
