@@ -1,6 +1,6 @@
 <template>
   <div class="page-artist">
-    <Title :title="artist.name" image="slider-01"/>
+    <Title :title="artist.name" image="header-artists"/>
     <div class="container pt-5">
       <div class="row">
         <div class="col-md-4 artist-cover">
