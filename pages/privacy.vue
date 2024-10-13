@@ -36,30 +36,26 @@ export default {
       any app-related queries or issues.</p>
 
     <h2>Data Usage</h2>
-    <p>Improving Services: We analyze collected data to enhance app functionalities and user experience. Communication:
-      We use your contact information to communicate important app changes, promotional offers, or surveys to improve
-      our services. Legal Compliance: Your information may be used to comply with applicable laws and regulations.</p>
+    <p>Improving Services: We analyze collected data to enhance app functionalities and user experience. Legal
+      Compliance: Your information may be used to comply with applicable laws and regulations.</p>
 
     <h2>Data Protection</h2>
     <p>We implement a variety of security measures to maintain the safety of your personal information. These measures
-      include advanced encryption, secure server storage, and strict data access controls. Our dedicated team regularly
+      include secure server storage, and strict data access controls. Our dedicated team regularly
       reviews and updates our security practices to ensure the highest level of protection.</p>
 
     <h2>Data Sharing and Disclosure</h2>
-    <p>Third-Party Services: We may share your information with trusted third-party service providers only to the extent
-      necessary for them to perform services on our behalf. Legal Requirements: If required by law, we may disclose your
-      information in response to legal processes or when it’s necessary for the protection of our legal rights. Business
-      Transfers: In the event of a merger, acquisition, or sale of assets, your information may be transferred as part
-      of the transaction.</p>
+    <p>Third-Party Services: We do not share your personal information with any third parties. Your privacy is of utmost
+      importance to us, and we are committed to safeguarding your personal data. All information collected is used
+      solely for the purposes outlined in this privacy policy and is not disclosed to any external entities, unless
+      required by law.</p>
 
     <h2>Your Rights</h2>
-    <p>Access and Control: You have the right to access, update, or delete your personal information at any time.
-      Opt-Out: You can opt-out of receiving marketing communications from us by following the unsubscribe link in our
-      emails.</p>
+    <p>Access and Control: You have the right to access, update, or delete your personal information at any time.</p>
 
     <h2>Contact Information</h2>
-    <p>For any questions or concerns regarding this privacy policy, please contact us at [insert contact
-      information].</p>
+    <p>For any questions or concerns regarding this privacy policy, please contact us at
+      info@weddingdeejayamalficoast.com</p>
 
     <h2>Updates to Our Privacy Policy</h2>
     <p>We may update this policy from time to time. All updates will be posted on this page, and if the changes are
