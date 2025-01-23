@@ -1,35 +1,43 @@
-{
-  "menu": [
+[
+  {
+    "slug": "services",
+    "name": "services"
+  },
+  {
+    "slug": "artists",
+    "name": "artists"
+  },
+  {
+    "slug": "packages",
+    "name": "packages"
+  },
+  {
+    "slug": "playlists",
+    "name": "playlists"
+  },
+  {
+    "slug": "showcase",
+    "name": "showcase"
+  },
     {
-      "slug": "services",
-      "name": "services"
+        "slug": "reviews",
+        "name": "reviews"
     },
-
-    {
-      "slug": "artists",
-      "name": "artists"
-    },
-
-    {
-      "slug": "packages",
-      "name": "packages"
-    },
-    {
-      "slug": "playlists",
-      "name": "playlists"
-    },
-    {
-      "slug": "showcase",
-      "name": "showcase"
-    },
-    {
-      "slug": "quote",
-      "name": "quote"
-    },
-    {
-      "slug": "contacts",
-      "name": "contacts"
-    }
-  ]
-}
+  {
+    "slug": "livesets",
+    "name": "livesets"
+  },
+  {
+    "slug": "venues",
+    "name": "venues"
+  },
+  {
+    "slug": "quote",
+    "name": "quote"
+  },
+  {
+    "slug": "contacts",
+    "name": "contacts"
+  }
+]
 

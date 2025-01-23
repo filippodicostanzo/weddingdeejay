@@ -1,90 +1,37 @@
 <template>
 
-  <section class="contacts pt-100 pb-100">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h4 class="subtitle">Our</h4>
-          <h2 class="heading">Contacts</h2>
+  <section class="py-24 bg-third">
+    <div class="container mx-auto px-4">
+      <div class="mb-12">
+        <div class="text-center">
+          <h4 class="text-xl font-semibold text-primary mb-2 font-architects">Our</h4>
+          <h2 class="text-4xl font-bold font-montserrat">Contacts</h2>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-6 text-center">
-          <h3>DIRECT CONTACTS</h3>
-          <ul class="contacts-list">
-            <li>
-              <a href="tel:00393314042263">
-                <img :src="require('assets/icons/phone.png')" class="image-filter" width="30"> +39.331.4042263
-              </a>
-            </li>
-            <li>
-              <a href="https://wa.me/393314042263?text=Send%20Message%20to%20Start%20the%20Chat" target="_blank">
-                <img :src="require('assets/icons/whatsapp.png')" class="image-filter" width="30"> +39.331.4042263
-              </a>
-            </li>
-
-
-            <li>
-              <a href="mailto:info@weddingdeejayamalficoast.com">
-                <img :src="require('assets/icons/email.png')" class="image-filter" width="30">
-                info@weddingdeejayamalficoast.com
-              </a>
-            </li>
-
-            <li>
-              <a href="#">
-                <img :src="require('assets/icons/globe.png')" class="image-filter" width="30">
-                weddingdeejayamalficoast.com
-              </a>
-            </li>
-
-          </ul>
-
-          <ul class="social-list">
-            <li>
-              <a :href="$config.linkInstagram" target="_blank">
-                <img :src="require('assets/icons/instagram.png')" class="image-filter" width="30">
-              </a>
-            </li>
-            <li>
-              <a :href="$config.linkFacebook" target="_blank">
-                <img :src="require('assets/icons/facebook.png')" class="image-filter" width="30">
-              </a>
-            </li>
-            <li>
-              <a :href="$config.linkVimeo" target="_blank">
-                <img :src="require('assets/icons/vimeo.png')" class="image-filter" width="30">
-              </a>
-            </li>
-            <li>
-              <a :href="$config.linkTikTok" target="_blank">
-                <img :src="require('assets/icons/tiktok.png')" class="image-filter" width="30">
-              </a>
-            </li>
-          </ul>
-
-
+      <div class="grid lg:grid-cols-2 grid-cols-1 space-y-12 lg:space-y-0">
+        <div>
+          <h3 class="text-center font-montserrat text-2xl font-semibold text-secondary mb-6">Direct Contacts</h3>
+          <DirectContacts/>
         </div>
-        <div class="col-lg-6 text-center pt-5 pt-lg-0">
-          <h3>CONTACT FORM</h3>
+        <div>
+          <h3 class="text-center font-montserrat text-2xl font-semibold text-secondary mb-6">Contact Form</h3>
           <ContactForm/>
         </div>
       </div>
+      <!-- Header Section -->
     </div>
   </section>
 
 </template>
 
-<script>
-import ContactForm from "./ContactForm";
 
-export default {
-  name: "Contacts",
-  components: {ContactForm}
+<script setup lang="ts">
 
-}
+
 </script>
 
+
 <style scoped>
+
 
 </style>

@@ -1,15 +1,21 @@
-<template>
+<script setup lang="ts">
+import {computed} from 'vue'
+import {PropType} from 'vue'
 
-    <nuxt-link to="/">
-      <img src="../assets/images/logo.svg">
-    </nuxt-link>
-</template>
+const props = defineProps<{
+  type: 'header' | 'footer'
+}>()
 
-<script>
-export default {
-  name: "Logo"
-}
+const imgClass = computed(() => {
+  return props.type === 'footer' ? 'mx-auto' : 'mx-0'
+})
 </script>
+
+<template>
+  <nuxt-link to="/">
+    <img src="/images/logo.svg" alt="Wedding Deejay" width="250" :class="imgClass">
+  </nuxt-link>
+</template>
 
 <style scoped>
 

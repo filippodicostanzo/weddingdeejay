@@ -1,50 +1,72 @@
 <template>
-  <div class="page-services">
+  <div>
     <Title title="Services" image="header-services"/>
-    <div class="container pt-5 pb-5">
-      <div class="row mb-5" v-for="item in data" :key="item.identifier">
-        <div class="col-md-6 col-sm-12 col-lg-4">
-          <img :src="item.cover.url">
+    <div class="bg-third">
+      <div class="container mx-auto py-24">
+        <div>
+
+          <div v-if="loading">
+            <LoadSpinner/>
+          </div>
+          <div v-else-if="error">Error loading service data: {{ error.message }}</div>
+          <div v-else>
+            <div class="grid grid-cols-1 space-y-10 lg:px-0 px-6">
+              <div v-for="service in servicesData" :key="service.id" >
+                <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-6 bg-white">
+                  <div class="col-span-1">
+                    <img :src="service.cover.url" alt="service.name" class="w-full h-full object-cover"/>
+                  </div>
+                  <div class="col-span-1 p-6">
+                    <h3 class="text-4xl font-black font-montserrat text-secondary">{{ service.name }}</h3>
+                    <div class="text-gray-500 mt-2 font-montserrat space-y-4 text-justify" v-html="service.description"></div>
+                    <div class="mt-2"><nuxt-link to="/quote"><button class="btn-primary mt-2">Request a Quote</button></nuxt-link></div>
+                  </div>
+                  <div class="md:col-span-2 lg:col-span-1 p-5">
+                    <PhotoGrid :item="service" v-if="service.carousel" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
         </div>
-
-        <div class="col-md-6 col-sm-12 col-lg-4 pt-3 pt-md-0">
-          <h2>{{item.name}}</h2>
-          <div v-html="item.description"></div>
-          <button class="btn-primary">
-            <nuxt-link to="quote">Request a quote</nuxt-link>
-          </button>
-        </div>
-
-        <div class="col-lg-4 pt-lg-0 pt-3" v-if="item.carousel.length>0">
-          <PhotoGrid :item="item" v-if="item.carousel"/>
-        </div>
-
-
       </div>
     </div>
   </div>
+
 </template>
 
-<script>
-import getData from '@/mixins/fetchData';
-import _ from "lodash";
+<script setup>
+import Title from "~/components/Title.vue";
+import {ref, onMounted} from "vue";
+import {useServiceService} from "~/api/services/services";
+import PhotoGrid from "~/components/PhotoGrid.vue";
 
-export default {
-  name: "services",
-  mixins: [getData],
-  data() {
-    return {
-      data: [],
-    }
-  },
+const loading = ref(true);
+const error = ref(null);
 
-  mounted() {
-    getData.getServices().then((result) => {
-      this.data = _.orderBy(result, ['order'],['asc']);
-    });
+
+const {getServices} = useServiceService();
+
+const servicesData = ref([]);
+
+const fetchServiceData = async () => {
+  loading.value = true;
+  try {
+    servicesData.value = await getServices();
+  } catch (err) {
+    console.error('Error loading service data:', err);
+    error.value = err;
+  } finally {
+    loading.value = false;
   }
-
 }
+
+onMounted(() => {
+  fetchServiceData();
+});
+
 </script>
 
 <style scoped>

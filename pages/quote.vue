@@ -1,578 +1,940 @@
 <template>
-  <page class="quote">
-    <Title title="Quote" image="header-quote"/>
-    <div class="container">
-      <form id="quote">
-        <div class="progress-container mb-5">
 
-          <div class="progress-step" v-for="(item, index) in 6" :class="{'active': step >= item}"
-               @click="chooseStep(item)"></div>
-          <!--          <div class="progress-step" :class="{'active': step >= 2}"></div>
-                    <div class="progress-step" :class="{'active': step >= 3}"></div>
+  <Title title="Quote" image="header-quote"/>
 
-                    <div class="progress-step" :class="{'active': step >= 4}"></div>
-                    <div class="progress-step" :class="{'active': step >= 5}"></div>
-
-                    <div class="progress-step" :class="{'active': step >= 6}"></div>-->
-
-        </div>
+  <div class="bg-third">
+    <div class="container mx-auto py-24">
 
 
-        <div v-show="step === 1">
-
-          <div class="form-container">
-            <h2 class="text-center form-title mb-5">Your Informations</h2>
-            <div class="row">
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.firstname.$error} ">
-                <label class="form__label">First Name</label>
-                <input class="form__input" v-model.trim="$v.firstname.$model" id="firstname"/>
-
-                <div v-if="$v.firstname.$dirty">
-                  <div class="error" v-if="!$v.firstname.required">Name is required</div>
-                  <div class="error" v-if="!$v.firstname.minLength">Name must have at least
-                    {{ $v.firstname.$params.minLength.min }}
-                    letters.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.lastname.$error} ">
-                <label class="form__label">Last Name</label>
-                <input class="form__input" v-model.trim="$v.lastname.$model" id="lastname"/>
-                <div v-if="$v.lastname.$dirty">
-                  <div class="error" v-if="!$v.lastname.required">Name is required</div>
-                  <div class="error" v-if="!$v.lastname.minLength">Name must have at least
-                    {{ $v.lastname.$params.minLength.min }}
-                    letters.
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.email.$error }">
-                <label class="form__label">Email</label>
-                <input class="form__input" v-model.trim="$v.email.$model" id="email"/>
-                <div v-if="$v.email.$dirty">
-                  <div class="error" v-if="!$v.email.required">Email is required</div>
-                  <div class="error" v-if="!$v.email.email">Email is invalid.</div>
-                </div>
-              </div>
-
-
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.country.$error }">
-                <label class="form__label">Country</label>
-                <select id="country" name="country" v-model="country">
-                  <option value=""> Select</option>
-                  <option v-for="country in countries">{{ country.name }}</option>
-                </select>
-              </div>
-
-
-            </div>
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="next()">Next</button>
+      <div class="container mx-auto px-4 py-8">
+        <form id="quote" @submit.prevent="handleSubmit">
+          <!-- Progress Steps -->
+          <div class="flex justify-between mb-8">
+            <div
+                v-for="step in totalSteps"
+                :key="step"
+                class="flex-1 h-2"
+            >
+              <div
+                  class="h-full transition-all duration-300"
+                  :class="[
+        currentStep >= step ? 'bg-primary' : 'bg-gray-200',
+        step === 1 ? 'rounded-l-full' : '',
+        step === totalSteps ? 'rounded-r-full' : '',
+        step > 1 && step < totalSteps ? 'mx-2' : 'mx-2'
+      ]"
+              />
             </div>
           </div>
 
-        </div>
+          <!-- Step 1: Informazioni Personali -->
+          <div v-show="currentStep === 1" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Your Information</h2>
 
-        <div v-show="step === 2">
-          <div class="form-container">
-            <h2 class="text-center form-title mb-5">Event Informations</h2>
-            <div class="row">
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.start.$error} ">
-                <label class="form__label">Start</label>
-                <date-picker v-model.trim="$v.start.$model" type="datetime" id="start" :disabled-date="notBeforeToday"></date-picker>
-
-                <div v-if="$v.start.$dirty">
-                  <div class="error" v-if="!$v.start.required">Date is required</div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- First Name -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    First Name
+                  </label>
+                  <input
+                      v-model="form.firstName"
+                      type="text"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.firstName.$error }"
+                  />
+                  <div
+                      v-if="v$.firstName.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    {{ v$.firstName.$errors[0].$message }}
+                  </div>
                 </div>
 
-
-              </div>
-
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.end.$error} ">
-                <label class="form__label">End</label>
-                <date-picker v-model.trim="$v.end.$model" type="datetime" id="end" :disabled-date="notBeforeToday"></date-picker>
-                <div v-if="$v.end.$dirty">
-                  <div class="error" v-if="!$v.end.required">Date is required</div>
+                <!-- Last Name -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                      v-model="form.lastName"
+                      type="text"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.lastName.$error }"
+                  />
+                  <div
+                      v-if="v$.lastName.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    {{ v$.lastName.$errors[0].$message }}
+                  </div>
                 </div>
-              </div>
 
+                <!-- Email -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <input
+                      v-model="form.email"
+                      type="email"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.email.$error }"
+                  />
+                  <div
+                      v-if="v$.email.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    {{ v$.email.$errors[0].$message }}
+                  </div>
+                </div>
 
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.location.$error }">
-                <label class="form__label">Location</label>
-                <input class="form__input" v-model.trim="$v.location.$model" id="location"/>
-                <div v-if="$v.location.$dirty">
-                  <div class="error" v-if="!$v.location.required">Location is required</div>
-                  <div class="error" v-if="!$v.location.minLength">Location must have at least
-                    {{ $v.lastname.$params.minLength.min }}
-                    letters.
+                <!-- Country -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Country
+                  </label>
+                  <select
+                      v-model="form.country"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.country.$error }"
+                  >
+                    <option value="">Select a country</option>
+                    <option v-for="country in countries" :key="country.code" :value="country.code">
+                      {{ country.name }}
+                    </option>
+                  </select>
+                  <div
+                      v-if="v$.country.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    Country is required
                   </div>
                 </div>
               </div>
-
-
-              <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.city.$error }">
-                <label class="form__label">City</label>
-                <input class="form__input" v-model.trim="$v.city.$model" id="city"/>
-                <div v-if="$v.city.$dirty">
-                  <div class="error" v-if="!$v.city.required">City is required</div>
-                  <div class="error" v-if="!$v.city.minLength">City must have at least
-                    {{ $v.lastname.$params.minLength.min }}
-                    letters.
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-              <button class="btn btn-primary" @click.prevent="next()">Next</button>
             </div>
           </div>
-        </div>
 
-        <div v-show="step === 3">
-          <div class="form-container">
-            <h2 class="text-center form-title">Choose Package</h2>
-            <div class="cc-selector">
-              <div class="row">
-                <div v-for="pack in packages" class="col-md-6">
-                  <input :id="pack.identifier" type="radio" name="packed"
-                         :value="pack" v-model="packed" v-model.trim="$v.packed.$model"/>
-                  <label class="drinkcard-cc" :for="pack.identifier"
-                         :style="{'background-image': 'url(' + pack.cover.url + ')'}"></label>
-                  <div class="col-12">
-                    <h4 class="text-center text-capitalize">{{ pack.identifier }} Package</h4>
-                    <div class="icon-container" @click="openModal(pack, 'package')">
-                      <font-awesome-icon :icon="['fas', 'info-circle']"/>
+          <!-- Step 2: Event Information -->
+          <div v-show="currentStep === 2" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Event Information</h2>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Start Date -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Start Date and Time
+                  </label>
+                  <Datepicker
+                      v-model="form.start"
+                      :min-date="new Date()"
+                      :enable-time-picker="true"
+                      :is24="true"
+                      :format="dateTimeFormat"
+                      text-input
+                      :auto-apply="false"
+                      class="w-full"
+                      :class="{ 'datepicker-error': v$.start.$error }"
+                      model-type="timestamp"
+                      :now-button-label="'Today'"
+                      :two-way="true"
+                      locale="en"
+                      position="auto"
+                      :teleport="true"
+                      placeholder="Select Date and Time"
+                      @update:model-value="handleStartDateChange"
+                  />
+                  <div
+                      v-if="v$.start.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    Start date is required
+                  </div>
+                </div>
+
+                <!-- End Date -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    End Date and Time
+                  </label>
+                  <Datepicker
+                      v-model="form.end"
+                      :min-date="new Date()"
+                      :enable-time-picker="true"
+                      :is24="true"
+                      :format="dateTimeFormat"
+                      text-input
+                      :auto-apply="false"
+                      class="w-full"
+                      :class="{ 'datepicker-error': v$.end.$error }"
+                      model-type="timestamp"
+                      :now-button-label="'Today'"
+                      :two-way="true"
+                      locale="en"
+                      position="auto"
+                      :teleport="true"
+                      placeholder="Select Date and Time"
+                      @update:model-value="handleEndDateChange"
+
+                  />
+                  <div
+                      v-if="v$.end.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    End date is required
+                  </div>
+                </div>
+
+                <!-- Location -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Venue
+                  </label>
+                  <input
+                      v-model="form.location"
+                      type="text"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.location.$error }"
+                  />
+                  <div
+                      v-if="v$.location.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    {{ v$.location.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- City -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    City
+                  </label>
+                  <input
+                      v-model="form.city"
+                      type="text"
+                      class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                      :class="{ 'border-red-500': v$.city.$error }"
+                  />
+                  <div
+                      v-if="v$.city.$error"
+                      class="text-red-500 text-sm mt-1"
+                  >
+                    {{ v$.city.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Choose Package -->
+          <div v-show="currentStep === 3" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Choose Package</h2>
+
+              <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-6">
+                <div
+                    v-for="pack in packages"
+                    :key="pack.identifier"
+                    class="relative group/item"
+                >
+                  <input
+                      type="radio"
+                      :id="pack.identifier"
+                      v-model="form.selectedPackage"
+                      :value="pack"
+                      class="hidden [&:checked~label_img]:grayscale-0 [&:checked~label]:text-primary"
+                  />
+                  <label
+                      :for="pack.identifier"
+                      class="block cursor-pointer rounded-lg overflow-hidden group-hover/item:text-primary transition-colors duration-700"
+                  >
+                    <img
+                        :src="pack.cover.url"
+                        :alt="pack.name"
+                        class="w-full h-48 object-cover transition-all duration-700 ease-in-out grayscale group-hover/item:grayscale-0"
+                    />
+                    <div class="p-4 relative flex items-center justify-center">
+                      <h3 class="text-lg font-bold text-center">
+                        {{ pack.name }}
+                      </h3>
+                      <button
+                          @click.prevent="showInfo('package', pack)"
+                          class="absolute right-4 p-1 text-gray-500 hover:text-blue-500 focus:outline-none"
+                          title="Show details"
+                      >
+                        <font-awesome-icon :icon="['fas', 'info-circle']" class="mr-2"/>
+                      </button>
                     </div>
-                  </div>
+                  </label>
                 </div>
               </div>
+
+              <div
+                  v-if="v$.selectedPackage.$error"
+                  class="text-red-500 text-sm mt-4 text-center font-black"
+              >
+                Please select a package
+              </div>
             </div>
-
-
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-              <button class="btn btn-primary" @click.prevent="next()">Next</button>
-            </div>
-
           </div>
-        </div>
 
-        <div v-show="step === 4">
+          <!-- Step 4: Choose DJ (Required) -->
+          <div v-show="currentStep === 4" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Choose Your DJ</h2>
 
-          <div class="form-container">
-            <h2 class="text-center form-title">Choose Deejay</h2>
-            <div class="cc-selector">
-              <div class="row">
-                <div v-for="deejay in deejays" class="col-md-6">
-                  <input :id="deejay.identifier" type="radio" name="deejay"
-                         :value="deejay" v-model="djs"/>
-                  <label class="drinkcard-cc" :for="deejay.identifier"
-                         :style="{'background-image': 'url(' + deejay.cover.url + ')'}"></label>
-                  <div class="col-12">
-                    <h4 class="text-center text-capitalize">{{ deejay.name }}</h4>
-                    <div class="icon-container" @click="openModal(deejay, 'deejay')">
-                      <font-awesome-icon :icon="['fas', 'info-circle']"/>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    v-for="dj in deejays"
+                    :key="dj.identifier"
+                    class="relative group/item"
+                >
+                  <input
+                      type="radio"
+                      :id="dj.identifier"
+                      v-model="form.selectedArtists.deejay"
+                      :value="dj"
+                      class="hidden [&:checked~label_img]:grayscale-0 [&:checked~label]:text-primary"
+                      required
+                  />
+                  <label
+                      :for="dj.identifier"
+                      class="block cursor-pointer rounded-lg overflow-hidden group-hover/item:text-primary transition-colors duration-700"
+                  >
+                    <img
+                        :src="dj.cover.url"
+                        :alt="dj.name"
+                        class="w-full h-48 object-cover transition-all duration-700 ease-in-out grayscale group-hover/item:grayscale-0"
+                    />
+                    <div class="p-4 relative flex items-center justify-center">
+                      <h3 class="text-lg font-bold text-center">
+                        {{ dj.name }}
+                      </h3>
+                      <button
+                          @click.prevent="showInfo('artist', dj)"
+                          class="absolute right-4 p-1 text-gray-500 hover:text-blue-500 focus:outline-none"
+                          title="Show details"
+                      >
+                        <font-awesome-icon :icon="['fas', 'info-circle']" class="mr-2"/>
+                      </button>
                     </div>
+                  </label>
+                </div>
+              </div>
+
+              <div
+                  v-if="v$.selectedArtists.deejay.$error"
+                  class="text-red-500 text-sm mt-4 text-center font-black"
+              >
+                Please select a DJ
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Steps for Other Categories -->
+          <template v-for="(category, index) in availableCategories" :key="category.identifier">
+            <div
+                v-show="currentStep === (5 + index)"
+                class="transition-all duration-300"
+            >
+              <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+                <h2 class="text-2xl font-bold text-center mb-6">
+                  Choose {{ category.name }}
+                  <span class="text-sm font-normal text-gray-500">(Optional)</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <!-- None Option -->
+                  <div class="relative group/item">
+                    <input
+                        type="radio"
+                        :id="'none-' + category.identifier"
+                        v-model="form.selectedArtists[category.identifier]"
+                        :value="null"
+                        class="hidden [&:checked~label_div]:bg-primary [&:checked~label_div]:text-white"
+                    />
+                    <label
+                        :for="'none-' + category.identifier"
+                        class="block cursor-pointer rounded-lg overflow-hidden"
+                    >
+                      <div class="h-48 bg-gray-100 flex items-center justify-center transition-all duration-700 ease-in-out hover:bg-primary hover:text-white">
+                        <div class="text-xl font-bold text-center text-gray-500 group-hover/item:text-white">
+                          No {{ category.name }}
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+
+                  <!-- Category Artists -->
+                  <div
+                      v-for="artist in getArtistsByCategory(category.identifier)"
+                      :key="artist.identifier"
+                      class="relative group/item"
+                  >
+                    <input
+                        type="radio"
+                        :id="artist.identifier"
+                        v-model="form.selectedArtists[category.identifier]"
+                        :value="artist"
+                        class="hidden [&:checked~label_img]:grayscale-0 [&:checked~label]:text-primary"
+                    />
+                    <label
+                        :for="artist.identifier"
+                        class="block cursor-pointer rounded-lg overflow-hidden group-hover/item:text-primary transition-colors duration-700"
+                    >
+                      <img
+                          :src="artist.cover.url"
+                          :alt="artist.name"
+                          class="w-full h-48 object-cover transition-all duration-700 ease-in-out grayscale group-hover/item:grayscale-0"
+                      />
+                      <div class="p-4 relative flex items-center justify-center">
+                        <h3 class="text-lg font-bold text-center">{{ artist.name }}</h3>
+                        <button
+                            @click.prevent="showInfo('artist', artist)"
+                            class="absolute right-4 p-1 text-gray-500 hover:text-blue-500 focus:outline-none"
+                            title="Show details"
+                        >
+                          <font-awesome-icon :icon="['fas', 'info-circle']" class="mr-2"/>
+                        </button>
+                      </div>
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-              <button class="btn btn-primary" @click.prevent="next()">Next</button>
+          </template>
+
+          <!-- Step per il messaggio -->
+          <div v-show="currentStep === totalSteps - 1" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Additional Notes</h2>
+
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Your Message (Optional)
+                </label>
+                <textarea
+                    v-model="form.message"
+                    rows="4"
+                    class="w-full px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Any special requests or additional information..."
+                ></textarea>
+              </div>
             </div>
           </div>
 
-        </div>
+          <!-- Final Step: Message -->
+          <!-- Step finale con il riepilogo -->
+          <div v-show="currentStep === totalSteps" class="transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-md p-6 font-montserrat">
+              <h2 class="text-2xl font-bold text-center mb-6">Summary</h2>
 
-        <div v-show="step===5">
-          <div class="form-container">
-            <h2 class="text-center form-title mb-5">Specific Requests</h2>
-
-            <div class="row">
-              <div class="form-group col-md-12 mb-5">
-                <label class="form__label text-center">Write a Message</label>
-
-                <textarea rows="10" v-model="message"> </textarea>
-
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-600">Name</p>
+                  <p class="font-medium">{{ form.firstName }} {{ form.lastName }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Email</p>
+                  <p class="font-medium">{{ form.email }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Event Start</p>
+                  <p class="font-medium">{{ dateTimeFormat(form.start) }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Event End</p>
+                  <p class="font-medium">{{ dateTimeFormat(form.end) }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Location</p>
+                  <p class="font-medium">{{ form.location }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">City</p>
+                  <p class="font-medium">{{ form.city }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Selected Package</p>
+                  <p class="font-medium">{{ form.selectedPackage?.name || '-' }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">Selected DJ</p>
+                  <p class="font-medium">{{ form.selectedArtists.deejay?.name || '-' }}</p>
+                </div>
+                <!-- Additional Artists -->
+                <template v-for="category in availableCategories" :key="category.identifier">
+                  <div v-if="form.selectedArtists[category.identifier]">
+                    <p class="text-sm text-gray-600">{{ category.name }}</p>
+                    <p class="font-medium">{{ form.selectedArtists[category.identifier]?.name || 'None' }}</p>
+                  </div>
+                </template>
               </div>
-            </div>
 
-
-            <!--            <div class="cc-selector">
-                          <div class="row">
-                            <div v-for="musician in musicians" class="col-md-6">
-                              <input :id="musician.identifier" type="checkbox" name="artists[]"
-                                     :value="musician.identifier" v-model="artists"/>
-                              <label class="drinkcard-cc" :for="musician.identifier"
-                                     :style="{'background-image': 'url(' + musician.cover.url + ')'}"></label>
-                              <div class="col-12">{{ musician.identifier }}</div>
-                            </div>
-                          </div>
-                        </div>-->
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-              <button class="btn btn-primary" @click.prevent="next()">Next</button>
+              <!-- Message Preview -->
+              <div class="mt-8 border-t pt-6">
+                <div>
+                  <p class="text-sm text-gray-600">Message</p>
+                  <p class="font-medium whitespace-pre-wrap">{{ form.message || 'No message provided' }}</p>
+                </div>
+              </div>
             </div>
           </div>
 
-        </div>
-
-
-        <div v-show="step===6">
-          <div class="form-container resume">
-            <h2 class="text-center form-title mb-5">Resume</h2>
-            <div class="row">
-
-              <div class="col-md-6">
-                <p>First Name: <span>{{ firstname }}</span></p>
-              </div>
-
-              <div class="col-md-6">
-                <p>Last Name: <span>{{ lastname }}</span></p>
-              </div>
-
-            </div>
-
-
-            <div class="row">
-              <div class="col-md-6">
-                <p>Email: <span>{{ email }}</span></p>
-              </div>
-
-              <div class="col-md-6">
-                <p>Country: <span>{{ country }}</span></p>
-              </div>
-
-            </div>
-
-            <div class="row">
-
-              <div class="col-md-6">
-                <p>Start Event: <span>{{ $dateFns.format(start, 'yyyy/MM/dd - HH:mm') }}</span></p>
-              </div>
-
-              <div class="col-md-6">
-                <p>End Event: <span>{{ $dateFns.format(end, 'yyyy/MM/dd - HH:mm') }}</span></p>
-              </div>
-
-
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <p> Location: <span>{{ location }}</span></p>
-              </div>
-
-              <div class="col-md-6">
-                <p> City: <span>{{ city }}</span></p>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <p>Package: <span>{{ packed.name }}</span></p>
-              </div>
-
-              <div class="col-md-6">
-                <p>Deejay: <span>{{ djs.name }}</span></p>
-              </div>
-            </div>
-
-            <div class="row" v-if="message!==''">
-
-              <div class="col-md-12">
-                <p class="text-center">Message:</p>
-                <div>{{ message }}</div>
-              </div>
-            </div>
-
-            <div class="text-center button-container mt-5">
-              <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-              <button class="btn btn-primary" @click.prevent="submit()">Submit</button>
-            </div>
+          <!-- Navigation Buttons -->
+          <div class="flex justify-center gap-4 mt-6 font-montserrat">
+            <button
+                v-if="currentStep > 1"
+                type="button"
+                class="px-6 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors"
+                @click="previousStep"
+            >
+              Previous
+            </button>
+            <button
+                v-if="currentStep < totalSteps"
+                type="button"
+                class="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
+                @click="nextStep"
+            >
+              Next
+            </button>
+            <button
+                v-else
+                type="submit"
+                class="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
+                :disabled="isLoading"
+            >
+              {{ isLoading ? 'Sending...' : 'Submit' }}
+            </button>
           </div>
 
-          <div class="row pt-3">
-            <div class="col-12">
-              <div class="alert-info text-center p-2" v-if="loadingMessage"><p>Loading...</p></div>
-              <div class="alert-success text-center p-2" v-if="sentMessage"><p>Message has been sent</p></div>
-              <div class="alert-danger text-center p-2" v-if="sentMessage===false"><p>Message has not been sent</p></div>
-            </div>
+          <!-- Error Message -->
+          <div
+              v-if="formError"
+              class="mt-4 p-4 bg-red-100 text-red-700 rounded-md text-center font-montserrat"
+          >
+            {{ formError }}
           </div>
 
-        </div>
-        <div v-if="error" class="general-error"><p>Fill All Required Fields</p></div>
-      </form>
+          <!-- Success Message -->
+          <div
+              v-if="formSuccess"
+              class="mt-4 p-4 bg-green-100 text-green-700 rounded-md text-center font-montserrat"
+          >
+            {{ formSuccess }}
+          </div>
+        </form>
+      </div>
     </div>
-  </page>
+  </div>
+  <ModalInfo
+      :is-open="showModal"
+      :type="modalType"
+      :data="modalData"
+      @close="closeModal"
+  />
 </template>
 
-<script>
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
-import {email, minLength, required} from 'vuelidate/lib/validators'
-import getData from '@/mixins/fetchData';
-import countries from '../static/data/countries.json';
-import Title from "../components/Title";
-import ModalQuote from "../components/ModalQuote";
-import _ from "lodash";
-import calendarRules from "@/mixins/calendarRules";
+<script setup lang="ts">
+import {ref, reactive, computed} from 'vue'
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import {useVuelidate} from '@vuelidate/core'
+import {required, email, minLength} from '@vuelidate/validators'
+import {useFetchData} from '~/composables/useFetchData'
+import type {Artist, Package} from '~/api/types'
+import countries from '~/static/data/countries.json'
+import Title from "~/components/Title.vue";
+import {useRuntimeConfig} from "nuxt/app";
+import axios from 'axios'
+import qs from 'qs'
+import {useReCaptcha} from "vue-recaptcha-v3";
 
 
-Vue.use(Vuelidate)
+// Recupera i metodi dal composable
+const {
+  fetchArtists,
+  fetchPackages,
+  deejays,
+  packages,
+  availableCategories,
+  getArtistsByCategory
+} = useFetchData()
 
-export default {
-  name: "quote",
-  mixins:[calendarRules],
-  components: {Title, ModalQuote},
+const showModal = ref(false)
+const modalType = ref<'package' | 'artist'>('package')
+const modalData = ref<Package | Artist | null>(null)
+const config = useRuntimeConfig()
 
-  data() {
-    return {
-      deejays: [],
-      packages: [],
-      musicians: [],
-      artists: [],
-      countries: [],
-      step: 1,
-      firstname: '',
-      lastname: '',
-      email: '',
-      country: '',
-      start: new Date(),
-      end: new Date(),
-      location: '',
-      city: '',
-      pack: '',
-      packed: '',
-      djs: '',
-      message: '',
-      error: false,
-      loadingMessage: false,
-      sentMessage: '',
-      registration: {
-        name: null,
-        email: null,
-        street: null,
-        city: null,
-        state: null,
-        numtickets: 0,
-        shirtsize: 'XL'
-      }
-    }
+// Corretta inizializzazione del reCAPTCHA
+const { recaptchaLoaded, executeRecaptcha } = useReCaptcha()
+
+// Nuova implementazione per ottenere il token reCAPTCHA
+const getRecaptchaToken = async () => {
+  try {
+    await recaptchaLoaded()
+    return await executeRecaptcha('submit_form')
+  } catch (error) {
+    console.error('reCAPTCHA error:', error)
+    throw error
+  }
+}
+
+
+
+// Form state
+interface FormState {
+  firstName: string
+  lastName: string
+  email: string
+  country: string
+  start: Date
+  end: Date
+  location: string
+  city: string
+  selectedArtists: {
+    deejay: { required: any }
+  }
+  selectedPackage: Package | null
+  message: string
+}
+
+const form = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  country: '',
+  start: new Date(),
+  end: new Date(),
+  location: '',
+  city: '',
+  selectedArtists: {
+    deejay: null
+  },
+  selectedPackage: null,
+  message: ''
+})
+
+// Error and success messages
+const formError = ref('')
+const formSuccess = ref('')
+
+// Current step
+const currentStep = ref(1)
+
+// Loading and submission states
+const isLoading = ref(false)
+const formSubmitted = ref(false)
+
+// Validation rules
+const rules = {
+  // Step 1
+  firstName: {
+    required,
+    minLength: minLength(2)
+  },
+  lastName: {
+    required,
+    minLength: minLength(2)
+  },
+  email: {
+    required,
+    email
+  },
+  country: {
+    required
   },
 
-  validations: {
-    firstname: {
-      required,
-      minLength: minLength(4)
-    },
-    lastname: {
-      required,
-      minLength: minLength(4)
-    },
-    email: {
-      required,
-      email
-    },
-    country:{
-      required
-    },
-    location: {
-      required,
-      minLength: minLength(4)
-    },
-    city: {
-      required,
-      minLength: minLength(4)
-    },
-    start: {
-      required
-    },
-    end: {
-      required
-    },
-
-
-    packed: {
-      required
-    },
-
-    djs: {
-      required
-    }
+  // Step 2
+  start: {
+    required
+  },
+  end: {
+    required,
+    minValue: (value: any) => value > form.start || 'End date must be after start date'
+  },
+  location: {
+    required,
+    minLength: minLength(3)
+  },
+  city: {
+    required,
+    minLength: minLength(2)
   },
 
-  async mounted() {
-    let today = new Date();
-    this.countries = countries;
-
-    try {
-      await this.$recaptcha.init()
-    } catch (e) {
-      console.error(e);
-    }
-
-
-    if (this.$route.params.package) {
-      this.packed = this.$route.params.package;
-    }
-
-    this.start = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 20, 0)
-    this.end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 23, 0)
-    getData.getArtists().then((result) => {
-
-      result.forEach(item => {
-        if (item.category.identifier === 'deejay') {
-          this.deejays.push(item);
-        } else {
-          this.musicians.push(item);
-        }
-      })
-
-      this.deejays = _.orderBy(this.deejays, ['order'], ['asc']);
-      console.log(this.deejays);
-
-    });
-
-    getData.getPackages().then((result) => {
-      this.packages = _.orderBy(result, ['order'], ['asc']);
-    })
-
-
+  // Step 3
+  selectedPackage: {
+    required
   },
 
-  beforeDestroy() {
-    this.$recaptcha.destroy()
-  },
-
-  methods: {
-    prev() {
-      this.step--;
-      this.$scrollTo('#quote', 1000);
-    },
-    next() {
-
-      if (this.step === 1) {
-
-        if (this.$v.firstname.$invalid || this.$v.lastname.$invalid || this.$v.email.$invalid) {
-          this.error = true;
-          setTimeout(() => {
-            this.error = false
-          }, 4000);
-          return false;
-        } else {
-          this.$scrollTo('#quote', 1000);
-          this.error = false;
-
-        }
-
-      }
-
-      if (this.step === 2) {
-        if (this.$v.start.$invalid || this.$v.end.$invalid || this.$v.location.$invalid || this.$v.city.$invalid) {
-          this.error = true;
-          setTimeout(() => {
-            this.error = false
-          }, 4000);
-          return false;
-        } else {
-          this.$scrollTo('#quote', 1000);
-          this.error = false;
-
-        }
-
-      }
-
-      if (this.step === 3) {
-        if (this.packed == '') {
-          this.error = true;
-          return false
-        } else {
-          this.$scrollTo('#quote', 1000);
-          this.error = false;
-        }
-      }
-
-      if (this.step === 4) {
-        if (this.djs == '') {
-          this.error = true;
-          return false
-        } else {
-          this.$scrollTo('#quote', 1000);
-          this.error = false;
-        }
-      }
-      this.step++;
-    },
-
-    chooseStep(step) {
-      this.step = step;
-    },
-
-    openModal(item, source) {
-      if (window.innerWidth > 768) {
-        this.$modal.show(ModalQuote, {item: item, source: source}, {scrollable: true, height: "auto", width: "80%"});
-      } else {
-        this.$modal.show(ModalQuote, {item: item, source: source}, {scrollable: true, height: "auto", width: "90%"});
-      }
-    },
-
-    async submit() {
-      const form = document.getElementById('quote');
-      const name = form.elements['firstname'];
-      const email = form.elements['email'];
-      const deejay = form.elements['deejay'];
-      console.log(name.value);
-      console.log(this.artists);
-      console.log(email.value);
-      console.log(deejay.value);
-
-      try {
-        const token = await this.$recaptcha.execute('login');
-
-        const qs = require('querystring');
-        this.loadingMessage = true;
-
-        let data = {
-          sender: process.env.CONTACT_FORM_MAIL_SENDER,
-          receiver: process.env.CONTACT_FORM_MAIL_RECEIVER,
-          namesender: 'Contact Form Wedding Deejay',
-          name: `${this.firstname} ${this.lastname}`,
-          email: this.email,
-          subject: 'Richiesta Disponibilità',
-          message: `<p>Nome: ${this.firstname}</p><p>Cognome: ${this.lastname}</p><p>Country: ${this.country}</p><p>Event Start: ${this.start}</p><p>Event End: ${this.end}</p><p>Location: ${this.location}</p><p>Città: ${this.city}</p><p>Package: ${this.packed.name}</p><p>Deejay: ${this.djs.name}</p><p>Message: ${this.message}</p>`
-        };
-
-        this.$axios.$post('https://php.localidautore.it/phpmailer/', qs.stringify(data),
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          }).then((message) => {
-          this.loadingMessage = false;
-          this.sentMessage = true;
-        }).catch((error) => {
-          this.loadingMessage = false;
-          this.sentMessage = false;
-        });
-
-      } catch (e) {
-        alert(e);
-      }
+  // Step 4
+  selectedArtists: {
+    deejay: {
+      required
     }
   }
 }
+
+// Initialize vuelidate
+const v$ = useVuelidate(rules, form)
+
+// Calcola il numero totale di step
+const totalSteps = computed(() => {
+  // base steps (4) + categorie aggiuntive + step messaggio + step riepilogo
+  return 4 + availableCategories.value.length + 2
+})
+
+// Date format function
+const dateTimeFormat = (date: Date) => {
+  if (!date) return ''
+  return new Date(date).toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false // Per mantenere il formato 24 ore
+  })
+}
+
+
+const scrollToFormWithOffset = () => {
+  const formElement = document.getElementById('quote')
+  if (formElement) {
+    const offset = 50 // offset di 100px verso l'alto
+    const elementPosition = formElement.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - offset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    })
+  }
+}
+
+// Navigation methods
+
+const previousStep = () => {
+  if (currentStep.value > 1) {
+    currentStep.value--
+    formError.value = ''
+    scrollToFormWithOffset()
+  }
+}
+
+const nextStep = async () => {
+  if (await validateCurrentStep()) {
+    currentStep.value++
+    formError.value = ''
+    scrollToFormWithOffset()
+  }
+}
+
+// Validation helper
+const validateCurrentStep = async () => {
+  let fieldsToValidate: string[] = [];
+
+  switch (currentStep.value) {
+    case 1:
+      fieldsToValidate = ['firstName', 'lastName', 'email', 'country'];
+      break;
+    case 2:
+      fieldsToValidate = ['start', 'end', 'location', 'city'];
+      break;
+    case 3:
+      fieldsToValidate = ['selectedPackage'];
+      break;
+    case 4:
+      fieldsToValidate = ['selectedArtists.deejay'];
+      break;
+      // Non ci sono validazioni per gli step opzionali delle altre categorie
+      // Non ci sono validazioni per lo step del messaggio poiché è opzionale
+  }
+
+  const result = await v$.value.$validate(fieldsToValidate)
+  const currentStepErrors = fieldsToValidate.some(field => {
+    const fieldParts = field.split('.')
+    let validation = v$.value
+    fieldParts.forEach(part => {
+      validation = validation[part]
+    })
+    return validation.$error
+  })
+
+  if (currentStepErrors) {
+    formError.value = 'Please fill all required fields for this step'
+    return false
+  }
+
+  return true
+}
+
+// Form submission - Qui validiamo tutto
+const handleSubmit = async () => {
+  formError.value = ''
+  formSuccess.value = ''
+
+  // Alla submission validiamo tutti i campi
+  const isValid = await v$.value.$validate()
+  if (!isValid) {
+    formError.value = 'Please fill all required fields correctly'
+    return
+  }
+
+  try {
+
+    isLoading.value = true
+    // Ottieni il token reCAPTCHA
+    const token = await getRecaptchaToken()
+
+    const data = {
+      sender: config.public.contactMailSender,
+      receiver: config.public.contactMailReceiver,
+      namesender: 'Contact Form Wedding Deejay',
+      name: form.firstName + ' ' + form.lastName,
+      email: form.email,
+      subject: 'Quote Request',
+      message: `
+        Name: ${form.firstName} ${form.lastName} <br>
+        Country: ${form.country} <br>
+        Start Date: ${dateTimeFormat(form.start)} <br>
+        End Date: ${dateTimeFormat(form.end)} <br>
+        Venue: ${form.location} <br>
+        City: ${form.city} <br>
+        Selected Package: ${form.selectedPackage?.name || '-'} <br>
+        Selected DJ: ${form.selectedArtists.deejay?.name || '-'} <br>
+        Selected Artists: ${Object.keys(form.selectedArtists).map(key => {
+          if (key !== 'deejay' && form.selectedArtists[key]) {
+            return `${availableCategories.value.find(c => c.identifier === key)?.name}: ${form.selectedArtists[key]?.name || 'None'}`
+          }
+          return ''
+        }).join('<br>')} <br>le
+        Additional Message: ${form.message || 'No message provided'}
+      `
+    }
+
+    await axios.post('https://php.localidautore.it/phpmailer/', qs.stringify(data), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+
+
+    formSuccess.value = 'Your request has been submitted successfully!'
+    formSubmitted.value = true
+    // Reset form
+    Object.keys(form).forEach(key => form[key] = key === 'gdprAccepted' ? false : '')
+    v$.value.$reset() // Reset validation state
+  } catch (error) {
+    console.error('Send error:', error)
+
+    formError.value = 'An error occurred while submitting your request. Please try again.'
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// Computed per il messaggio di errore della data di fine
+const endDateErrorMessage = computed(() => {
+  if (form.end < form.start) {
+    return 'End date must be after start date'
+  }
+  return 'End date is required'
+})
+
+// Funzione per gestire il cambio della data di inizio
+const handleStartDateChange = (newStartDate) => {
+  // Aggiorna la data di fine a 4 ore dopo la data di inizio
+  const endDate = new Date(newStartDate)
+  endDate.setHours(endDate.getHours() + 4)
+  form.end = endDate
+}
+
+// Funzione per gestire il cambio della data di fine
+const handleEndDateChange = (newEndDate) => {
+  // Se la data di fine è prima della data di inizio, reimposta la data di fine
+  if (newEndDate < form.start) {
+    const endDate = new Date(form.start)
+    endDate.setHours(endDate.getHours() + 4)
+    form.end = endDate
+  }
+}
+
+// Funzioni per gestire il modal
+const showInfo = (type: 'package' | 'artist', data: Package | Artist) => {
+  modalType.value = type
+  modalData.value = data
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  modalData.value = null
+}
+
+// Carica i dati all'avvio del componente
+onMounted(async () => {
+
+  const route = useRoute()
+  console.log('Query:', route.query)
+
+  try {
+    await Promise.all([
+      fetchArtists(),
+      fetchPackages(),
+      recaptchaLoaded() // Aggiunto qui l'inizializzazione del reCAPTCHA
+
+    ])
+
+    // Inizializza il form con le categorie disponibili
+    availableCategories.value.forEach(category => {
+      form.selectedArtists[category.identifier] = null
+    })
+
+    // Imposta le date di default
+    const today = new Date()
+    form.start = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 20, 0)
+    form.end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 23, 0)
+
+    // Se c'è un pacchetto preselezionato nella route
+    const route = useRoute()
+    if (route.query.package) {
+      console.log('Package query:', route.query.package)
+      const selectedPackage = packages.value.find(
+          p => p.identifier === route.query.package
+      )
+      if (selectedPackage) {
+        form.selectedPackage = selectedPackage
+      }
+    }
+
+  } catch (error) {
+    // Miglioriamo la gestione degli errori distinguendo tra i vari tipi
+    if (error.message?.includes('reCAPTCHA')) {
+      console.error('reCAPTCHA initialization error:', error)
+      formError.value = 'Error initializing security check. Please refresh the page.'
+    } else {
+      console.error('Error loading initial data:', error)
+      formError.value = 'Error loading data. Please refresh the page.'
+    }
+  }
+})
 </script>
 
 <style scoped>
+.datepicker-error :deep(.dp__input) {
+  border-color: rgb(239, 68, 68);
+}
+
+:deep(.dp__input) {
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
 
 </style>

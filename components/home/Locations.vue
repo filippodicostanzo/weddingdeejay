@@ -1,75 +1,94 @@
 <template>
-  <section class="locations pt-100 pb-100">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div v-swiper="swiperOption" class="w-5/6 ml-auto relative" :loadtheme="false">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" :key="location.identifier" v-for="location in data">
-                <a :href="location.url" target="_blank">
-                  <img :src="location.logo.url">
-                </a>
+  <section class="py-24 bg-primary">
+    <div class="container mx-auto px-4">
+      <div class="mx-auto relative">
+        <Swiper v-bind="swiperConfig" class="!pb-12">
+          <SwiperSlide
+              v-for="location in data"
+              :key="location.identifier"
+          >
+            <a
+                :href="location.url"
+                target="_blank"
+                class="block"
+            >
+              <img
+                  :src="location.logo.url"
+                  :alt="location.identifier"
+                  class="w-full h-auto"
+              >
+            </a>
+          </SwiperSlide>
 
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
+          <div class="swiper-pagination !bottom-0"></div>
+        </Swiper>
       </div>
     </div>
   </section>
 </template>
 
-<script>
-export default {
-  name: "Locations.vue",
-  props: ['data'],
-  data() {
-    return {
-      swiperOption: {
-        slidesPerView: 1,
-        spaceBetween: 50,
-        // Responsive breakpoints
-        breakpoints: {
-          // when window width is <= 499px
-          499: {
-            slidesPerView: 2,
-            spaceBetweenSlides: 50
-          },
-          // when window width is <= 999px
-          999: {
-            slidesPerView: 4,
-            spaceBetweenSlides: 50
-          },
-          1240: {
-            slidesPerView: 6,
-            spaceBetweenSlides: 50
-          }
-        },
-        loop: true,
-        autoplay: {
-          delay: 5000,
-        },
-        loopFillGroupWithBlank: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      },
-    }
-  },
+<!-- components/Locations.vue -->
+<script setup>
+import { ref, onMounted } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Pagination, Navigation, Autoplay } from 'swiper/modules'
 
-  mounted() {
-    console.log(this.data);
+
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true
   }
+})
 
+// Configurazione Swiper
+const swiperModules = [Pagination, Navigation, Autoplay]
+const swiperConfig = {
+  modules: swiperModules,
+  slidesPerView: 1,
+  spaceBetween: 50,
+  loop: true,
+  autoplay: {
+    delay: 5000
+  },
+  loopFillGroupWithBlank: true,
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev'
+  },
+  breakpoints: {
+    499: {
+      slidesPerView: 2,
+      spaceBetween: 50
+    },
+    999: {
+      slidesPerView: 4,
+      spaceBetween: 50
+    },
+    1240: {
+      slidesPerView: 6,
+      spaceBetween: 50
+    }
+  }
 }
+
+onMounted(() => {
+  console.log(props.data)
+})
 </script>
 
 <style scoped>
+:deep(.swiper-pagination-bullet) {
+  background: white;
+  opacity: 0.5;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  opacity: 1;
+}
 
 </style>

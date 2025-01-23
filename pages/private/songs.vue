@@ -1,535 +1,611 @@
+<!-- pages/private/songs.vue -->
 <template>
-  <div class="page-private">
-    <Title title="Requested Songs" image="header-playlists"/>
-    <div class="container pt-5 pb-5" v-if="access===true">
+  <div class="bg-third">
+    <Title title="Requested Songs" image="header-songs"/>
 
-      <form id="private">
-        <div class="progress-container mb-5">
-
-          <div class="progress-step" v-for="(item, index) in 5" :class="{'active': step >= item}">
+    <div class="container mx-auto px-4 py-8" v-if="isAuthenticated">
+      <form @submit.prevent="handleSubmit" class="max-w-4xl mx-auto font-montserrat">
+        <!-- Progress Steps -->
+        <div class="flex justify-between mb-8">
+          <div
+              v-for="step in totalSteps"
+              :key="step"
+              class="flex-1 h-2"
+          >
+            <div
+                class="h-full transition-all duration-300"
+                :class="[
+      currentStep >= step ? 'bg-primary' : 'bg-gray-200',
+      step === 1 ? 'rounded-l-full' : '',
+      step === totalSteps ? 'rounded-r-full' : '',
+      step > 1 && step < totalSteps ? 'mx-2' : 'mx-2'
+    ]"
+            />
           </div>
-          <div v-show="step === 1">
-            <div class="form-container event-info">
-              <h2 class="text-center form-title mb-5">Event Info</h2>
-              <div class="row">
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.bride.$error} ">
-                  <label class="form__label">Name of the Bride</label>
-                  <input class="form__input" v-model.trim="$v.bride.$model" id="firstname"/>
+        </div>
 
-                  <div v-if="$v.bride.$dirty">
-                    <div class="error" v-if="!$v.bride.required">Name of the Bride is required</div>
-                    <div class="error" v-if="!$v.bride.minLength">Name of the Bride must have at least
-                      {{ $v.bride.$params.minLength.min }}
-                      letters.
-                    </div>
+        <!-- Step 1: Event Info -->
+        <div v-show="currentStep === 1" class="space-y-6">
+          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Event Info</h2>
 
-                  </div>
-
-                </div>
-
-
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.groom.$error} ">
-                  <label class="form__label">Name of the Groom</label>
-                  <input class="form__input" v-model.trim="$v.groom.$model" id="grom"/>
-                  <div v-if="$v.groom.$dirty">
-                    <div class="error" v-if="!$v.groom.required">Name of the Groom is required</div>
-                    <div class="error" v-if="!$v.groom.minLength">Name of the Groom must have at least
-                      {{ $v.groom.$params.minLength.min }}
-                      letters.
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.email.$error }">
-                  <label class="form__label">Email</label>
-                  <input class="form__input" v-model.trim="$v.email.$model" id="email"/>
-                  <div v-if="$v.email.$dirty">
-                    <div class="error" v-if="!$v.email.required">Email is required</div>
-                    <div class="error" v-if="!$v.email.email">Email is invalid.</div>
-                  </div>
-                </div>
-
-
-                <div class="form-group col-md-6 mb-5" :class="{ 'form-group--error': $v.country.$error }">
-                  <label class="form__label">Country</label>
-                  <select id="country" name="country" v-model="country">
-                    <option value=""> Select</option>
-                    <option v-for="country in countries">{{ country.name }}</option>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.date.$error} ">
-                  <label class="form__label">Event Date</label>
-                  <date-picker v-model.trim="$v.date.$model" type="date" id="date"
-                               :disabled-date="notBeforeToday"></date-picker>
-
-                  <div v-if="$v.date.$dirty">
-                    <div class="error" v-if="!$v.date.required">Date is required</div>
-                  </div>
-
-
-                </div>
-
-                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.location.$error }">
-                  <label class="form__label">Location</label>
-                  <input class="form__input" v-model.trim="$v.location.$model" id="location"/>
-                  <div v-if="$v.location.$dirty">
-                    <div class="error" v-if="!$v.location.required">Location is required</div>
-                    <div class="error" v-if="!$v.location.minLength">Location must have at least
-                      {{ $v.location.$params.minLength.min }}
-                      letters.
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-5" :class="{ 'form-group--error': $v.guests.$error }">
-                  <label class="form__label">N° of Guests</label>
-                  <input class="form__input" v-model.trim="$v.guests.$model" id="guests"/>
-                  <div v-if="$v.guests.$dirty">
-                    <div class="error" v-if="!$v.guests.required">N° of Guests is required</div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="text-center button-container">
-                <button class="btn btn-primary" @click.prevent="next()">Next</button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Bride Name -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Name of the Bride</label>
+              <input
+                  v-model="state.bride"
+                  type="text"
+                  class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                  :class="{ 'border-red-500': v$.bride.$error }"
+              />
+              <div v-if="v$.bride.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.bride.$errors[0].$message }}
               </div>
             </div>
 
-
-          </div>
-
-          <div v-show="step ===2">
-            <div class="form-container songs">
-              <h2 class="text-center form-title mb-5">Specific Songs</h2>
-              <p class="text-center">Please fill in only the necessary fields</p>
-
-              <div class="row align-items-center" v-for="(item, index) in songs">
-                <div class="col-md-1">{{ index + 1 }}</div>
-                <div class="col-md-4">
-                  <select v-model="item.moment">
-                    <option v-for="opt in options" :value="opt">{{ opt }}</option>
-                  </select>
-                </div>
-                <div class="col-md-5">
-                  <input type="text" v-model="item.song" placeholder="Artist - Title">
-                </div>
-                <div class="col-md-1">
-                  <div @click="deleteValue(index)" v-if="songs.length>1" class="remove">
-                    <font-awesome-icon :icon="['fas', 'times-circle']"/>
-                  </div>
-                </div>
-                <div class="col-md-1">
-                  <div @click="addValue()" v-if="index+1===songs.length" class="add">
-                    <font-awesome-icon :icon="['fas', 'plus-circle']"/>
-                  </div>
-                </div>
-
+            <!-- Groom Name -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Name of the Groom</label>
+              <input
+                  v-model="state.groom"
+                  type="text"
+                  class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                  :class="{ 'border-red-500': v$.groom.$error }"
+              />
+              <div v-if="v$.groom.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.groom.$errors[0].$message }}
               </div>
+            </div>
 
-              <div class="text-center button-container pt-3">
-                <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-                <button class="btn btn-primary" @click.prevent="next()">Next</button>
+            <!-- Email -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                  v-model="state.email"
+                  type="text"
+                  class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                  :class="{ 'border-red-500': v$.email.$error }"
+              />
+              <div v-if="v$.email.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.email.$errors[0].$message }}
+              </div>
+            </div>
+
+            <!-- Country -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+              <select
+                  v-model="state.country"
+                  class="w-full px-3 py-2 border-b focus:outline-none focus:border-primary"
+                  :class="{'border-red-500': v$.country.$error}"
+              >
+                <option value="">Select</option>
+                <option v-for="country in countries" :key="country.name" :value="country.name">
+                  {{ country.name }}
+                </option>
+              </select>
+              <div v-if="v$.country.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.country.$errors[0].$message }}
               </div>
             </div>
           </div>
 
-          <div v-show="step ===3">
-            <div class="form-container play">
-              <h2 class="text-center form-title mb-5">Send a Playlists</h2>
-              <p class="text-center">Please fill in only the necessary fields</p>
-              <div class="row align-items-center" v-for="(item, index) in playlists">
-                <div class="col-md-1">{{ index + 1 }}</div>
-                <div class="col-md-4">
-                  <input type="text" v-model="item.description" placeholder="Description">
-                </div>
-                <div class="col-md-5">
-                  <input type="text" v-model="item.url" placeholder="Url Playlist (Spotify, ecc)">
-                </div>
-                <div class="col-md-1">
-                  <div @click="deletePlaylistValue(index)" v-if="playlists.length>1" class="remove">
-                    <font-awesome-icon :icon="['fas', 'times-circle']"/>
-                  </div>
-                </div>
-                <div class="col-md-1">
-                  <div @click="addPlaylistValue()" v-if="index+1===playlists.length" class="add">
-                    <font-awesome-icon :icon="['fas', 'plus-circle']"/>
-                  </div>
-                </div>
-
-              </div>
-              <div class="text-center button-container pt-3">
-                <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-                <button class="btn btn-primary" @click.prevent="next()">Next</button>
+          <!-- Seconda grid per Event Date, Location e N° of Guests -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <!-- Event Date -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Event Date</label>
+              <Datepicker
+                  v-model="state.date"
+                  type="date"
+                  class="w-full"
+                  :class="{ 'border-red-500': v$.date.$error }"
+                  :disabled-date="notBeforeToday"
+                  :enable-time-picker="false"
+                  auto-apply
+              />
+              <div v-if="v$.date.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.date.$errors[0].$message }}
               </div>
             </div>
-          </div>
 
-          <div v-show="step ===4">
-            <div class="form-container">
-
-              <h2 class="text-center form-title mb-5">Specific Requests</h2>
-
-              <div class="row">
-                <div class="form-group col-md-12 mb-5">
-                  <label class="form__label text-center">Write a Message</label>
-
-                  <textarea rows="10" v-model="message"> </textarea>
-
-                </div>
-              </div>
-
-              <div class="text-center button-container">
-                <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-                <button class="btn btn-primary" @click.prevent="next()">Next</button>
+            <!-- Location -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+              <input
+                  v-model="state.location"
+                  type="text"
+                  class="w-full px-3 py-2 border rounded-md"
+                  :class="{'border-red-500': v$.location.$error}"
+              />
+              <div v-if="v$.location.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.location.$errors[0].$message }}
               </div>
             </div>
-          </div>
-          <div v-show="step ===5">
-            <div class="form-container resume">
-              <h2 class="text-center form-title mb-5">Resume</h2>
-              <div class="row">
 
-                <div class="col-md-6">
-                  <p>Name of the Bride: <span>{{ bride }}</span></p>
-                </div>
-
-                <div class="col-md-6">
-                  <p>Name of the Groom: <span>{{ groom }}</span></p>
-                </div>
-
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-6">
-                  <p>Email: <span>{{ email }}</span></p>
-                </div>
-
-                <div class="col-md-6">
-                  <p>Country: <span>{{ country }}</span></p>
-                </div>
-
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-6">
-                  <p>Date of the Event: <span>{{ $dateFns.format(date, 'yyyy/MM/dd') }}</span></p>
-                </div>
-
-                <div class="col-md-6">
-                  <p>Location: <span>{{ location }}</span></p>
-                </div>
-
-              </div>
-
-              <div class="row pt-3 pb-3 bg-white" v-if="songs.length>0">
-                <hr>
-              </div>
-
-
-              <div class="row bg-white" v-if="songs.length>0">
-                <div class="col-12"><h3>Specific Songs </h3></div>
-              </div>
-
-              <div class="row align-items-center" v-for="(item, index) in songs">
-
-
-                <div class="col-md-1">
-                  <p>{{ index + 1 }}</p>
-                </div>
-                <div class="col-md-5">
-                  <p>{{ item.moment }}</p>
-                </div>
-                <div class="col-md-6">
-                  <p>{{ item.song }}</p>
-                </div>
-
-              </div>
-
-              <div class="row pt-3 pb-3 bg-white" v-if="playlists.length>0">
-                <hr>
-              </div>
-
-              <div class="row bg-white" v-if="playlists.length>0">
-                <div class="col-12"><h3>Playlists </h3></div>
-              </div>
-
-              <div class="row align-items-center" v-for="(item, index) in playlists">
-
-
-                <div class="col-md-1">
-                  <p>{{ index + 1 }}</p>
-                </div>
-                <div class="col-md-5">
-                  <p>{{ item.description }}</p>
-                </div>
-                <div class="col-md-6">
-                  <p>{{ item.url }}</p>
-                </div>
-
-              </div>
-
-              <div class="row pt-3 pb-3 bg-white" v-if="message!==''">
-                <hr>
-              </div>
-
-
-              <div class="row bg-white" v-if="message!==''">
-                <div class="col-12"><h3>Message </h3></div>
-              </div>
-
-              <div class="row align-items-center" v-if="message!==''">
-                <div class="col-12">
-                  {{ message }}
-                </div>
-              </div>
-
-              <div class="text-center button-container mt-5">
-                <button class="btn btn-primary" @click.prevent="prev()">Prev</button>
-                <button class="btn btn-primary" @click.prevent="submit()">Submit</button>
-              </div>
-
-              <div class="row pt-3 bg-white">
-                <div class="col-12">
-                  <div class="alert-info text-center p-2" v-if="loadingMessage"><p>Loading...</p></div>
-                  <div class="alert-success text-center p-2" v-if="sentMessage"><p>Message has been sent</p></div>
-                  <div class="alert-danger text-center p-2" v-if="sentMessage===false"><p>Message has not been sent</p>
-                  </div>
-                </div>
+            <!-- Number of Guests -->
+            <div class="form-group">
+              <label class="block text-sm font-medium text-gray-700 mb-1">N° of Guests</label>
+              <input
+                  v-model="state.guests"
+                  type="number"
+                  class="w-full px-3 py-2 border rounded-md"
+                  :class="{'border-red-500': v$.guests.$error}"
+              />
+              <div v-if="v$.guests.$error" class="text-red-500 text-sm mt-1">
+                {{ v$.guests.$errors[0].$message }}
               </div>
             </div>
           </div>
         </div>
-        <div v-if="error" class="general-error"><p>Fill All Required Fields</p></div>
+
+        <!-- Step 2: Specific Songs -->
+        <div v-show="currentStep === 2" class="space-y-6">
+          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Specific Songs</h2>
+          <p class="text-center text-gray-600">Please fill in only the necessary fields</p>
+
+          <div v-for="(song, index) in state.songs" :key="index"
+               class="grid grid-cols-12 gap-4 items-center mb-4">
+            <div class="col-span-1 text-center">{{ index + 1 }}</div>
+            <div class="col-span-4">
+              <select v-model="song.moment"
+                      class="w-full px-3 py-2 border rounded-md">
+                <option v-for="opt in state.options" :key="opt" :value="opt">
+                  {{ opt }}
+                </option>
+              </select>
+            </div>
+            <div class="col-span-5">
+              <input type="text"
+                     v-model="song.song"
+                     placeholder="Artist - Title"
+                     class="w-full px-3 py-2 border rounded-md"/>
+            </div>
+            <div class="col-span-1">
+              <button v-if="state.songs.length > 1"
+                      @click="deleteValue(index)"
+                      type="button"
+                      class="text-red-500 hover:text-red-700">
+                <font-awesome-icon :icon="['fas', 'minus-circle']" class="mr-2"/>
+              </button>
+            </div>
+            <div class="col-span-1">
+              <button v-if="index + 1 === state.songs.length"
+                      @click="addValue"
+                      class="text-green-500 hover:text-green-700">
+                <font-awesome-icon :icon="['fas', 'plus-circle']" class="mr-2"/>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Playlists -->
+        <div v-show="currentStep === 3" class="space-y-6">
+          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Send a Playlist</h2>
+          <p class="text-center text-gray-600">Please fill in only the necessary fields</p>
+
+          <div v-for="(playlist, index) in state.playlists" :key="index"
+               class="grid grid-cols-12 gap-4 items-center mb-4">
+            <div class="col-span-1 text-center">{{ index + 1 }}</div>
+            <div class="col-span-4">
+              <input type="text"
+                     v-model="playlist.description"
+                     placeholder="Description (Dinner, Party, etc)"
+                     class="w-full px-3 py-2 border rounded-md"/>
+            </div>
+            <div class="col-span-5">
+              <input type="text"
+                     v-model="playlist.url"
+                     placeholder="Url Playlist (Spotify, Apple Music, etc)"
+                     class="w-full px-3 py-2 border rounded-md"/>
+            </div>
+            <div class="col-span-1">
+              <button v-if="state.playlists.length > 1"
+                      @click="deletePlaylistValue(index)"
+                      type="button"
+                      class="text-red-500 hover:text-red-700">
+                <font-awesome-icon :icon="['fas', 'minus-circle']" class="mr-2"/>
+              </button>
+            </div>
+            <div class="col-span-1">
+              <button v-if="index + 1 === state.playlists.length"
+                      @click="addPlaylistValue"
+                      class="text-green-500 hover:text-green-700">
+                <font-awesome-icon :icon="['fas', 'plus-circle']" class="mr-2"/>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Message -->
+        <div v-show="currentStep === 4" class="space-y-6">
+          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Specific Requests</h2>
+
+          <div class="form-group">
+            <label class="block text-sm font-medium text-gray-700 mb-1 text-center">Write a Message</label>
+            <textarea
+                v-model="state.message"
+                rows="10"
+                class="w-full px-3 py-2 border rounded-md resize-none"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Step 5: Resume -->
+        <div v-show="currentStep === 5" class="space-y-6">
+          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Resume</h2>
+
+          <div class="bg-white p-6 rounded-lg shadow">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p class="text-gray-600">Name of the Bride: <span class="font-medium text-gray-900">{{
+                  state.bride
+                }}</span></p>
+              <p class="text-gray-600">Name of the Groom: <span class="font-medium text-gray-900">{{
+                  state.groom
+                }}</span></p>
+              <p class="text-gray-600">Email: <span class="font-medium text-gray-900">{{ state.email }}</span></p>
+              <p class="text-gray-600">Country: <span class="font-medium text-gray-900">{{ state.country }}</span></p>
+              <p class="text-gray-600">Date of the Event: <span
+                  class="font-medium text-gray-900">{{ formatDate(state.date) }}</span></p>
+              <p class="text-gray-600">Location: <span class="font-medium text-gray-900">{{ state.location }}</span></p>
+            </div>
+
+            <!-- Songs Section -->
+            <div v-if="state.songs.length > 0" class="mt-6">
+              <h3 class="text-lg font-semibold mb-3">Specific Songs</h3>
+              <div v-for="(song, index) in state.songs" :key="index" class="grid grid-cols-12 gap-4 mb-2">
+                <div class="col-span-1">{{ index + 1 }}</div>
+                <div class="col-span-5">{{ song.moment }}</div>
+                <div class="col-span-6">{{ song.song }}</div>
+              </div>
+            </div>
+
+            <!-- Playlists Section -->
+            <div v-if="state.playlists.length > 0" class="mt-6">
+              <h3 class="text-lg font-semibold mb-3">Playlists</h3>
+              <div v-for="(playlist, index) in state.playlists" :key="index" class="grid grid-cols-12 gap-4 mb-2">
+                <div class="col-span-1">{{ index + 1 }}</div>
+                <div class="col-span-5">{{ playlist.description }}</div>
+                <div class="col-span-6">{{ playlist.url }}</div>
+              </div>
+            </div>
+
+            <!-- Message Section -->
+            <div v-if="state.message" class="mt-6">
+              <h3 class="text-lg font-semibold mb-3">Message</h3>
+              <p class="text-gray-600">{{ state.message }}</p>
+            </div>
+          </div>
+
+          <!-- Submit Status Messages -->
+          <div class="mt-4">
+            <div v-if="loadingMessage" class="bg-blue-100 text-blue-700 p-3 rounded-md text-center">
+              Loading...
+            </div>
+            <div v-if="sentMessage === true" class="bg-green-100 text-green-700 p-3 rounded-md text-center">
+              Message has been sent
+            </div>
+            <div v-if="sentMessage === false" class="bg-red-100 text-red-700 p-3 rounded-md text-center">
+              Message has not been sent
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-center gap-4 mt-6">
+          <button
+              v-if="currentStep > 1 && !formSubmitted"
+              @click.prevent="prev"
+              type="button"
+              class="px-6 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-colors"
+          >
+            Previous
+          </button>
+          <button
+              v-if="currentStep < 5 && !formSubmitted"
+              type="submit"
+              class="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
+          >
+            Next
+          </button>
+          <button
+              v-if="currentStep === 5 && !formSubmitted"
+              type="submit"
+              class="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
+          >
+            Submit
+          </button>
+          <button
+              v-if="formSubmitted"
+              @click="backToStart"
+              type="button"
+              class="px-6 py-2 bg-primary-dark text-white rounded-full hover:bg-primary transition-colors"
+          >
+            Back to Start
+          </button>
+        </div>
+
+        <!-- General Error Message -->
+        <div v-if="error" class="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-center">
+          Fill All Required Fields
+        </div>
       </form>
     </div>
-    <div v-if="access===false">
-      <div class="base io">
-        <h1 class="io">403</h1>
-        <h2>Access forbidden</h2>
-      </div>
+
+    <!-- Access Denied Message -->
+    <div v-else class="flex flex-col items-center justify-center min-h-[500px]">
+      <h1 class="text-6xl font-bold text-red-500">403</h1>
+      <h2 class="text-2xl text-gray-700 mt-4">Access forbidden</h2>
     </div>
   </div>
 </template>
 
-<script>
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
-import {email, minLength, required} from "vuelidate/lib/validators";
-import countries from '../../static/data/countries.json';
-import calendarRules from "@/mixins/calendarRules";
+<script setup>
+import {ref, reactive} from 'vue'
+import {useVuelidate} from '@vuelidate/core'
+import {required, email, minLength} from '@vuelidate/validators'
+import {useRoute} from 'vue-router'
+import {format} from 'date-fns'
+import countries from '~/static/data/countries.json'
+import Datepicker from "@vuepic/vue-datepicker";
+import Title from "~/components/Title.vue";
+import {useReCaptcha} from "vue-recaptcha-v3";
+import _ from 'lodash'
+import qs from "qs";
+import axios from "axios"; // Aggiungi questa importazione
 
 
-Vue.use(Vuelidate)
+// Utilizziamo il composable useAuth
+const {checkAccess} = useAuth()
+const isAuthenticated = ref(false)
 
-export default {
-  name: "songs.vue",
-  mixins: [calendarRules],
-  data() {
-    return {
-      access: null,
-      step: 1,
-      countries: [],
-      error: false,
-      loadingMessage: false,
-      sentMessage: '',
-      bride: '',
-      groom: '',
-      email: '',
-      country: '',
-      date: new Date(),
-      location: '',
-      guests:'',
-      options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Bouquet Toss', 'Last Dance', 'Other'],
-      row: 1,
-      songs: [{order: 1, moment: 'Entrance', song: ''}],
-      playlists: [{order: 1, description: '', url: ''}],
-      message: ''
-    }
-  },
+// State
+const currentStep = ref(1)
+const error = ref(false)
+const loadingMessage = ref(false)
+const sentMessage = ref('')
+const formSubmitted = ref(false)
+const totalSteps = ref(5)
 
-  validations: {
-    bride: {
-      required,
-      minLength: minLength(4)
-    },
-    groom: {
-      required,
-      minLength: minLength(4)
-    },
+const config = useRuntimeConfig()
 
-    email: {
-      required,
-      email
-    },
-    country: {
-      required
-    },
-    date: {
-      required
-    },
-    location: {
-      required,
-      minLength: minLength(4)
-    },
-    guests: {
-      required,
-    },
-  },
+const {recaptchaLoaded, executeRecaptcha} = useReCaptcha()
 
-  beforeDestroy() {
-    this.$recaptcha.destroy()
-  },
-
-  async mounted() {
-
-    try {
-      await this.$recaptcha.init()
-    } catch (e) {
-      console.error(e);
-    }
-
-    if (this.$route.params.access) {
-      this.access = true;
-      this.countries = countries;
-      let today = new Date();
-      this.start = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 20, 0)
-    } else {
-      this.access = false;
-    }
-  },
-  methods: {
-    chooseStep(step) {
-      this.step = step;
-    },
-
-    prev() {
-      this.step--;
-      this.$scrollTo('#private', 1000);
-
-      if (this.step === 2) {
-        if (this.songs.length === 0) {
-          this.songs.push({order: 1, moment: 'Entrance', song: ''});
-        }
-      }
-
-      if (this.step === 3) {
-        if (this.playlists.length === 0) {
-          this.playlists.push({order: 1, description: '', url: ''});
-        }
-      }
-    },
-
-    next() {
-      this.$scrollTo('#private', 1000);
-      console.log(this.step);
-
-      if (this.step === 1) {
-
-        if (this.$v.bride.$invalid || this.$v.groom.$invalid || this.$v.email.$invalid || this.$v.location.$invalid) {
-          this.error = true;
-          setTimeout(() => {
-            this.error = false
-          }, 4000);
-          return false;
-        } else {
-          this.error = false;
-
-        }
-
-      }
+const getRecaptchaToken = async () => {
+  try {
+    await recaptchaLoaded()
+    return await executeRecaptcha('contact')
+  } catch (error) {
+    console.error('reCAPTCHA error:', error)
+    throw error
+  }
+}
 
 
-      if (this.step === 4) {
-        console.log(this.songs);
-        _.remove(this.songs, {song: ''})
-        _.remove(this.playlists, {url: ''})
-        console.log(this.songs);
-      }
+// Form state
+const state = reactive({
+  bride: '',
+  groom: '',
+  email: '',
+  country: '',
+  date: new Date(),
+  location: '',
+  guests: '',
+  options: ['Specific Moment', 'Entrance', 'Cake Cutting', 'First Dance', 'Bride with Parent', 'Groom with Parent', 'Bouquet Toss', 'Last Dance', 'Other'],
+  songs: [{order: 1, moment: 'Specific Moment', song: ''}],
+  playlists: [{order: 1, description: '', url: ''}],
+  message: ''
+})
 
-      this.step++;
-    },
+// Validation rules
+const rules = {
+  bride: {required, minLength: minLength(4)},
+  groom: {required, minLength: minLength(4)},
+  email: {required, email},
+  country: {required},
+  date: {required},
+  location: {required, minLength: minLength(4)},
+  guests: {required}
+}
 
-    addValue() {
-      this.songs.push({order: 2, moment: 'Specific Moment', song: ''});
-      this.$emit('input', this.songs);
-    },
+// Create vuelidate instance
+const v$ = useVuelidate(rules, state)
 
-    deleteValue(index) {
-      this.songs.splice(index, 1);
-    },
+// Calendar rules
+const notBeforeToday = (date) => {
+  return date < new Date()
+}
 
-    addPlaylistValue() {
-      this.playlists.push({order: 2, description: '', url: ''});
-      this.$emit('input', this.playlists);
-    },
+// Format date helper
+const formatDate = (date) => {
+  return format(new Date(date), 'yyyy/MM/dd')
+}
 
-    deletePlaylistValue(index) {
-      this.playlists.splice(index, 1);
-    },
-
-
-    async submit() {
-      try {
-        this.loadingMessage = true;
-
-        const token = await this.$recaptcha.execute('login');
-        const qs = require('querystring');
-
-        /** COMPILO LA LISTA DI CANZONI **/
-
-        let stringSongs = '<ul>';
-        this.songs.forEach((item, index) => {
-          stringSongs += `<li>${index + 1} - ${item.moment} - ${item.song}</li>`
-        })
-        stringSongs += '</ul>';
-
-        /** COMPILO LA PLAYLIST **/
-        let stringPlaylists = '<ul>';
-        this.playlists.forEach((item, index) => {
-          stringPlaylists += `<li>${index + 1} - ${item.description} - ${item.url}</li>`
-        })
-        stringPlaylists += '</ul>';
-
-
-        let data = {
-          sender: process.env.CONTACT_FORM_MAIL_SENDER,
-          receiver: process.env.CONTACT_FORM_MAIL_RECEIVER,
-          namesender: 'Contact Form Wedding Deejay',
-          name: `${this.groom} & ${this.bride}`,
-          email: this.email,
-          subject: 'Events Playlist - '+ this.$dateFns.format(this.date, 'dd/MM/yyyy'),
-          message: `<p>Bride: ${this.bride}</p><p>Groom: ${this.groom}</p><p>Country: ${this.country}</p><p>Event Date: ${this.$dateFns.format(this.date, 'dd/MM/yyyy')}</p><p>Location: ${this.location}</p><p>N° of Guests: ${this.guests}</p><p>Songs List:</p>${stringSongs}<p>Playlists:</p>${stringPlaylists}<p>Message: ${this.message}</p>`
-        };
-
-        console.log(data);
-
-        this.$axios.$post('https://php.localidautore.it/phpmailer/', qs.stringify(data),
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          }).then((message) => {
-          this.loadingMessage = false;
-          this.sentMessage = true;
-        }).catch((error) => {
-          this.loadingMessage = false;
-          this.sentMessage = false;
-        });
-
-      } catch (e) {
-        alert(e);
-      }
-
+// Navigation methods
+const next = async () => {
+  if (currentStep.value === 1) {
+    const isValid = await v$.value.$validate()
+    if (!isValid) {
+      error.value = true
+      setTimeout(() => {
+        error.value = false
+      }, 4000)
+      return
     }
   }
-
+  currentStep.value++
+  scrollToTop()
 }
+
+const prev = () => {
+  currentStep.value--
+  scrollToTop()
+
+  if (currentStep.value === 2 && state.songs.length === 0) {
+    state.songs.push({order: 1, moment: 'Entrance', song: ''})
+  }
+
+  if (currentStep.value === 3 && state.playlists.length === 0) {
+    state.playlists.push({order: 1, description: '', url: ''})
+  }
+}
+
+// Songs and Playlists management
+const addValue = () => {
+  state.songs.push({order: state.songs.length + 1, moment: 'Specific Moment', song: ''})
+}
+
+const deleteValue = (index) => {
+  state.songs.splice(index, 1)
+}
+
+const addPlaylistValue = () => {
+  state.playlists.push({order: state.playlists.length + 1, description: '', url: ''})
+}
+
+const deletePlaylistValue = (index) => {
+  state.playlists.splice(index, 1)
+}
+
+// Helper methods
+const scrollToTop = () => {
+  window.scrollTo({top: 0, behavior: 'smooth'})
+}
+
+// Aggiungi questa nuova funzione per gestire il ritorno alla prima pagina
+const backToStart = () => {
+  // Reset tutti gli stati
+  state.bride = ''
+  state.groom = ''
+  state.email = ''
+  state.country = ''
+  state.date = new Date()
+  state.location = ''
+  state.guests = ''
+  state.songs = [{order: 1, moment: 'Specific Moment', song: ''}]
+  state.playlists = [{order: 1, description: '', url: ''}]
+  state.message = ''
+
+  // Reset degli stati di controllo
+  currentStep.value = 1
+  error.value = false
+  loadingMessage.value = false
+  sentMessage.value = ''
+  formSubmitted.value = false
+
+  // Scroll in alto
+  scrollToTop()
+}
+
+// Handle form submit
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  if (currentStep.value < 5) {
+    // Se non siamo all'ultimo step, facciamo la validazione e andiamo avanti
+    if (currentStep.value === 1) {
+      const isValid = await v$.value.$validate()
+      if (!isValid) {
+        error.value = true
+        setTimeout(() => {
+          error.value = false
+        }, 4000)
+        return
+      }
+    }
+    next()
+  } else {
+    // Se siamo all'ultimo step, facciamo il submit
+    await submit()
+  }
+}
+
+// Submit form
+const submit = async () => {
+  try {
+    loadingMessage.value = true
+
+    // Get reCAPTCHA token
+    const token = await getRecaptchaToken()
+
+
+    // Clean up empty songs and playlists
+    _.remove(state.songs, {song: ''})
+    _.remove(state.playlists, {url: ''})
+
+    // Prepare songs list HTML
+    let stringSongs = '<ul>'
+    state.songs.forEach((item, index) => {
+      stringSongs += `<li>${index + 1} - ${item.moment} - ${item.song}</li>`
+    })
+    stringSongs += '</ul>'
+
+    // Prepare playlists HTML
+    let stringPlaylists = '<ul>'
+    state.playlists.forEach((item, index) => {
+      stringPlaylists += `<li>${index + 1} - ${item.description} - ${item.url}</li>`
+    })
+    stringPlaylists += '</ul>'
+
+    // Prepare form data
+    const formData = {
+      sender: config.public.contactMailSender,
+      receiver: config.public.contactMailReceiver,
+      namesender: 'Contact Form Wedding Deejay',
+      name: `${state.groom} & ${state.bride}`,
+      email: state.email,
+      subject: `Events Playlist - ${format(new Date(state.date), 'dd/MM/yyyy')}`,
+      message: `
+        <p>Bride: ${state.bride}</p>
+        <p>Groom: ${state.groom}</p>
+        <p>Country: ${state.country}</p>
+        <p>Event Date: ${format(new Date(state.date), 'dd/MM/yyyy')}</p>
+        <p>Location: ${state.location}</p>
+        <p>N° of Guests: ${state.guests}</p>
+        <p>Songs List:</p>${stringSongs}
+        <p>Playlists:</p>${stringPlaylists}
+        <p>Message: ${state.message}</p>
+      `,
+      recaptchaToken: token // Include reCAPTCHA token
+
+    }
+
+    // Send form data
+    await axios.post('https://php.localidautore.it/phpmailer/', qs.stringify(formData), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+
+    sentMessage.value = true
+    formSubmitted.value = true // Aggiungi questa riga
+  } catch (error) {
+    console.error('Submit error:', error)
+    sentMessage.value = false
+  } finally {
+    loadingMessage.value = false
+  }
+}
+
+// Lifecycle
+onMounted(async () => {
+  const route = useRoute()
+  isAuthenticated.value = checkAccess()
+
+  if (isAuthenticated.value) {
+    try {
+      await recaptchaLoaded()
+    } catch (e) {
+      console.error('reCAPTCHA initialization error:', e)
+    }
+  }
+})
+
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+:deep(.dp__input) {
+  padding: 8px 30px 8px 35px;
+  font-family: theme('fontFamily.montserrat');
+}
 </style>

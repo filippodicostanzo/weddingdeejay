@@ -1,76 +1,71 @@
 <template>
-  <div class="page-private">
-    <Title title="Private" image="header-playlists"/>
-    <div class="container pt-5 pb-5">
-      <div class="row">
-        <div class="col-12">
-          <p class="text-center">
-            To access this page enter the credentials provided
-          </p>
-        </div>
-        <div class="col-12 col-md-4 offset-md-4">
-          <input type="password" placeholder="Password" v-model="pwd">
-        </div>
-        <div class="col-12 col-md-4 offset-md-4">
-          <div class="form-container">
-            <div class="text-center button-container">
-              <button class="btn btn-primary" @click.prevent="submit()">Access</button>
-            </div>
+
+  <Title title="Private" image="header-private"/>
+
+  <div class="bg-third">
+    <div class="container mx-auto py-24">
+      <div class="grid grid-cols-1">
+        <p class="text-center text-gray-600 mb-8 font-montserrat">
+          To access this page enter the credentials provided
+        </p>
+
+
+          <input
+              type="password"
+              v-model="pwd"
+              placeholder="Password"
+              class="lg:w-1/4 font-montserrat w-full mx-auto bg-transparent px-4 py-2 border-b border-gray-300 focus:border-blue-500 focus:outline-none text-center"
+          />
+
+          <div class="mt-6 text-center">
+            <button
+                @click.prevent="submit()"
+                class="font-montserrat px-6 py-2 bg-primary text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Submit
+            </button>
           </div>
-        </div>
-      </div>
-      <div class="row pt-3">
-        <div class="col-12">
-          <div class="alert-danger text-center p-2" v-if="error"><p>Wrong Password</p></div>
-        </div>
+
+          <div v-if="error" class="mt-4 p-2 bg-red-100 text-red-700 text-center rounded">
+            Wrong password, please try again
+          </div>
+
       </div>
     </div>
   </div>
+
+
 </template>
 
-<script>
-export default {
-  name: "index.vue",
-  data() {
-    return {
-      pwd: '',
-      currentYear: new Date().getFullYear(),
-      error: false
-    }
-  },
-  methods: {
-    submit() {
-      if (this.pwd === 'weddingdeejay' + this.currentYear) {
-        console.log('access');
-        this.$router.push({
-          name: 'private-songs',
-          params: {access: 'true'},
+<script setup>
 
-        });
-      } else {
-        this.error = true;
-      }
-    }
+import Title from "~/components/Title.vue";
+
+import { ref } from 'vue'
+import { useRouter, useRuntimeConfig } from 'nuxt/app'
+
+const router = useRouter()
+const config = useRuntimeConfig()
+const { setAccess } = useAuth() // Ora importiamo correttamente useAuth
+const pwd = ref('')
+const error = ref(false)
+const currentYear = new Date().getFullYear()
+
+const submit = () => {
+  // Usa la password dall'env + anno corrente
+  if (pwd.value === config.public.privatePassword + currentYear) {
+    setAccess(true)
+    router.push('/private/songs')
+  } else {
+    error.value = true
+    setTimeout(() => {
+      error.value = false
+    }, 3000)
   }
 }
 </script>
 
-<style lang="scss" scoped>
 
-@import 'assets/scss/_variables.scss';
-
-input {
-  width: 100%;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px $black solid;
-  text-align: center;
-  font-family: $Montserrat;
-
-  &:focus-visible {
-    outline: none;
-  }
-
-}
+<style scoped>
 
 </style>

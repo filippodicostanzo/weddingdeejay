@@ -1,62 +1,101 @@
 <template>
-  <div>
-    <Slider/>
-    <HomeServices :data="services"/>
-    <HomeAbout/>
-    <HomeArtists :data="artists"/>
-    <HomePackages :data="packages"/>
-    <HomeVideos :data="videos"/>
-    <HomeLocations :data="locations"/>
-    <HomeSocial/>
-    <HomePlaylists :data="playlists"/>
-    <HomeContacts/>
-  </div>
+  <Slider/>
+  <HomeServices :data="services" :loading="loading"/>
+  <HomeAbout/>
+  <HomeArtists :data="artists" :loading="loading"/>
+  <HomePackages :data="packages" :loading="loading"/>
+  <HomeVideos :data="vimeo" :loading="loading"/>
+  <HomeLocations :data="locations" :loading="loading"/>
+  <HomeInstagram :data="instagram" :loading="loading"/>
+  <HomePlaylists :data="playlists" :loading="loading"/>
+  <HomeReviews :data="reviews" :loading="loading"/>
+  <HomeLivesets :data="livesets" :loading="loading"/>
+  <HomeContacts/>
 </template>
 
-<script>
+<script setup>
+import {ref, onMounted} from 'vue'
+import {useArtistService} from '~/api/services/artists'
+import {useInstagramService} from "~/api/services/instagram"
+import {useLiveSetService} from "~/api/services/livesets";
+import {useLocationService} from "~/api/services/locations"
+import {usePackageService} from '~/api/services/packages'
+import {usePlaylistService} from "~/api/services/playlists"
+import {useReviewService} from "~/api/services/reviews";
+import {useServiceService} from "~/api/services/services"
+import {useVimeoService} from '~/api/services/vimeo'
 
-import getData from '@/mixins/fetchData';
-import _ from "lodash"
 
-export default {
-  mixins: [getData],
-  data() {
-    return {
-      data: [],
-      artists: [],
-      services: [],
-      locations: [],
-      packages: [],
-      playlists: [],
-      videos: [],
-    }
-  },
-  mounted() {
-    getData.getArtists().then((result) => {
-      this.artists = result;
-    });
+const artists = ref([])
+const instagram = ref([])
+const livesets = ref([])
+const locations = ref([])
+const packages = ref([])
+const playlists = ref([])
+const reviews = ref([])
+const services = ref([])
+const vimeo = ref([])
+const loading = ref(true)  // Inizia come true
+const error = ref(null)
 
-    getData.getServices().then((result) => {
-      this.services = result;
-    })
+const {getArtists} = useArtistService()
+const {getPosts} = useInstagramService()
+const {getLiveSets} = useLiveSetService()
+const {getLocations} = useLocationService()
+const {getPackages} = usePackageService()
+const {getPlaylists} = usePlaylistService()
+const {getReviews} = useReviewService()
+const {getServices} = useServiceService()
+const {getVideos} = useVimeoService()
 
-    getData.getLocations().then((result) => {
-      this.locations = result;
-    });
+const fetchAllData = async () => {
+  loading.value = true  // Settiamo loading a true all'inizio del fetch
+  try {
+    const [
+      artistsData,
+      instagramData,
+      livesetsData,
+      locationsData,
+      packagesData,
+      playlistsData,
+      reviewsData,
+      serivcesData,
+      vimeoData
+    ] = await Promise.all([
+      getArtists(),
+      getPosts(),
+      getLiveSets(),
+      getLocations(),
+      getPackages(),
+      getPlaylists(),
+      getReviews(),
+      getServices(),
+      getVideos(),
+    ])
 
-    getData.getPackages().then((result) => {
-      this.packages = result;
-    });
+    artists.value = artistsData
+    instagram.value = instagramData
+    livesets.value = livesetsData
+    locations.value = locationsData
+    packages.value = packagesData
+    playlists.value = playlistsData
+    reviews.value = reviewsData
+    services.value = serivcesData
+    vimeo.value = vimeoData?.data ? vimeoData.data.slice(0, 6) : []
 
-    getData.getPlaylists().then((result) => {
-      this.playlists = result;
-    });
-
-    getData.getVideos().then((result) => {
-      this.videos = [...result.data.slice(0,6)];
-    })
-
+  } catch (err) {
+    console.error('Errore nel caricamento dei dati:', err)
+    error.value = err
+  } finally {
+    loading.value = false  // Settiamo loading a false sia in caso di successo che di errore
   }
-
 }
+
+onMounted(() => {
+  console.log('Component mounted, starting packages fetch...')
+  fetchAllData()
+})
 </script>
+
+<style scoped>
+</style>

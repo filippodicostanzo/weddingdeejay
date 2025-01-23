@@ -1,36 +1,66 @@
 <template>
-  <nav class="primary">
-    <ul class="main-menu" v-if="!mobile">
+  <nav>
+    <ul :class="[
+      props.mobile ? 'space-y-2' : 'flex flex-wrap justify-center lg:justify-end gap-4',
+      'w-full'
+    ]">
       <li v-for="item in mainmenu" :key="item.slug">
-        <nuxt-link tag="a" :to="'/'+item.slug" exact>{{ item.name }}</nuxt-link>
-      </li>
-    </ul>
+        <NuxtLink
+            :to="'/' + item.slug"
+            :class="[
+              'text-white hover:text-gray-200 text-sm tracking-widest transition duration-150 ease-in-out uppercase font-montserrat block',
+              isLinkActive(item.slug) ? 'font-black !text-primary' : ''
+            ]"
+            @click="props.mobile && closeSideMenu()"
 
-    <ul class="main-menu" v-if="mobile">
-      <li v-for="item in mainmenu" :key="item.slug">
-        <nuxt-link tag="a" :to="'/'+item.slug"   exact><span @click="$nuxt.$emit('close-sidemenu')">{{ item.name }}</span></nuxt-link>
+        >
+          {{ item.name }}
+        </NuxtLink>
       </li>
     </ul>
   </nav>
 </template>
 
-<script>
-import main_menu from '~/static/data/menu.json';
+<script setup>
+import { ref } from 'vue'
+import { useNuxtApp, useRoute } from '#app'
+import mainMenuData from '~/static/data/menu.json'
 
-export default {
-  name: "MainMenu",
-  props: ['mobile'],
-  data() {
-    return {
-      mainmenu: [],
-    }
-  },
-  fetch() {
-    this.mainmenu = main_menu.menu;
-  },
+const props = defineProps({
+  mobile: Boolean
+})
+
+const route = useRoute()
+
+const mainmenu = ref([])
+
+const closeSideMenu = () => {
+  const nuxtApp = useNuxtApp()
+  nuxtApp.$emit('close-sidemenu')
 }
+
+// Simulating the fetch hook
+const fetchMenu = () => {
+  mainmenu.value = mainMenuData
+}
+
+const isLinkActive = (slug) => {
+  // Array di slug che devono essere attivi anche nelle sottopagine
+  const parentSlugs = ['venues', 'artists', 'livesets'] // aggiungi qui altri slug se necessario
+
+  if (parentSlugs.includes(slug)) {
+    return route.path.startsWith('/' + slug)
+  }
+
+  return route.path === '/' + slug
+}
+
+// Call fetchMenu immediately
+onMounted(() => {
+  fetchMenu()
+})
+
+
+
+
 </script>
-
-<style scoped>
-
-</style>

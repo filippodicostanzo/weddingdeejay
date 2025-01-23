@@ -1,58 +1,54 @@
 <template>
-  <div class="breadcrumb-container">
-    <ol class="breadcrumb">
-      <li class="item">
-        <nuxt-link to="/" class="title">
+  <nav aria-label="Breadcrumb" class="py-2">
+    <ol class="flex items-center  text-sm justify-center">
+      <li class="flex items-center">
+        <NuxtLink
+            to="/"
+            class="text-white hover:text-primary transition-colors font-montserrat"
+        >
           Home
-        </nuxt-link>
+        </NuxtLink>
       </li>
-      <li v-for="item in crumbs">
-        <span>&nbsp; /</span>
-        <nuxt-link :to="item.to">
+
+      <li
+          v-for="(item, index) in crumbs"
+          :key="index"
+          class="flex items-center"
+      >
+        <span class="mx-2 text-white">/</span>
+        <NuxtLink
+            :to="item.to"
+            class="text-white hover:text-primary transition-colors font-montserrat"
+            :class="{ 'font-bold !text-primary': index === crumbs.length - 1 }"
+        >
           {{ item.title }}
-        </nuxt-link>
+        </NuxtLink>
       </li>
     </ol>
-  </div>
+  </nav>
 </template>
 
-<script>
-import * as _ from 'lodash';
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { startCase } from 'lodash-es'
 
-export default {
-  name: "Breadcrumbs.vue",
-  props: ['title'],
-  computed: {
-
-    crumbs() {
-
-
-
-      const path = this.$route.path.replace(/\/$/, '');
-      const pathArray = path.split('/')
-      pathArray.shift()
-
-      const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
-
-        breadcrumbArray.push({
-          to: breadcrumbArray[idx - 1]
-            ? '/' + pathArray[idx - 1] + '/' + path
-            : '/' + path,
-          title: idx + 1 !== pathArray.length ? _.startCase(path) : this.title,
-          index: idx
-        })
-
-        console.log(breadcrumbArray);
-        return breadcrumbArray
-      }, [])
-
-      return breadcrumbs
-    }
-
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
   }
-}
+})
+
+const route = useRoute()
+
+const crumbs = computed(() => {
+  const path = route.path.replace(/\/$/, '')
+  const pathArray = path.split('/').filter(Boolean)
+
+  return pathArray.map((path, idx) => ({
+    to: idx === 0 ? `/${path}` : `/${pathArray.slice(0, idx + 1).join('/')}`,
+    title: idx + 1 === pathArray.length ? props.title : startCase(path)
+  }))
+})
 </script>
-
-<style scoped>
-
-</style>

@@ -1,87 +1,58 @@
 <template>
-  <div :class="[finishanimation ? 'finish' : '', 'loading-page']">
-    <img :src="require('~/assets/images/logo-loader.png')" width="200" class="animate-flicker">
+  <div>
+    <Transition name="fade">
+      <div v-if="isLoading" class="fixed inset-0 bg-[#222] z-50 flex items-center justify-center">
+        <img src="/images/logo-loader.png" width="200" class="animate-pulse" alt="Wedding Deejay">
+      </div>
+    </Transition>
   </div>
 </template>
 
-<script>
-    export default {
-        data: () => ({
-            loading: false,
-            finishanimation: false
-        }),
-        methods: {
-            start() {
-                this.loading = true
-            },
-            finish() {
-                this.finishanimation = true;
-                console.log('finish');
-            }
-        }
-    }
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const isLoading = ref(true)
+
+onMounted(() => {
+  // Verifichiamo se è il primo caricamento
+  if (!sessionStorage.getItem('firstLoad')) {
+    // Se è il primo caricamento, mostriamo il loader
+    isLoading.value = true
+    setTimeout(() => {
+      isLoading.value = false
+      // Settiamo il flag in sessionStorage
+      sessionStorage.setItem('firstLoad', 'true')
+    }, 500)
+  } else {
+    // Se non è il primo caricamento, non mostriamo il loader
+    isLoading.value = false
+  }
+
+  document.body.classList.add('overflow-y-auto')
+})
 </script>
 
-<style lang="scss" scoped>
-  @import "../assets/scss/_variables.scss";
+<style scoped>
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
-  .loading-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    /* mobile viewport bug fix */
-    background: $black;
-    text-align: center;
-    font-size: 30px;
-    font-family: sans-serif;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: -webkit-fill-available;
-    overflow: hidden;
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
   }
+  50% {
+    opacity: .5;
+  }
+}
 
-  .finish {
-    animation: openAnimation 1s both ease-in;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
-  @keyframes openAnimation {
-    0% {
-      transform: translate(0%, 0%);
-    }
-
-    100% {
-      transform: translate(0%, -100%);
-    }
-  }
-
-  @keyframes flickerAnimation {
-    0%   { opacity:1; }
-    50%  { opacity:0; }
-    100% { opacity:1; }
-  }
-  @-o-keyframes flickerAnimation{
-    0%   { opacity:1; }
-    50%  { opacity:0; }
-    100% { opacity:1; }
-  }
-  @-moz-keyframes flickerAnimation{
-    0%   { opacity:1; }
-    50%  { opacity:0; }
-    100% { opacity:1; }
-  }
-  @-webkit-keyframes flickerAnimation{
-    0%   { opacity:1; }
-    50%  { opacity:0; }
-    100% { opacity:1; }
-  }
-  .animate-flicker {
-    -webkit-animation: flickerAnimation 2s infinite;
-    -moz-animation: flickerAnimation 2s infinite;
-    -o-animation: flickerAnimation 2s infinite;
-    animation: flickerAnimation 2s infinite;
-  }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

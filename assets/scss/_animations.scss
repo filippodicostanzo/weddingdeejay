@@ -1,15 +1,4 @@
-@keyframes draw {
-  10% {
-    stroke-dashoffset: 0;
-    stroke-width: 0px
-  }
-  10%, 100% {
-    stroke-width: 1px;
-    stroke-dashoffset: 0
-  }
-}
-
-
+// Wave Animation
 @keyframes wavepulse {
   0%, 30% {
     transform: scale(1, 1)
@@ -22,19 +11,6 @@
   }
 }
 
-@keyframes bgscroll {
-  0% {
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
-    transform: translateX(0)
-  }
-  100% {
-    -webkit-transform: translateX(-1920px);
-    -moz-transform: translateX(-1920px);
-    -ms-transform: translateX(-1920px);
-    -o-transform: translateX(-1920px);
-    transform: translateX(-1920px)
-  }
+.wave-animation {
+  animation: wavepulse 1s ease-in-out infinite;
 }

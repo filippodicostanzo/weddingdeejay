@@ -1,36 +1,47 @@
 <template>
-  <section class="services pt-100 pb-100">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h4 class="subtitle">What we do</h4>
-          <h2 class="heading">Services</h2>
 
+  <section class="py-24 bg-third" id="services">
+    <div class="container mx-auto px-4">
+      <div class="mb-12 text-center">
+        <h4 class="text-xl font-semibold text-primary mb-2 font-architects">What we do</h4>
+        <h2 class="text-4xl font-bold text-gray-900 font-montserrat">Services</h2>
+      </div>
+
+      <LoadSpinner v-if="loading"/>
+
+      <div v-else-if="!data || data.length === 0"
+           class="flex justify-center items-center min-h-[200px]">
+        <div class="text-center">
+          <p class="text-white text-lg">No photo available at the moment.</p>
+          <p class="text-gray-400 mt-2">Please check back later.</p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <LoadSpinner v-if="data.length===0"/>
-          <Carousel :data="data" source="services"/>
-        </div>
-      </div>
+
+       <ServiceCarousel :services="data"/>
+
     </div>
-    <div class="background-animation">
-      <div class="container-fluid"></div>
-    </div>
+
   </section>
 </template>
 
-<script>
-import LoadSpinner from "../LoadSpinner";
+<script setup lang="ts">
 
-export default {
-  name: "Services.vue",
-  components: {LoadSpinner},
-  props: ['data'],
+import ServiceCarousel from "~/components/carousel/ServiceCarousel.vue";
+import ArtistCarousel from "~/components/carousel/ArtistCarousel.vue";
+import CustomSlider from "~/components/carousel/CustomSlider.vue";
+
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
+})
 
 
-}
 </script>
 
 <style scoped>

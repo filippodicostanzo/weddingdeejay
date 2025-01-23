@@ -1,360 +1,502 @@
 <template>
-  <div>
-    <div v-if="source==='privacy'">
-      <span class="close-btn" @click="$emit('close')">&times;</span>
-      <div class="container mt-5">
 
-        <div class="row">
-          <div class="col-12"><h2 class="text-center text-uppercase">Privacy Policy</h2></div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-12">
-            <div>
-              <h3>Perché questo avviso</h3>
-              <p>Questa pagina ha lo scopo di descrivere le modalità di gestione del sito in riferimento al trattamento
-                dei dati personali degli utenti visitatori che lo consultano.</p>
-              <p>Si tratta di un'informativa resa anche ai sensi del Regolamento Europeo GDPR 679/2016 - Codice in
-                materia
-                di protezione dei dati personali a coloro che si collegano al sito web {{$config.siteDomain}} di
-                {{$config.siteProperty}} - {{$config.siteAddress}} - P.IVA {{$config.siteVATID}} accedendo per via
-                telematica ai servizi web.</p>
-              <p>L'informativa è resa per il sito web {{$config.siteDomain}} e non anche per altri siti web
-                eventualmente
-                consultati dall'utente tramite link.</p>
-              <p>L'informativa si ispira anche alla direttiva 2009/136/CE, che ha introdotto nuove norme in materia di
-                cookies, ed alla Raccomandazione n. 2/2001 adottata dalle autorità europee per la protezione dei dati
-                personali per individuare alcuni requisiti minimi per la raccolta di dati personali on-line, e, in
-                particolare, le modalità, i tempi e la natura delle informazioni che i titolari del trattamento devono
-                fornire agli utenti quando questi si collegano a pagine web, indipendentemente dagli scopi del
-                collegamento.</p>
-              <h3>Il titolare del trattamento</h3>
-              <p>A seguito della consultazione del sito web {{$config.siteDomain}} possono essere trattati dati relativi
-                a
-                persone identificate o identificabili.</p>
-              <p>Titolare del loro trattamento è {{$config.siteProperty}} - {{$config.siteAddress}} - P.IVA
-                {{$config.siteVATID}}.</p>
-              <h3>Luogo di trattamento dei dati</h3>
-              <p>I trattamenti connessi ai servizi del sito web {{$config.siteDomain}} hanno luogo presso la predetta
-                sede
-                della società {{$config.siteProperty}} - {{$config.siteAddress}} - P.IVA {{$config.siteVATID}} e sono
-                curati
-                solo da personale incaricato del trattamento, oppure da eventuali incaricati di occasionali operazioni
-                di
-                manutenzione.</p>
-              <p>I dati derivanti dal servizio web potranno essere comunicati ai partner tecnologici e strumentali di
-                cui
-                il Titolare si avvale per l'erogazione dei servizi richiesti dagli utenti visitatori.</p>
-              <p>I dati personali forniti dagli utenti visitatori che inoltrano richieste di invio di materiale
-                informativo (richieste di informazioni, risposte a quesiti, ecc.) o altre comunicazioni (ordini) sono
-                utilizzati al solo fine di eseguire il servizio o la prestazione richiesta e sono comunicati a terzi nel
-                solo caso in cui ciò sia a tal fine necessario (erogazione dei servizi richiesti per il tramite del
-                partner tecnologico e strumentale).</p>
-              <h3>Tipi di dati trattati</h3>
-              <p><b>Dati di navigazione</b></p>
-              <p>I sistemi informatici e le procedure software preposte al funzionamento del sito web
-                {{$config.siteDomain}} acquisiscono, nel corso del loro normale esercizio, alcuni dati personali la cui
-                trasmissione è implicita nell'uso dei protocolli di comunicazione di Internet.</p>
-              <p>Si tratta di informazioni che non sono raccolte per essere associate a interessati identificati, ma che
-                per loro stessa natura potrebbero, attraverso elaborazioni ed associazioni con dati detenuti da terzi,
-                permettere di identificare i computer che si connettono al sito.</p>
-              <p>In questa categoria di dati rientrano gli indirizzi IP o i nomi a dominio dei computer utilizzati dagli
-                utenti che si connettono al sito web {{$config.siteDomain}}, gli indirizzi in notazione URI (Uniform
-                Resource Identifier) delle risorse richieste, l'orario della richiesta, il metodo utilizzato nel
-                sottoporre la richiesta al server, la dimensione del file ottenuto in risposta, il codice numerico
-                indicante lo stato della risposta data dal server (buon fine, errore, ecc.) ed altri parametri relativi
-                al
-                sistema operativo e all'ambiente informatico dell'utente.</p>
-              <p>Questi dati potrebbero essere utilizzati al solo fine di ricavare informazioni statistiche anonime
-                sull'uso del sito web {{$config.siteDomain}} e per controllarne il corretto funzionamento. I dati
-                potrebbero essere utilizzati per l'accertamento di responsabilità in caso di ipotetici reati informatici
-                ai danni del sito.</p>
-              <p><b>Dati forniti volontariamente dagli utenti visitatori</b></p>
-              <p>L'invio facoltativo, esplicito e volontario di dati personali per accedere a determinati servizi,
-                ovvero
-                per effettuare richieste di informazioni agli indirizzi indicati sul sito web villamaria.it comporta la
-                successiva acquisizione dei dati personali inseriti nella richiesta del mittente, necessari per
-                rispondere
-                alle stesse.</p>
-              <p>Specifiche informative di sintesi verranno progressivamente riportate o visualizzate nelle pagine del
-                sito predisposte per particolari servizi a richiesta.</p>
+  <!-- Container principale del modal -->
+  <div class="fixed inset-0 w-full h-full z-50 overflow-hidden" @click="$emit('close')">
+    <!-- Overlay scuro che chiude il modal al click -->
+    <div class="fixed inset-0 bg-black bg-opacity-70"></div>
+
+    <!-- Container del contenuto -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <!-- Modal content con stop della propagazione del click -->
+      <div class="relative bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto" @click.stop>
+        <!-- Singolo pulsante di chiusura -->
+        <button
+            @click="$emit('close')"
+            class="absolute right-4 top-4 text-4xl leading-none text-gray-600 hover:text-gray-900 z-50"
+        >
+          &times;
+        </button>
+
+        <div v-if="source==='privacy'">
+          <button @click="$emit('close')"
+                  class="absolute right-4 top-4 text-4xl leading-none text-gray-600 hover:text-gray-900">&times;
+          </button>
+          <div class="container mx-auto px-4 mt-5">
+            <div class="flex flex-col items-center">
+              <div class="w-full">
+                <h2 class="text-2xl font-bold text-center uppercase">Privacy Policy</h2>
+              </div>
+            </div>
+            <div class="flex flex-col mt-5">
+              <div class="w-full">
+                <div class="space-y-6">
+                  <h3 class="text-xl font-semibold">Why this Notice</h3>
+                  <p class="text-gray-700">
+                    This page aims to describe how the site is managed with reference to the processing of personal data
+                    of users who visit it.
+                  </p>
+                  <p class="text-gray-700">
+                    This information is also provided pursuant to European Regulation GDPR 679/2016 - Code regarding the
+                    protection of personal data for those who connect to the website {{ $config.siteDomain }} of
+                    {{ $config.siteProperty }} - {{ $config.siteAddress }} - VAT {{ $config.siteVATID }} accessing web
+                    services.
+                  </p>
+                  <p class="text-gray-700">
+                    This information is provided only for {{ $config.siteDomain }} and not for other websites that may
+                    be consulted by the user through links.
+                  </p>
+                  <p class="text-gray-700">
+                    The information is also inspired by Directive 2009/136/EC, which introduced new rules on cookies,
+                    and Recommendation No. 2/2001 adopted by European authorities for the protection of personal data to
+                    identify some minimum requirements for the collection of personal data online, and, in particular,
+                    the methods, timing and nature of the information that data controllers must provide to users when
+                    they connect to web pages, regardless of the purpose of the connection.
+                  </p>
+
+                  <h3 class="text-xl font-semibold">The Data Controller</h3>
+                  <p class="text-gray-700">
+                    Following consultation of the website {{ $config.siteDomain }}, data relating to identified or
+                    identifiable persons may be processed.
+                  </p>
+                  <p class="text-gray-700">
+                    The data controller is {{ $config.siteProperty }} - {{ $config.siteAddress }} - VAT
+                    {{ $config.siteVATID }}.
+                  </p>
+
+                  <h3 class="text-xl font-semibold">Location of Data Processing</h3>
+                  <p class="text-gray-700">
+                    The processing related to the web services of {{ $config.siteDomain }} takes place at the
+                    aforementioned headquarters of {{ $config.siteProperty }} - {{ $config.siteAddress }} - VAT
+                    {{ $config.siteVATID }} and is handled only by personnel in charge of processing, or by those
+                    occasionally in charge of maintenance operations.
+                  </p>
+                  <p class="text-gray-700">
+                    Data derived from the web service may be communicated to technological and instrumental partners
+                    that the Controller uses to provide services requested by visiting users.
+                  </p>
+                  <p class="text-gray-700">
+                    Personal data provided by visiting users who submit requests for informational material (information
+                    requests, answers to questions, etc.) or other communications (orders) are used solely for the
+                    purpose of performing the requested service or provision and are communicated to third parties only
+                    where this is necessary for that purpose (provision of requested services through technological and
+                    instrumental partners).
+                  </p>
+
+                  <h3 class="text-xl font-semibold">Types of Data Processed</h3>
+                  <p class="font-semibold">Navigation Data</p>
+                  <p class="text-gray-700">
+                    The computer systems and software procedures used to operate the website {{ $config.siteDomain }}
+                    acquire, during their normal operation, some personal data whose transmission is implicit in the use
+                    of Internet communication protocols.
+                  </p>
+                  <p class="text-gray-700">
+                    This information is not collected to be associated with identified individuals, but by its very
+                    nature could, through processing and associations with data held by third parties, allow users to be
+                    identified.
+                  </p>
+                  <p class="text-gray-700">
+                    This category includes IP addresses or domain names of computers used by users connecting to the
+                    website {{ $config.siteDomain }}, URI (Uniform Resource Identifier) addresses of requested
+                    resources, the time of the request, the method used to submit the request to the server, the size of
+                    the file obtained in response, the numerical code indicating the status of the response given by the
+                    server (successful, error, etc.) and other parameters relating to the operating system and the
+                    user's IT environment.
+                  </p>
+                  <p class="text-gray-700">
+                    This data might be used for the sole purpose of obtaining anonymous statistical information on
+                    website use {{ $config.siteDomain }} and to check its correct functioning. The data could be used to
+                    ascertain responsibility in case of hypothetical computer crimes against the site.
+                  </p>
+
+                  <p class="font-semibold">Data Voluntarily Provided by Visiting Users</p>
+                  <p class="text-gray-700">
+                    The optional, explicit, and voluntary sending of personal data to access certain services, or to
+                    make information requests to the addresses indicated on the website villamaria.it, entails the
+                    subsequent acquisition of the sender's personal data included in the request, necessary to respond
+                    to them.
+                  </p>
+                  <p class="text-gray-700">
+                    Specific summary information notices will be progressively reported or displayed on the site pages
+                    set up for particular services on request.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div v-if="source==='cookie'">
-      <span class="close-btn" @click="$emit('close')">&times;</span>
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12"><h2 class="text-center text-uppercase">Cookie Policy</h2></div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-12">
-            <div>
-              <h4>Cosa sono i cookie</h4>
-              <p>Il sito {{$config.siteDomain}} fa uso di cookie. Come chiarito dal Garante Privacy nelle FAQ del
-                dicembre 2012, reperibili su <a href="http://www.garanteprivacy.it/" target="_blank">www.garanteprivacy.it</a>,
-                i cookie sono "piccoli file di testo" - formati da lettere e numeri - "che i siti visitati dall'utente
-                inviano al suo terminale (solitamente al browser), dove vengono memorizzati per essere poi ritrasmessi
-                agli stessi siti alla successiva visita del medesimo utente". I cookie hanno la funzione di snellire
-                l'analisi del traffico sul web o di segnalare quando un sito specifico o una parte di esso vengono
-                visitati, di distinguere tra loro i visitatori per poter fornire contenuti personalizzati, ed aiutano
-                gli amministratori a migliorare il sito e l'esperienza di navigazione degli utenti stessi.</p>
-              <p>Attraverso i cookie non possiamo accedere ad altre informazioni memorizzate sul vostro dispositivo,
-                anche se è qui che i cookie vengono scaricati. I cookie non possono caricare codici di alcun tipo,
-                veicolare virus o malware e non sono dannosi per il terminale dell'utente.</p>
-              <p>Di seguito è possibile trovare tutte le informazioni sui cookie installati attraverso questo sito, e le
-                indicazioni necessarie su come gestire le proprie preferenze a riguardo.</p>
-              <h4>Consenso dell'utente</h4>
-              <p>Collegandosi per la prima volta ad una qualunque pagina di {{$config.siteDomain}}, l'utente vedrà
-                apparire una sintetica informativa sull'utilizzo dei cookie. Chiudendo tale informativa tramite
-                l'apposito tasto o cliccando al di fuori del banner che la contiene e proseguendo nella navigazione,
-                l'utente acconsente al nostro utilizzo dei cookie, secondo le modalità descritte nella presente Cookie
-                Policy.</p>
-              <p>Il sito ricorda la scelta effettuata dall'utente, pertanto l'informativa breve non verrà riproposta nei
-                collegamenti successivi dallo stesso dispositivo. Tuttavia, l'utente ha sempre la possibilità di
-                revocare in tutto o in parte il consenso già espresso.</p>
-              <p>Qualora si riscontrassero problemi di natura tecnica legati alla prestazione del consenso, vi preghiamo
-                di contattarci tramite gli appositi canali previsti da questo sito per consentici di prestarvi
-                assistenza.</p>
-              <h4>Quali tipi di cookie utilizziamo</h4>
-              <p>L'utilizzo di cookie da parte del Titolare di questo sito, {{$config.siteProperty}}, si inquadra nella
-                Privacy Policy dello stesso; per tutte le informazioni richieste dall'art. 13 Codice della Privacy
-                clicca visita l'apposita pagina di questo sito web.</p>
-              <p>Per consentire la fruizione del nostro sito e l'erogazione dei nostri servizi, facciamo uso sia di
-                cosiddetti cookie persistenti (cioè cookie che rimangono in memoria fino a quando non sono eliminati
-                manualmente dall'utente o per i quali è prevista una rimozione programmata a lungo termine) sia di
-                cosiddetti cookie di sessione, che non sono memorizzati in modo persistente sul computer del visitatore
-                e scompaiono con la chiusura del browser.</p>
-              <p>Utilizziamo cookie di tipologie differenti - con specifiche funzioni - che possiamo così
-                classificare:</p>
-              <table>
-                <tbody>
-                <tr>
-                  <th colspan="2"><p>Cookie di prima parte, ossia rilasciati da{{$config.siteDomain}}</p></th>
-                </tr>
-                <tr>
-                  <th><p>Tipologia di Cookie</p></th>
-                  <th><p>Che cosa fanno?</p></th>
-                </tr>
-                <tr>
-                  <td><p>Tecnici/di sessione</p>
-                    <p>Tecnici/di navigazione</p>
-                    <p><i>(Per rilasciare questo tipo di cookie non è necessario il consenso dell'utente)</i></p></td>
-                  <td><p>Sono indispensabili per il corretto funzionamento del nostro sito e consentono all'utente di
-                    navigare e di visualizzare i contenuti. Una loro eventuale disattivazione comporterebbe
-                    malfunzionamenti del sito.</p>
-                    <p>In genere, cookie di questo tipo sono necessari, ad esempio, per mantenere aperta una sessione di
-                      navigazione o per consentire all'utente di accedere ad eventuali aree riservate. O ancora, possono
-                      ricordare temporaneamente i testi inseriti durante la compilazione di un modulo, quando si torna
-                      ad una pagina precedente nel corso della medesima sessione.</p></td>
-                </tr>
-                <tr>
-                  <td><p>Tecnici/di funzionalità</p>
-                    <p><i>(Per rilasciare questo tipo di cookie non è necessario il consenso dell'utente)</i></p></td>
-                  <td><p>Consentono all'utente di sfruttare al meglio le peculiarità del sito e di fruire di una
-                    navigazione più confortevole. Il sito funziona in modo ideale se questi cookie sono abilitati; è
-                    possibile comunque decidere di non consentirne l'attivazione sul proprio dispositivo.</p>
-                    <p>In generale, ad esempio, cookie di questo tipo ricordano in quale lingua l'utente preferisce
-                      visualizzare i nostri contenuti o ricordano (per un periodo limitato) gli articoli presenti nel
-                      carrello virtuale nel caso in cui si chiuda la sessione prima di aver ultimato l'acquisto.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><p>Tecnici/consenso</p>
-                    <p><i>(Per rilasciare questo tipo di cookie non è necessario il consenso dell'utente)</i></p></td>
-                  <td><p>Questo cookie tiene traccia del consenso prestato dall'utente all'utilizzo dei cookie su questo
-                    sito, in modo da non riproporre - nelle successive visite - l'informativa breve sui cookie e la
-                    richiesta di prestare il consenso.</p></td>
-                </tr>
-                <tr>
-                  <th colspan="2"><p>Cookie di terze parti, ossia rilasciati da siti diversi rispetto
-                    a{{$config.siteDomain}}</p></th>
-                </tr>
-                <tr>
-                  <th><p>Tipologia di Cookie</p></th>
-                  <th><p>Che cosa fanno?</p></th>
-                </tr>
-                <tr>
-                  <td><p>Statistici/di analisi</p>
-                    <p><i>(Per rilasciare questo tipo di cookie è necessario il consenso dell'utente)</i></p></td>
-                  <td><p>Sono utilizzati per raccogliere informazioni sulle modalità di navigazione degli utenti sul
-                    nostro sito. Queste informazioni vengono analizzate in forma aggregata per soli fini statistici.</p>
-                    <p>Non sono necessari, ma sono per noi di grande aiuto per consentirci di migliorare i nostri
-                      contenuti ed i nostri servizi in base alle indicazioni che ricaviamo dall'analisi delle
-                      statistiche.</p></td>
-                </tr>
-                <tr>
-                  <td><p>Profilazione/di pubblicità</p>
-                    <p><i>(Per rilasciare questo tipo di cookie è necessario il consenso dell'utente)</i></p></td>
-                  <td><p>Sono utilizzati per presentarvi contenuti, anche di tipo pubblicitario, più adatti a voi.
-                    Possono essere usati anche, ad esempio, per limitare il numero di volte che viene proposto un
-                    contenuto pubblicitario o per aiutarci a valutare l'efficacia delle nostre campagne pubblicitarie o
-                    delle campagne pubblicitarie sui nostri siti internet.</p>
-                    <p>Non sono necessari, ma ci consentono di offrirvi contenuti più vicini ai vostri interessi.</p>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-              <!--BEGIN Local -->
-              <h4>Cookie di prima parte</h4>
-              <!--BEGIN Local_Language -->
-              <p>{{$config.siteDomain}} utilizza cookie allo scopo di memorizzare la lingua dell'utente e poter proporre
-                allo stesso di default la versione del sito (italiana o inglese) in base alle sue preferenze di
-                navigazione.</p>
-              <!--END Local_Language -->
-              <!--BEGIN Local_TextSize -->
-              <p>{{$config.siteDomain}} utilizza cookie allo scopo di memorizzare la dimensione del carattere preferito
-                dall'utente e poter proporre allo stesso la stessa dimensione ad ogni visita in base alle sue preferenze
-                di navigazione.</p>
-              <!--END Local_TextSize -->
-              <!--END Local -->
-              <!--BEGIN Other -->
-              <h4>Cookie di terze parti</h4>
-              <p>Navigando su questo sito riceverete sia cookie di {{$config.siteProperty}}, sia cookie da siti di terze
-                parti, i quali potranno impostare cookie sul vostro dispositivo per nostro conto al fine di erogare i
-                servizi che stanno fornendo.</p>
-              <p>I cookie di terze parti ci consentono di ottenere sondaggi più completi delle abitudini di esplorazione
-                degli utenti. Utilizziamo tali cookie, ad esempio, per raccogliere informazioni a fini pubblicitari e di
-                personalizzazione dei contenuti, oltre che per elaborare statistiche sull'utilizzo del nostro sito e per
-                valutare il vostro interesse nei riguardi di nostri specifici contenuti o servizi. Informazioni più
-                dettagliate su questi cookie sono disponibili nei paragrafi successivi presenti in questo documento e
-                sui rispettivi siti internet delle terze parti in questione.</p>
-              <!--BEGIN Other_Analytics -->
-              <p><b>Cookie di statistica (di terze parti)</b></p>
-              <p>{{$config.siteDomain}} utilizza Google Analytics, un servizio di analisi del traffico web fornito da
-                Google, Inc., 1600 Amphitheatre Parkway - Mountain View - CA94043 USA, che fa uso di cookie per
-                raccogliere ed analizzare in forma aggregata informazioni relative alla navigazione degli utenti. Né
-                {{$config.siteProperty}} né Google associano il vostro indirizzo IP ad altri dati in loro possesso per
-                identificarvi direttamente.</p>
-              <p>Le informazioni raccolte vengono elaborate dai sistemi di Google Analytics allo scopo di produrre
-                report per gli amministratori di{{$config.siteDomain}}, che li utilizzano per verificare il corretto
-                funzionamento dei servizi ed eventualmente il tasso di gradimento dei contenuti proposti.</p>
-              <p>Qualora voleste maggiori informazioni sulle politiche applicate da Google Inc. in tema di riservatezza
-                dei dati potete cliccare <a href="http://www.google.it/intl/it/policies/privacy/" target="_blank">http://www.google.it/intl/it/policies/privacy/</a>;
-                per disabilitare i cookie statistici impedendo così a Google Analytics di raccogliere dati sulla vostra
-                navigazione, potete scaricare l'apposito componente per la disattivazione di Google Analytics che
-                trovate qui: <a href="http://tools.google.com/dlpage/gaoptout" target="_blank">http://tools.google.com/dlpage/gaoptout</a>.
-              </p>
-              <!--END Other_Analytics -->
-              <!--BEGIN Other_AdSense -->
-              <p><b>Cookie per la visualizzazione di pubblicità mirate (di terze parti)</b></p>
-              <p>{{$config.siteDomain}} utilizza Google Adsense, un servizio di gestione degli annunci pubblicitari
-                fornito da Google, Inc., 1600 Amphitheatre Parkway - Mountain View - CA94043 USA, che fa uso di
-                specifici cookie per la gestione delle proprie campagne pubblicitarie e per erogare su questo sito
-                contenuti pubblicitari basati sugli interessi manifestati dagli utenti attraverso la navigazione in
-                internet (OBA).</p>
-              <p>Vengono rilasciati anche cookie utilizzati per la visualizzazione di pubblicità mirate a utenti che
-                hanno precedentemente visitato questo sito.</p>
-              <p>Qualora voleste maggiori informazioni sulle politiche applicate da Google Inc. in tema di riservatezza
-                dei dati potete cliccare <a href="http://www.google.it/intl/it/policies/privacy/" target="_blank">http://www.google.it/intl/it/policies/privacy/</a>;
-                per disabilitare i cookie impedendo così a Google Adsense di raccogliere dati sulla vostra navigazione,
-                potete scaricare l'apposito componente per la disattivazione di Google AdSense che trovate qui: <a
-                  href="http://www.google.com/settings/ads/" target="_blank">http://www.google.com/settings/ads/</a>.
-              </p>
-              <!--END Other_AdSense -->
-              <!--BEGIN Other_Shareaholic -->
-              <p><b>Cookie per la condivisione di contenuti sui social network (di terze parti)</b></p>
-              <p>{{$config.siteDomain}} utilizza Shareaholic, un servizio di condivisione dei contenuti sui maggiori
-                social network fornito da Shareaholic, Inc., 109 Kingston Street, 4th Floor, Boston, MA02111 USA, che fa
-                uso di specifici cookie per la gestione dell'accesso ai social network e delle proprie campagne
-                pubblicitarie.</p>
-              <p>Qualora voleste maggiori informazioni sulle politiche applicate da Shareaholic Inc. in tema di
-                riservatezza dei dati potete cliccare <a href="http://shareaholic.com/privacy/" target="_blank">http://shareaholic.com/privacy/</a>;
-                per disabilitare i cookie impedendo così a Shareaholic di raccogliere dati sulla vostra navigazione,
-                potete utilizzare l'apposita pagina web che trovate qui: <a
-                  href="http://shareaholic.com/privacy/choices"
-                  target="_blank">http://shareaholic.com/privacy/choices</a>.</p>
-              <!--END Other_Shareaholic -->
-              <!--BEGIN Other_Disqus -->
-              <p><b>Cookie per commentare i contenuti su questo sito (di terze parti)</b></p>
-              <p>{{$config.siteDomain}} utilizza Disqus, un servizio che consente di raccogliere commenti ai contenuti
-                presenti su questo sito web fornito da Disqus, Inc., 301 Howard Street, Suite 300, San Francisco,
-                CA94105 USA, che fa uso di specifici cookie per la gestione dell'accesso.</p>
-              <p>Qualora voleste maggiori informazioni sulle politiche applicate da Disqus Inc. in tema di riservatezza
-                dei dati potete cliccare <a href="http://help.disqus.com/customer/portal/articles/466235-use-of-cookies"
-                                            target="_blank">http://help.disqus.com/customer/portal/articles/466235-use-of-cookies</a>;
-                per disabilitare i cookie impedendo così a Disqus di raccogliere dati sulla vostra navigazione, potete
-                utilizzare l'apposita pagina web che trovate qui: <a
-                  href="http://help.disqus.com/customer/portal/articles/1657951" target="_blank">http://help.disqus.com/customer/portal/articles/1657951</a>.
-              </p>
-              <!--END Other_Disqus -->
-              <!--BEGIN Other_Social -->
-              <p><b>Social Plugins e widget (di terze parti)</b></p>
-              <p>Le nostre pagine web potrebbero contenere plug-in dei più noti social network (a.e. Facebook, Twitter,
-                Google+) gestiti dalle terze parti coinvolte.</p>
-              <p>Tali plug-in potrebbero ad esempio corrispondere ai pulsanti "Like" di Facebook o "Retweet" di Twitter.
-                Se si accede ad una delle nostre pagine web, dotata di un simile plug-in, il browser internet si collega
-                direttamente ai server delle terze parti e il plug-in viene visualizzato sullo schermo grazie alla
-                connessione con il browser. Il plug-in potrebbe comunicare ai server delle terze parte quali pagine
-                l'utente ha visitato.</p>
-              <p>Se un utente di social network visita le nostre pagine web mentre è collegato al proprio account, tali
-                informazioni potrebbero essere associate all'account. Anche nel caso in cui si utilizzino le funzioni
-                del plug-in (per esempio, facendo clic sul pulsante "Mi piace"), le informazioni saranno associate
-                all'account.</p>
-              <p>Nella tabella qui sotto potete trovare dettagli sui singoli plug-in ed eventualmente disattivarli:</p>
-              <table>
-                <tbody>
-                <tr>
-                  <th><p>Social</p></th>
-                  <th><p>Titolare</p></th>
-                  <th><p>Recapito</p></th>
-                  <th><p>Privacy</p></th>
-                  <th><p>Disattiva</p></th>
-                </tr>
-                <!--BEGIN Other_Social_Facebook -->
-                <tr>
-                  <td><p>Facebook</p></td>
-                  <td><p>Facebook Inc.</p></td>
-                  <td><p>1601 S. California Ave Palo Alto - CA94304 USA</p></td>
-                  <td><p><a href="http://www.facebook.com/about/privacy" target="_blank">Vai alla privacy policy della
-                    terza parte</a></p></td>
-                  <td><p><a href="http://www.ghostery.com/it/apps/facebook_connect" target="_blank">Clicca qui</a></p>
-                  </td>
-                </tr>
-                <!--END Other_Social_Facebook -->
-                <!--BEGIN Other_Social_Twitter -->
-                <tr>
-                  <td><p>Twitter</p></td>
-                  <td><p>Twitter Inc.</p></td>
-                  <td><p>1355 Market Street, Suite 900, San Francisco, CA94103 USA</p></td>
-                  <td><p><a href="http://support.twitter.com/articles/20170514" target="_blank">Vai alla privacy policy
-                    della terza parte</a></p></td>
-                  <td><p><a href="http://www.ghostery.com/it/apps/twitter_button" target="_blank">Clicca qui</a></p>
-                  </td>
-                </tr>
-                <!--END Other_Social_Twitter -->
-                <!--BEGIN Other_Social_GooglePlus -->
-                <tr>
-                  <td><p>Google</p></td>
-                  <td><p>Google, Inc.</p></td>
-                  <td><p>1600 Amphitheatre Parkway, Mountain View, CA94043 USA</p></td>
-                  <td><p><a href="http://www.google.it/intl/it/policies/privacy/" target="_blank">Vai alla privacy
-                    policy della terza parte</a></p></td>
-                  <td><p><a href="http://www.ghostery.com/it/apps/google%2B%20platform" target="_blank">Clicca qui</a>
-                  </p></td>
-                </tr>
-                <!--END Other_Social_GooglePlus -->
-                </tbody>
-              </table>
-              <!--END Other_Social -->
-              <!--END Other -->
-              <h4>Come configurare il proprio terminale</h4>
-              <p>Qualora non fosse d'accordo con l'installazione dei cookie, l'utente dovrà configurare il browser in
-                modo da disabilitare la ricezione dei cookie o non usare questo sito. Disabilitando i cookie però, il
-                sito o alcune sue funzioni potrebbero non operare correttamente.</p>
-              <p>Per modificare le modalità di utilizzo dei cookie, per bloccarne la ricezione o ancora per eliminare i
-                cookie presenti sul proprio terminale, è sufficiente entrare nelle impostazioni del proprio browser.</p>
-              <p>La maggior parte dei browser prevede la possibilità di accettare o rifiutare tutti i cookie o
-                accettarne solo alcuni (ad esempio provenienti da specifici siti).</p>
-              <p>Anche se attraverso passaggi simili, il metodo di configurazione del cookie varia per ciascun browser.
-                Per avere dettagli in merito alla procedura da seguire l'utente potrà visitare il sito <a
-                  href="http://www.aboutcookies.org/" target="_blank">www.aboutcookies.org</a> o consultare la sezione
-                'Aiuto' del proprio browser.</p>
-              <p>Per maggiori informazioni sui cookie e per gestire le tue preferenze sui cookie di terza parte ti
-                invitiamo a visitare <a href="http://www.youronlinechoices.com/" target="_blank">www.youronlinechoices.com</a>.
-              </p>
+        <div v-if="source==='cookie'">
+          <button @click="$emit('close')"
+                  class="absolute right-4 top-4 text-4xl leading-none text-gray-600 hover:text-gray-900">&times;
+          </button>
+          <div class="container mx-auto px-4 mt-5">
+            <div class="flex flex-col items-center">
+              <div class="w-full">
+                <h2 class="text-2xl font-bold text-center uppercase">Cookie Policy</h2>
+              </div>
+            </div>
+            <div class="flex flex-col mt-5">
+              <div class="w-full">
+                <div class="space-y-6">
+                  <section>
+                    <h4 class="text-xl font-semibold mb-4">What are cookies</h4>
+                    <p class="text-gray-700 mb-4">
+                      The website {{ $config.siteDomain }} uses cookies. As clarified by the Privacy Authority in the
+                      December 2012 FAQs, available at
+                      <a href="http://www.garanteprivacy.it/" target="_blank" class="text-blue-600 hover:text-blue-800">www.garanteprivacy.it</a>,
+                      cookies are "small text files" - made up of letters and numbers - "that websites visited by users
+                      send to their terminal (usually the browser),
+                      where they are stored to be retransmitted to the same sites during subsequent visits". Cookies
+                      function to streamline web traffic analysis
+                      or indicate when a specific site or part of it is being visited, to distinguish between visitors
+                      to provide personalized content, and help
+                      administrators improve the site and users' browsing experience.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      Through cookies, we cannot access other information stored on your device, even though this is
+                      where cookies are downloaded.
+                      Cookies cannot load code of any kind, transmit viruses or malware, and are not harmful to the
+                      user's device.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      Below you can find all information about cookies installed through this site, and the necessary
+                      guidance on how to manage your preferences.
+                    </p>
+                  </section>
+
+                  <section>
+                    <h4 class="text-xl font-semibold mb-4">User Consent</h4>
+                    <p class="text-gray-700 mb-4">
+                      When connecting for the first time to any page of {{ $config.siteDomain }}, users will see a brief
+                      notice about cookie usage.
+                      By closing this notice via the appropriate button or clicking outside the banner that contains it
+                      and continuing browsing,
+                      users consent to our use of cookies, according to the methods described in this Cookie Policy.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      The site remembers the user's choice, so the brief notice will not be shown again in subsequent
+                      connections from the same device.
+                      However, users always have the option to revoke their consent in whole or in part.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      If you encounter technical problems related to providing consent, please contact us through the
+                      appropriate channels provided
+                      by this site so we can assist you.
+                    </p>
+                  </section>
+
+                  <section>
+                    <h4 class="text-xl font-semibold mb-4">Types of cookies we use</h4>
+                    <p class="text-gray-700 mb-4">
+                      The use of cookies by the Controller of this site, {{ $config.siteProperty }}, falls within its
+                      Privacy Policy;
+                      for all information required by Art. 13 of the Privacy Code, please visit the appropriate page of
+                      this website.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      To enable the use of our site and the delivery of our services, we use both persistent cookies
+                      (cookies that remain in memory
+                      until manually deleted by the user or for which scheduled long-term removal is provided) and
+                      session cookies, which are not
+                      stored persistently on the visitor's computer and disappear when the browser is closed.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                      We use different types of cookies - with specific functions - which we can classify as follows:
+                    </p>
+
+                    <div class="overflow-x-auto">
+                      <table class="min-w-full divide-y divide-gray-200 border">
+                        <thead>
+                        <tr>
+                          <th colspan="2" class="px-6 py-3 bg-gray-50 text-left">
+                            <p class="text-sm font-semibold text-gray-900">First-party cookies, issued by
+                              {{ $config.siteDomain }}</p>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th class="px-6 py-3 bg-gray-50 text-left text-sm font-semibold text-gray-900">Cookie Type
+                          </th>
+                          <th class="px-6 py-3 bg-gray-50 text-left text-sm font-semibold text-gray-900">What do they
+                            do?
+                          </th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">Technical/Session Cookies</p>
+                            <p class="text-sm text-gray-900">Technical/Navigation Cookies</p>
+                            <p class="text-sm text-gray-500 italic">(User consent is not required for this type of
+                              cookie)</p>
+                          </td>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-700">Essential for the proper functioning of our site and allow
+                              users to navigate and view content.
+                              Disabling them would cause site malfunctions.</p>
+                            <p class="text-sm text-gray-700">Generally, these types of cookies are necessary, for
+                              example, to maintain an open browsing session
+                              or to allow users to access any restricted areas. They can also temporarily remember texts
+                              entered during form completion when
+                              returning to a previous page in the same session.</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">Technical/Functionality Cookies</p>
+                            <p class="text-sm text-gray-500 italic">(User consent is not required for this type of
+                              cookie)</p>
+                          </td>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-700">Allow users to make the best use of site features and enjoy
+                              a more comfortable browsing experience.
+                              The site works ideally if these cookies are enabled; however, you can choose not to allow
+                              their activation on your device.</p>
+                            <p class="text-sm text-gray-700">In general, for example, these types of cookies remember
+                              which language the user prefers to view our content in,
+                              or remember (for a limited period) the items in the virtual cart if the session is closed
+                              before completing the purchase.</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">Technical/Consent Cookies</p>
+                            <p class="text-sm text-gray-500 italic">(User consent is not required for this type of
+                              cookie)</p>
+                          </td>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-700">This cookie tracks the user's consent to the use of cookies
+                              on this site, so as not to show - in subsequent visits -
+                              the brief cookie notice and the request to provide consent.</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <th colspan="2" class="px-6 py-3 bg-gray-50 text-left">
+                            <p class="text-sm font-semibold text-gray-900">Third-party cookies, issued by sites other
+                              than {{ $config.siteDomain }}</p>
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">Statistical/Analytics Cookies</p>
+                            <p class="text-sm text-gray-500 italic">(User consent is required for this type of
+                              cookie)</p>
+                          </td>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-700">Used to collect information about how users navigate our
+                              site. This information is analyzed in aggregate form for
+                              statistical purposes only.</p>
+                            <p class="text-sm text-gray-700">They are not necessary but are very helpful to us in
+                              improving our content and services based on the insights
+                              we derive from statistical analysis.</p>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">Profiling/Advertising Cookies</p>
+                            <p class="text-sm text-gray-500 italic">(User consent is required for this type of
+                              cookie)</p>
+                          </td>
+                          <td class="px-6 py-4">
+                            <p class="text-sm text-gray-700">Used to present content, including advertising, more suited
+                              to you. They can also be used, for example, to limit
+                              the number of times an advertisement is shown or to help us evaluate the effectiveness of
+                              our advertising campaigns or advertising campaigns on our
+                              websites.</p>
+                            <p class="text-sm text-gray-700">They are not necessary, but they allow us to offer content
+                              closer to your interests.</p>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+
+                  <section class="mt-6">
+                    <h4 class="text-xl font-semibold mb-4">Third-party Cookies</h4>
+                    <div class="space-y-4">
+                      <p class="text-gray-700">While browsing this site, you will receive both cookies from
+                        {{ $config.siteProperty }} and from third-party sites,
+                        which may set cookies on your device on our behalf to provide the services they are
+                        delivering.</p>
+
+                      <p class="text-gray-700">Third-party cookies allow us to obtain more complete surveys of users'
+                        browsing habits. We use such cookies,
+                        for example, to collect information for advertising purposes and content personalization, as
+                        well as to process statistics about the use
+                        of our site and to evaluate your interest in our specific content or services. More detailed
+                        information about these cookies is available
+                        in the following paragraphs in this document and on the respective third-party websites.</p>
+                    </div>
+
+                    <div class="mt-6">
+                      <p class="text-lg font-semibold mb-2">Statistical Cookies (third-party)</p>
+                      <div class="space-y-4">
+                        <p class="text-gray-700">{{ $config.siteDomain }} uses Google Analytics, a web analysis service
+                          provided by Google, Inc.,
+                          1600 Amphitheatre Parkway - Mountain View - CA94043 USA, which uses cookies to collect and
+                          analyze aggregate information related to
+                          user navigation. Neither {{ $config.siteProperty }} nor Google associate your IP address with
+                          other data in their possession to identify
+                          you directly.</p>
+
+                        <p class="text-gray-700">The collected information is processed by Google Analytics systems to
+                          produce reports for {{ $config.siteDomain }}
+                          administrators, who use them to verify the correct functioning of services and possibly the
+                          satisfaction rate of the proposed content.</p>
+
+                        <p class="text-gray-700">If you would like more information about the policies applied by Google
+                          Inc. regarding data privacy, you can click
+                          <a href="http://www.google.it/intl/it/policies/privacy/" target="_blank"
+                             class="text-blue-600 hover:text-blue-800">
+                            http://www.google.it/intl/it/policies/privacy/
+                          </a>;
+                          to disable statistical cookies, thus preventing Google Analytics from collecting data about
+                          your browsing, you can download the appropriate
+                          component for disabling Google Analytics here:
+                          <a href="http://tools.google.com/dlpage/gaoptout" target="_blank"
+                             class="text-blue-600 hover:text-blue-800">
+                            http://tools.google.com/dlpage/gaoptout
+                          </a>.</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="mt-6">
+                    <h4 class="text-xl font-semibold mb-4">Social Plugins and Widgets (third-party)</h4>
+                    <div class="space-y-4">
+                      <p class="text-gray-700">Our web pages may contain plugins from the most popular social networks
+                        (e.g., Facebook, Twitter, Google+)
+                        managed by the third parties involved.</p>
+
+                      <p class="text-gray-700">These plugins might correspond to buttons like Facebook's "Like" or
+                        Twitter's "Retweet". If you access
+                        one of our web pages equipped with such a plugin, your internet browser connects directly to the
+                        third-party servers and the plugin
+                        is displayed on screen thanks to the connection with the browser. The plugin might communicate
+                        to third-party servers which pages
+                        the user has visited.</p>
+
+                      <p class="text-gray-700">If a social network user visits our web pages while logged into their
+                        account, this information could be
+                        associated with the account. Even when using plugin functions (for example, clicking the "Like"
+                        button), the information will be
+                        associated with your account.</p>
+
+                      <p class="text-gray-700 mb-4">In the table below you can find details about individual plugins and
+                        possibly deactivate them:</p>
+
+                      <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 border">
+                          <thead class="bg-gray-50">
+                          <tr>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900">Social</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900">Owner</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900">Contact</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900">Privacy</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900">Disable</th>
+                          </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td class="px-4 py-3 text-sm text-gray-900">Facebook</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">Facebook Inc.</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">1601 S. California Ave Palo Alto - CA94304 USA
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://www.facebook.com/about/privacy" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                View third-party privacy policy
+                              </a>
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://www.ghostery.com/it/apps/facebook_connect" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                Click here
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="px-4 py-3 text-sm text-gray-900">Twitter</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">Twitter Inc.</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">1355 Market Street, Suite 900, San Francisco,
+                              CA94103 USA
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://support.twitter.com/articles/20170514" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                View third-party privacy policy
+                              </a>
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://www.ghostery.com/it/apps/twitter_button" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                Click here
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="px-4 py-3 text-sm text-gray-900">Google</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">Google, Inc.</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">1600 Amphitheatre Parkway, Mountain View,
+                              CA94043 USA
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://www.google.it/intl/it/policies/privacy/" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                View third-party privacy policy
+                              </a>
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                              <a href="http://www.ghostery.com/it/apps/google%2B%20platform" target="_blank"
+                                 class="text-blue-600 hover:text-blue-800">
+                                Click here
+                              </a>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="mt-6">
+                    <h4 class="text-xl font-semibold mb-4">How to Configure Your Browser</h4>
+                    <div class="space-y-4">
+                      <p class="text-gray-700">If you disagree with the installation of cookies, you must configure your
+                        browser to disable cookie
+                        reception or not use this site. However, by disabling cookies, the site or some of its functions
+                        may not work properly.</p>
+
+                      <p class="text-gray-700">To modify cookie usage settings, block their reception, or delete cookies
+                        present on your device,
+                        simply access your browser settings.</p>
+
+                      <p class="text-gray-700">Most browsers allow you to accept or reject all cookies or accept only
+                        some (for example, those from
+                        specific sites).</p>
+
+                      <p class="text-gray-700">Although through similar steps, the cookie configuration method varies
+                        for each browser. For details
+                        about the procedure to follow, you can visit
+                        <a href="http://www.aboutcookies.org/" target="_blank"
+                           class="text-blue-600 hover:text-blue-800">www.aboutcookies.org</a>
+                        or consult your browser's 'Help' section.</p>
+
+                      <p class="text-gray-700">For more information about cookies and to manage your third-party cookie
+                        preferences, we invite you
+                        to visit <a href="http://www.youronlinechoices.com/" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800">
+                          www.youronlinechoices.com</a>.</p>
+                    </div>
+                  </section>
+
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -363,22 +505,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ModalPrivacy",
-  props: ['source'],
-}
+<script setup>
+defineProps({
+  source: {
+    type: String,
+    required: true
+  }
+})
+
+defineEmits(['close'])
 </script>
-
-<style scoped>
-
-.close-btn {
-  font-size: 50px;
-  color: #000;
-  line-height: 25px;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-</style>

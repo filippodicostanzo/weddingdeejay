@@ -1,33 +1,59 @@
 <template>
-  <section class="playlists pt-100 pb-100">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h4 class="subtitle">Discover our</h4>
-          <h2 class="heading text-white">Playlists</h2>
+
+
+  <section class="relative py-24 bg-[#222]">
+    <div class="absolute inset-0 top bg-cover bg-center opacity-35" style="background-image: url('/images/parallax-showcase.webp')"></div>
+    <div class="container mx-auto px-4">
+      <div class="mb-12">
+        <div class="text-center">
+          <h4 class="text-xl font-semibold text-primary mb-2 font-architects">Discover our</h4>
+          <h2 class="text-4xl font-bold text-white font-montserrat">Playlists</h2>
         </div>
       </div>
-      <div class="row">
-        <LoadSpinner v-if="data.length===0"/>
-        <div class="col-md-6 col-sm-12 col-lg-4 text-center mb-5 pl-4 pr-4" v-for="item in data" :key="item.identifier">
-          <iframe :src="item.url" width="100%" height="380" frameBorder="0" allowtransparency="true"
+
+
+      <LoadSpinner v-if="loading" />
+
+      <div v-else-if="!data || data.length === 0"
+           class="flex justify-center items-center min-h-[200px]">
+        <div class="text-center">
+          <p class="text-white text-lg">No playlists available at the moment.</p>
+          <p class="text-gray-400 mt-2">Please check back later.</p>
+        </div>
+      </div>
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-5">
+        <div v-for="playlist in data"
+             :key="playlist.id"
+             class="group relative overflow-hidden transition-transform duration-300">
+          <iframe :src="playlist.url" width="100%" height="380" frameBorder="0" allowtransparency="true"
                   allow="encrypted-media"></iframe>
         </div>
       </div>
+
     </div>
   </section>
+
 </template>
 
-<script>
-import LoadSpinner from "../LoadSpinner";
 
-export default {
-  name: "Playlists.vue",
-  components: {LoadSpinner},
-  props: ['data']
+<script setup>
 
-}
+import LoadSpinner from "~/components/LoadSpinner.vue";
+
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
+})
+
 </script>
+
 
 <style scoped>
 

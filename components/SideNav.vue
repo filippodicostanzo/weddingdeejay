@@ -2,132 +2,145 @@
   <div>
     <div class="b-sidebar-backdrop" ref="backdrop" @click="closeSidebar"></div>
 
+    <div class="b-sidebar-right b-sidebar bg-secondary" ref="sidemenu">
+      <button class="close-button text-white left-3 text-2xl top-5" @click="closeSidebar">
+        <font-awesome-icon :icon="['fas', 'times']" class="w-[20px] top-[10px]"/>
+      </button>
+      <nav class="mobile-menu">
 
-    <div class="b-sidebar-right b-sidebar" ref="sidemenu">
-      <!--      <button class="close-button" @click="closeSidebar">
-              <font-awesome-icon :icon="['fas', 'arrow-circle-right']"/>
-            </button>-->
-      <div class="logo-container">
-        <nuxt-link to="/">
-          <div @click="closeSidebar">
-            <img src="../assets/images/logo.svg">
-          </div>
-        </nuxt-link>
-      </div>
-      <MainMenu mobile="true"/>
-      <div class="line"></div>
-      <ul class="contacts-list pt-4">
-        <li>
-          <nuxt-link to="contacts" tag="a">
-            <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
-          </nuxt-link>
-        </li>
-        <li>
-          <a href="tel:00393314042263">
-            <font-awesome-icon :icon="['fas', 'phone']"/>
-          </a>
-        </li>
-        <li>
-          <a href="https://wa.me/393314042263?text=Send%20Message%20to%20Start%20the%20Chat" target="_blank">
-            <font-awesome-icon :icon="['fab', 'whatsapp']"/>
-          </a>
-        </li>
-        <li>
-          <a href="mailto:info@weddingdeejayamalficoast.com" target="_blank">
-            <font-awesome-icon :icon="['fas', 'envelope']"/>
-          </a>
-        </li>
-      </ul>
 
-      <ul class="social-list pt-2">
-        <li>
-          <a :href="$config.linkInstagram" target="_blank">
-            <font-awesome-icon :icon="['fab', 'instagram']"/>
-          </a>
-        </li>
-        <li>
-          <a :href="$config.linkFacebook" target="_blank">
-            <font-awesome-icon :icon="['fab', 'facebook']"/>
-          </a>
-        </li>
-        <li>
-          <a :href="$config.linkVimeo" target="_blank">
-            <font-awesome-icon :icon="['fab', 'vimeo']"/>
-          </a>
-        </li>
-        <li>
-          <a :href="$config.linkTikTok" target="_blank">
-            <font-awesome-icon :icon="['fab', 'tiktok']"/>
-          </a>
-        </li>
-      </ul>
+        <client-only>
+
+          <ul class="text-primary font-poppins font-bold flex justify-center mt-5 text-2xl space-x-3">
+            <li>
+              <a :href="config.public.linkFacebook" target="_blank">
+                <font-awesome-icon :icon="['fab', 'facebook']" class="w-[24px]"/>
+              </a>
+            </li>
+            <li>
+              <a :href="config.public.linkInstagram" target="_blank">
+                <font-awesome-icon :icon="['fab', 'instagram']" class="w-[24px]"/>
+              </a>
+            </li>
+            <li>
+              <a :href="config.public.linkVimeo" target="_blank">
+                <font-awesome-icon :icon="['fab', 'vimeo']" class="w-[24px]"/>
+              </a>
+            </li>
+            <li>
+              <a :href="config.public.linkTikTok" target="_blank">
+                <font-awesome-icon :icon="['fab', 'tiktok']" class="w-[24px]"/>
+              </a>
+            </li>
+
+            <li>
+              <a :href="`https://wa.me/${config.public.whatsApp_1}?text=Send%20Message%20to%20Start%20the%20Chat`"
+                 target="_blank">
+                <font-awesome-icon :icon="['fab', 'whatsapp']" class="w-[24px]"/>
+              </a>
+            </li>
+
+          </ul>
+          <ul class="mt-10">
+
+
+            <li class="m-5 text-center font-montserrat" key="home">
+              <NuxtLink to="/" class="uppercase text-xl font-bold text-white"
+                        :class="isLinkActive('/') ? 'font-black !text-primary' : ''"
+              >
+                <span @click="closeSidebar()">HOME</span>
+
+              </NuxtLink>
+            </li>
+            <li v-for="item in menuData" class="m-5 text-center font-montserrat" :key="item.slug">
+              <NuxtLink
+                  :to="'/' + item.slug" class="uppercase text-xl font-bold tracking-wider text-white"
+                  :class="isLinkActive(item.slug) ? 'font-black !text-primary' : ''"
+              >
+                <span @click="closeSidebar()">{{ item.name }}</span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </client-only>
+      </nav>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Sidenav",
 
-  methods: {
-    closeSidebar() {
-      this.$nextTick(() => {
-        const body = document.querySelector('body')
-        body.classList.add('overflow-y');
-        body.classList.remove('overflow-hidden');
-        this.$refs.sidemenu.classList.remove('slide-in');
-        this.$refs.sidemenu.classList.add('slide-out')
-        this.$refs.backdrop.classList.remove('backdrop-on');
-        this.$refs.backdrop.classList.add('backdrop-off');
+<script setup>
+import {ref, onMounted} from 'vue';
+import {emitter as eventBus} from "../utils/eventBus";
+import menu from '~/static/data/menu.json';
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {useRoute, useRuntimeConfig} from "#app";
 
-      });
-    }
-  },
+const menuData = ref([]);
+const sidemenu = ref(null);
+const backdrop = ref(null);
 
-  mounted() {
-    this.$nuxt.$on('open-sidemenu', () => {
-      this.$nextTick(() => {
-        const body = document.querySelector('body')
-        body.classList.remove('overflow-y');
-        body.classList.add('overflow-hidden');
 
-        this.$refs.sidemenu.classList.remove('slide-out');
-        this.$refs.sidemenu.classList.add('slide-in');
-        this.$refs.backdrop.classList.remove('backdrop-off');
-        this.$refs.backdrop.classList.add('backdrop-on');
-        console.log('a');
-      });
-    });
+const config = useRuntimeConfig();
 
-    this.$nuxt.$on('close-sidemenu', () => {
-      this.$nextTick(() => {
-        const body = document.querySelector('body')
-        body.classList.add('overflow-y');
-        body.classList.remove('overflow-hidden');
-        console.log('CLOSE');
-        this.$refs.sidemenu.classList.remove('slide-in');
-        this.$refs.sidemenu.classList.add('slide-out')
-        this.$refs.backdrop.classList.remove('backdrop-on');
-        this.$refs.backdrop.classList.add('backdrop-off');
+const route = useRoute();
 
-      });
-    })
-  },
+console.log('Current route path:', route.path);
 
+const isLinkActive = (slug) => {
+  // Gestione speciale per l'homepage
+  if (slug === '/') {
+    return route.path === '/'
+  }
+
+  // Array di slug che devono essere attivi anche nelle sottopagine
+  const parentSlugs = ['venues', 'artists', 'livesets']
+
+  if (parentSlugs.includes(slug)) {
+    return route.path.startsWith('/' + slug)
+  }
+
+  return route.path === '/' + slug
 }
+
+const closeSidebar = () => {
+  nextTick(() => {
+    sidemenu.value.classList.remove('slide-in');
+    sidemenu.value.classList.add('slide-out')
+    backdrop.value.classList.remove('backdrop-on');
+    backdrop.value.classList.add('backdrop-off');
+  });
+};
+
+onMounted(() => {
+  menuData.value = menu;
+  console.log(menuData);
+  eventBus.on('openSideNav', () => {
+    nextTick(() => {
+      sidemenu.value.classList.remove('slide-out');
+      sidemenu.value.classList.add('slide-in');
+      backdrop.value.classList.remove('backdrop-off');
+      backdrop.value.classList.add('backdrop-on');
+    });
+  })
+
+  eventBus.on('closeSideNav', () => {
+    nextTick(() => {
+      sidemenu.value.classList.remove('slide-in');
+      sidemenu.value.classList.add('slide-out')
+      backdrop.value.classList.remove('backdrop-on');
+      backdrop.value.classList.add('backdrop-off');
+    });
+  })
+});
 </script>
 
+
 <style lang="scss" scoped>
-@import '../assets/scss/variables';
 
 .close-button {
   position: absolute;
-  top: calc(50vh - 30px);
-  left: -20px;
   border: 0;
   background: transparent;
-  font-size: 30px;
-  color: $primary;
 }
 
 .lang-box {
@@ -154,7 +167,29 @@ export default {
   background-color: black;
   animation: opacity-on 0.5s ease-in;
   -webkit-animation: opacity-on 0.5s ease-in;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+}
 
+.b-sidebar {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  outline: 0;
+}
+
+.b-sidebar-backdrop {
+  left: 0;
+  width: 100vw;
+  opacity: .6;
+  z-index: 9;
 }
 
 .backdrop-off {
