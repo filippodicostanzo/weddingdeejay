@@ -91,6 +91,12 @@ const fetchLiveSetData = async () => {
 
 };
 
+watch(liveSet, (newLiveSet) => {
+  if (newLiveSet) {
+    useLiveSetsSeo(newLiveSet, 'single');
+  }
+});
+
 onMounted(() => {
   fetchLiveSetData();
 });

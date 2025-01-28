@@ -20,10 +20,12 @@
 
 <script setup>
 
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRoute} from "#vue-router";
 import {useArtistService} from "~/api/services/artists";
 import Title from "~/components/Title.vue";
+import { useArtistsSeo } from '~/composables/useArtistsSeo';
+
 
 const loading = ref(true);
 const error = ref(null);
@@ -36,6 +38,7 @@ const fetchArtistData = async () => {
   loading.value = true;
   try {
     artistsData.value = await getArtists();
+    useArtistsSeo(artistsData.value, 'list');
   } catch (err) {
     console.error('Errore nel caricamento dei dati dell\'artista:', err);
     error.value = err;
@@ -47,5 +50,15 @@ const fetchArtistData = async () => {
 onMounted(() => {
   fetchArtistData();
 });
+
+
+// Aggiorniamo la SEO quando cambiano i dati degli artisti
+watch(artistsData, (newArtists) => {
+  if (newArtists?.length) {
+    useArtistsSeo(newArtists);
+  }
+});
+
+
 
 </script>

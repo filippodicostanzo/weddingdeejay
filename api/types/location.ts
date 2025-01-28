@@ -2,6 +2,7 @@
 import type { BaseEntity, Image } from './common'
 
 export interface Location extends BaseEntity {
+    identifier: string;
     name: string;
     url: string;
     description: string;

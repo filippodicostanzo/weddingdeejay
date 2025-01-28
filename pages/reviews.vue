@@ -62,6 +62,7 @@ const fetchReviewData = async () => {
   loading.value = true;
   try {
     reviewsData.value = await getReviews();
+    useReviewsSeo(reviewsData.value);
   } catch (err) {
     console.error('Error loading review data:', err);
     error.value = err;

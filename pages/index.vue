@@ -91,6 +91,13 @@ const fetchAllData = async () => {
   }
 }
 
+watch([artists, instagram, livesets, locations, packages, playlists, reviews, services, vimeo],
+    ([newArtists, newInstagram, newLivesets, newLocations, newPackages, newPlaylists, newReviews, newServices, newVimeo]) => {
+      if (!loading.value && newArtists?.length) {
+        useHomeSeo();
+      }
+    });
+
 onMounted(() => {
   console.log('Component mounted, starting packages fetch...')
   fetchAllData()

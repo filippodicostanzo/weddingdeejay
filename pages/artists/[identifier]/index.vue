@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, watch} from 'vue';
 import {useRoute} from 'vue-router';
 import {useArtistService} from '~/api/services/artists.ts';
 import Title from '~/components/Title.vue';
@@ -106,6 +106,7 @@ const fetchArtistData = async () => {
     const artistsData = await getArtists();
     const artistIdentifier = route.params.identifier;
     artist.value = artistsData.find(a => a.identifier === artistIdentifier);
+    useArtistsSeo(artist.value, 'single');
   } catch (err) {
     console.error('Errore nel caricamento dei dati dell\'artista:', err);
     error.value = err;
@@ -119,6 +120,12 @@ const filteredSocial = computed(() => {
     return Object.entries(artist.value.social).filter(([key]) => key !== 'id');
   }
   return [];
+});
+
+watch(artist, (newArtist) => {
+  if (newArtist) {
+    useArtistsSeo(newArtist, 'single');
+  }
 });
 
 onMounted(() => {

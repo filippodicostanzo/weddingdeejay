@@ -353,6 +353,8 @@ import {useReCaptcha} from "vue-recaptcha-v3";
 import _ from 'lodash'
 import qs from "qs";
 import axios from "axios"; // Aggiungi questa importazione
+import { useSongsSeo } from '~/composables/useSongsSeo';
+
 
 
 // Utilizziamo il composable useAuth
@@ -599,6 +601,8 @@ onMounted(async () => {
       console.error('reCAPTCHA initialization error:', e)
     }
   }
+
+  useSongsSeo();
 })
 
 </script>

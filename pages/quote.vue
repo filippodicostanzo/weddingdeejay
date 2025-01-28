@@ -569,6 +569,8 @@ const modalType = ref<'package' | 'artist'>('package')
 const modalData = ref<Package | Artist | null>(null)
 const config = useRuntimeConfig()
 
+
+
 // Corretta inizializzazione del reCAPTCHA
 const { recaptchaLoaded, executeRecaptcha } = useReCaptcha()
 
@@ -921,6 +923,10 @@ onMounted(async () => {
       formError.value = 'Error loading data. Please refresh the page.'
     }
   }
+})
+
+onMounted(()=>{
+  useQuoteSeo();
 })
 </script>
 

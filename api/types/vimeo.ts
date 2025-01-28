@@ -4,6 +4,25 @@ export interface Video {
     name: string
     description: string
     created_time: string
+    embed: {
+        html: string;
+        badges: {
+            hdr: boolean;
+            live: {
+                streaming: boolean;
+                archived: boolean;
+            };
+            staff_pick: {
+                normal: boolean;
+                best_of_the_month: boolean;
+                best_of_the_year: boolean;
+                premiere: boolean;
+            };
+            vod: boolean;
+            weekend_challenge: boolean;
+        };
+        interactive: boolean;
+    }
     pictures: {
         sizes: Array<{
             width: number

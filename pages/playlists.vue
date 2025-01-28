@@ -53,6 +53,7 @@ const fetchPlaylistData = async () => {
 
 onMounted(() => {
   fetchPlaylistData();
+  usePlaylistsSeo(playlistsData.value);
 });
 
 </script>

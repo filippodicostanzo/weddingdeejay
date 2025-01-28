@@ -53,6 +53,7 @@ const fetchPackageData = async () => {
   loading.value = true;
   try {
     packagesData.value = await getPackages();
+    usePackagesSeo(packagesData.value);
   } catch (err) {
     console.error('Error loading package data:', err);
     error.value = err;

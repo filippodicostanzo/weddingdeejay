@@ -36,7 +36,7 @@
 
 import Title from "~/components/Title.vue";
 import {useLocationService} from "~/api/services/locations";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 
 const loading = ref(true);
 const error = ref(null);
@@ -56,8 +56,15 @@ const fetchLocationData = async () => {
   }
 }
 
+watch(locationsData, (newLocations) => {
+  if (newLocations?.length) {
+    useVenuesSeo(newLocations);
+  }
+});
+
 onMounted(() => {
   fetchLocationData();
+  useVenuesSeo(locationsData.value, 'list');
 });
 
 </script>

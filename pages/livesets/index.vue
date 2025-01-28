@@ -57,8 +57,14 @@ const fetchAllData = async () => {
 
 onMounted(() => {
   fetchAllData()
+  useLiveSetsSeo(livesets.value, 'list');
 })
 
+watch(livesets, (newLivesets) => {
+  if (newLivesets?.length) {
+    useLiveSetsSeo(newLivesets);
+  }
+});
 
 </script>
 

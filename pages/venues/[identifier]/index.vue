@@ -45,7 +45,7 @@
 <script setup lang="ts">
 
 import Title from "~/components/Title.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useRoute} from "#vue-router";
 import {useLocationService} from "~/api/services/locations";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
@@ -70,6 +70,12 @@ const fetchLocationsData = async () => {
     loading.value = false;
   }
 };
+
+watch(venue, (newVenue) => {
+  if (newVenue) {
+    useVenuesSeo(newVenue, 'single');
+  }
+});
 
 onMounted(() => {
   fetchLocationsData();

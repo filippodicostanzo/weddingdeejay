@@ -15,12 +15,12 @@
             @click="retryFetch"
             class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
         >
-          Riprova
+          Retry
         </button>
       </div>
 
       <div v-else-if="!videos.length" class="text-center p-4">
-        <p>Nessun video disponibile al momento.</p>
+        <p>No videos available at the moment.</p>
       </div>
 
       <div v-else class="grid md:grid-cols-2 gap-8 lg:px-0 px-6">
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useVimeoService } from '~/api/services/vimeo'
 import { useLocationService } from '~/api/services/locations'
 import LoadSpinner from '~/components/LoadSpinner.vue'
@@ -87,11 +87,18 @@ const locations = ref([])
 const vimeoService = useVimeoService()
 const locationService = useLocationService()
 
+const updateSeo = () => {
+  if (videos.value.length || locations.value.length) {
+    useShowcaseSeo(videos.value, locations.value);
+  }
+};
+
 // Funzioni per il fetching dei dati
 const fetchVimeoData = async () => {
   try {
     const response = await vimeoService.getVideos()
     videos.value = response.data || []
+    updateSeo()
   } catch (err) {
     console.error('Errore nel caricamento dei video:', err)
     error.value = {
@@ -104,6 +111,7 @@ const fetchLocationData = async () => {
   try {
     const response = await locationService.getLocations()
     locations.value = response || []
+    updateSeo()
   } catch (err) {
     console.error('Errore nel caricamento delle locations:', err)
   }
@@ -128,6 +136,12 @@ const retryFetch = async () => {
 onMounted(async () => {
   await retryFetch()
 })
+
+
+// Aggiorniamo la SEO quando cambiano i dati
+watch([videos, locations], () => {
+  updateSeo()
+}, { deep: true })
 </script>
 
 <style scoped>

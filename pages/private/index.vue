@@ -63,6 +63,10 @@ const submit = () => {
     }, 3000)
   }
 }
+
+onMounted(() => {
+  usePrivateSeo();
+});
 </script>
 
 

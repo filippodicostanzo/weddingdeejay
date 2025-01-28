@@ -39,7 +39,7 @@
 
 <script setup>
 import Title from "~/components/Title.vue";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, watch} from "vue";
 import {useServiceService} from "~/api/services/services";
 import PhotoGrid from "~/components/PhotoGrid.vue";
 
@@ -55,6 +55,7 @@ const fetchServiceData = async () => {
   loading.value = true;
   try {
     servicesData.value = await getServices();
+    useServicesSeo(servicesData.value);
   } catch (err) {
     console.error('Error loading service data:', err);
     error.value = err;
@@ -65,6 +66,13 @@ const fetchServiceData = async () => {
 
 onMounted(() => {
   fetchServiceData();
+});
+
+// Aggiorniamo la SEO quando cambiano i servizi
+watch(servicesData, (newServices) => {
+  if (newServices?.length) {
+    useServicesSeo(newServices);
+  }
 });
 
 </script>
