@@ -104,5 +104,5 @@ const rightItems = [
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/_animations.scss';
+@use '@/assets/scss/_animations.scss';
 </style>
