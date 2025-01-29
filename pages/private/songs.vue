@@ -99,6 +99,7 @@
                   v-model="state.date"
                   type="date"
                   class="w-full"
+                  min-date="today"
                   :class="{ 'border-red-500': v$.date.$error }"
                   :disabled-date="notBeforeToday"
                   :enable-time-picker="false"
@@ -351,7 +352,6 @@ import Datepicker from "@vuepic/vue-datepicker";
 import Title from "~/components/Title.vue";
 import {useReCaptcha} from "vue-recaptcha-v3";
 import _ from 'lodash'
-import qs from "qs";
 import axios from "axios"; // Aggiungi questa importazione
 import { useSongsSeo } from '~/composables/useSongsSeo';
 
@@ -550,7 +550,7 @@ const submit = async () => {
     stringPlaylists += '</ul>'
 
     // Prepare form data
-    const formData = {
+    const data = {
       sender: config.public.contactMailSender,
       receiver: config.public.contactMailReceiver,
       namesender: 'Contact Form Wedding Deejay',
@@ -572,12 +572,17 @@ const submit = async () => {
 
     }
 
-    // Send form data
-    await axios.post('https://php.localidautore.it/phpmailer/', qs.stringify(formData), {
+    const formData = new URLSearchParams()
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    await axios.post('https://php.localidautore.it/phpmailer/', formData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
+
 
     sentMessage.value = true
     formSubmitted.value = true // Aggiungi questa riga

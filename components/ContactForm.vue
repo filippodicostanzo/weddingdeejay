@@ -106,7 +106,7 @@ import {useVuelidate} from '@vuelidate/core'
 import {useReCaptcha} from 'vue-recaptcha-v3';
 import {email, minLength, required} from '@vuelidate/validators'
 import axios from 'axios'
-import qs from 'qs'
+
 
 
 const config = useRuntimeConfig()
@@ -199,7 +199,12 @@ const send = async () => {
       message: form.message
     }
 
-    await axios.post('https://php.localidautore.it/phpmailer/', qs.stringify(data), {
+    const formData = new URLSearchParams()
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    await axios.post('https://php.localidautore.it/phpmailer/', formData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }

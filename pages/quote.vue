@@ -550,7 +550,6 @@ import countries from '~/static/data/countries.json'
 import Title from "~/components/Title.vue";
 import {useRuntimeConfig} from "nuxt/app";
 import axios from 'axios'
-import qs from 'qs'
 import {useReCaptcha} from "vue-recaptcha-v3";
 
 
@@ -813,12 +812,17 @@ const handleSubmit = async () => {
             return `${availableCategories.value.find(c => c.identifier === key)?.name}: ${form.selectedArtists[key]?.name || 'None'}`
           }
           return ''
-        }).join('<br>')} <br>le
+        }).join('<br>')} <br>
         Additional Message: ${form.message || 'No message provided'}
       `
     }
 
-    await axios.post('https://php.localidautore.it/phpmailer/', qs.stringify(data), {
+    const formData = new URLSearchParams()
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+
+    await axios.post('https://php.localidautore.it/phpmailer/', formData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
