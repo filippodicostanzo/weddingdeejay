@@ -6,10 +6,14 @@
   >
     <SwiperSlide v-for="artist in artists" :key="artist.identifier" class="h-full mb-12">
       <div class="flex flex-col h-full">
-        <div class="image-layer" :style="{'background-image': `url(${artist.cover.url})`}">
-        </div>
+        <NuxtLink :to="`artists/${artist.identifier}`" class="font-montserrat text-xs">
+          <div class="image-layer" :style="{'background-image': `url(${artist.cover.url})`}">
+          </div>
+        </NuxtLink>
         <div class="box-container flex-1">
-          <h2 class="text-2xl font-black font-montserrat text-center">{{ artist.name }}</h2>
+          <NuxtLink :to="`artists/${artist.identifier}`" class="font-montserrat text-xs">
+            <h2 class="text-2xl font-black font-montserrat text-center">{{ artist.name }}</h2>
+          </NuxtLink>
           <div class="category bg-primary px-4 text-white mx-auto rounded-3xl text-sm items-center py-1 flex mt-3">
             <span>{{ artist.category.name }}</span>
           </div>
@@ -37,10 +41,11 @@
               </li>
             </ul>
           </div>
-          <div v-html="truncateText(artist.biography, 120)" class="text-center font-montserrat font-light text-sm"></div>
+          <div v-html="truncateText(artist.biography, 120)"
+               class="text-center font-montserrat font-light text-sm"></div>
           <div class="text-center">
           <span class="bg-primary text-white rounded-3xl py-2 px-5 max-w-[110px] mx-auto flex justify-center mt-5">
-            <NuxtLink :to="`artists/${artist.identifier}`"  class="font-montserrat text-xs">
+            <NuxtLink :to="`artists/${artist.identifier}`" class="font-montserrat text-xs">
               Read more
             </NuxtLink>
           </span>
@@ -52,7 +57,7 @@
 </template>
 
 <script setup>
-import { SwiperSlide } from 'swiper/vue'
+import {SwiperSlide} from 'swiper/vue'
 import BaseCarousel from "~/components/carousel/BaseCarousel.vue"
 
 defineProps({

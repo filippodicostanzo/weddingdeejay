@@ -27,15 +27,18 @@
         <div v-for="liveset in data"
              :key="liveset.id"
              class="group relative overflow-hidden transition-transform duration-300 px-4">
-          <img :src="liveset.cover.url" :alt="liveset.name">
-<!--          <iframe
-              :src="getIframeSrc(liveset.iframe)"
-              width="100%"
-              height="380"
-              frameBorder="0"
-              allowtransparency="true"
-              allow="encrypted-media">
-          </iframe>-->
+          <nuxt-link :to="`/livesets/${liveset.identifier}`">
+
+            <img :src="liveset.cover.url" :alt="liveset.name">
+            <!--          <iframe
+                          :src="getIframeSrc(liveset.iframe)"
+                          width="100%"
+                          height="380"
+                          frameBorder="0"
+                          allowtransparency="true"
+                          allow="encrypted-media">
+                      </iframe>-->
+          </nuxt-link>
         </div>
       </div>
     </div>

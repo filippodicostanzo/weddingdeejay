@@ -31,7 +31,7 @@
         <div v-html="truncateText(review.review, 150)" class="font-montserrat  font-light text-center"></div>
         <div class="text-center my-5">
           <span class="bg-primary text-white rounded-3xl py-2 px-5 max-w-[110px] mx-auto flex justify-center">
-            <NuxtLink to="/services" class="font-montserrat text-xs">
+            <NuxtLink to="/reviews" class="font-montserrat text-xs">
               Read more
             </NuxtLink>
           </span>
