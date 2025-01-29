@@ -22,23 +22,23 @@ const config = useRuntimeConfig();
         </div>
 
         <div>
-          <h2 class="text-primary font-bold text-4xl font-montserrat text-center lg:text-left">Sitemap</h2>
+          <h2 class="text-primary font-bold text-4xl font-montserrat text-center lg:text-left">Useful Links</h2>
           <ul class="sitemap-list space-y-4">
             <li class="mt-4 flex items-center justify-center lg:justify-start">
               <font-awesome-icon :icon="['fas', 'forward']" class="text-primary mr-2"/>
-              <nuxt-link to="/services" tag="a" class="text-white text-l font-montserrat">Services</nuxt-link>
+              <nuxt-link to="/useful-links/siae-tax" tag="a" class="text-white text-l font-montserrat">Siae Tax</nuxt-link>
             </li>
             <li class=" flex items-center justify-center lg:justify-start">
               <font-awesome-icon :icon="['fas', 'forward']" class="text-primary mr-2"/>
-              <nuxt-link to="/artists" tag="a" class="text-white text-l font-montserrat">Artists</nuxt-link>
+              <nuxt-link to="/private" tag="a" class="text-white text-l font-montserrat">Private</nuxt-link>
             </li>
             <li class=" flex items-center justify-center lg:justify-start">
               <font-awesome-icon :icon="['fas', 'forward']" class="text-primary mr-2"/>
-              <nuxt-link to="/packages" tag="a" class="text-white text-l font-montserrat">Packages</nuxt-link>
+              <nuxt-link to="/quote" tag="a" class="text-white text-l font-montserrat">Quote</nuxt-link>
             </li>
             <li class=" flex items-center justify-center lg:justify-start">
               <font-awesome-icon :icon="['fas', 'forward']" class="text-primary mr-2"/>
-              <nuxt-link to="/playlists" tag="a" class="text-white text-l font-montserrat">Playlists</nuxt-link>
+              <nuxt-link to="/showcase" tag="a" class="text-white text-l font-montserrat">Showcase</nuxt-link>
             </li>
           </ul>
         </div>

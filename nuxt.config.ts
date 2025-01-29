@@ -52,14 +52,18 @@ export default defineNuxtConfig({
                 'artists/contacts',
                 'venues/contacts',
                 'livesets/contacts',
+                '/useful-links/contacts'
                 // ignora tutte le sottopagine di private
             ]
         }
     },
     hooks: {
         'nitro:config': async (nitroConfig) => {
+            // @ts-ignore
             const {useArtistService} = await import('./api/services/artists')
+            // @ts-ignore
             const {useLocationService} = await import('./api/services/locations')
+            // @ts-ignore
             const { useLiveSetService } = await import('./api/services/livesets')
 
             const artistService = useArtistService()
