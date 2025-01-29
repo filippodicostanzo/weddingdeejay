@@ -25,7 +25,7 @@
       <div v-else class="grid md:grid-cols-2 gap-8">
         <div v-for="item in data"
              :key="item.uri"
-             class="w-full">
+             class="w-full z-10">
           <div v-if="item?.embed?.html"
                v-html="item.embed.html"
                class="video-embed w-full aspect-video rounded-lg overflow-hidden">
