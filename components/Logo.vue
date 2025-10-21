@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {computed} from 'vue'
-import {PropType} from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   type: 'header' | 'footer'
@@ -17,6 +16,4 @@ const imgClass = computed(() => {
   </nuxt-link>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,26 +1,16 @@
 <template>
   <section class="slider">
-    <Swiper
-        :modules="modules"
-        :slides-per-view="1"
-        :loop="true"
-        :autoplay="{
-        delay: 5000,
-        disableOnInteraction: false
-      }"
-        :pagination="{
+    <Swiper :modules="modules" :slides-per-view="1" :loop="true" :autoplay="{
+      delay: 5000,
+      disableOnInteraction: false
+    }" :pagination="{
         clickable: true
-      }"
-        :navigation="{
+      }" :navigation="{
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
-      }"
-        @swiper="onSwiper"
-        @slideChange="onSlideChange"
-        class="w-full ml-auto relative"
-    >
+      }" @swiper="onSwiper" @slideChange="onSlideChange" class="w-full ml-auto relative">
       <SwiperSlide v-for="slide in slides" :key="slide.id">
-        <div class="image-layer" :style="{'background-image': `url(${slide.img})`}">
+        <div class="image-layer" :style="{ 'background-image': `url(${slide.img})` }">
           <div class="container lg:px-20">
             <div class="row">
               <div class="lg:col-xl-8 lg:col-lg-8 md:pl-12 pl-6">
@@ -28,7 +18,8 @@
                 <h2 class="slider-header">
                   <span class="ltx-desktop hidden lg:block">
                     <svg viewBox="0 0 1100 120">
-                      <text x="4px" y="45%" alignment-baseline="central" dominant-baseline="middle" class="hidden-mobile">
+                      <text x="4px" y="45%" alignment-baseline="central" dominant-baseline="middle"
+                        class="hidden-mobile">
                         {{ slide.text }}
                       </text>
                     </svg>
@@ -58,9 +49,6 @@
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
 
 const modules = [Autoplay, Pagination, Navigation]
 
@@ -140,7 +128,9 @@ const scrollToServices = () => {
   }
 
   .swiper-slide {
-    .tagline-up, .tagline-down {
+
+    .tagline-up,
+    .tagline-down {
       display: block;
       font-size: 16px;
       font-weight: 700;
@@ -205,7 +195,11 @@ const scrollToServices = () => {
   }
 
   .swiper-slide-active {
-    .tagline-up, .tagline-down, h2, .btn-container {
+
+    .tagline-up,
+    .tagline-down,
+    h2,
+    .btn-container {
       visibility: visible;
       opacity: 1;
       transform: translateY(0) translateX(0);
@@ -244,7 +238,11 @@ const scrollToServices = () => {
 
 @media screen and (max-width: 991px) {
   .slider .swiper-slide-active {
-    .tagline-up, .tagline-down, h2, .btn-container {
+
+    .tagline-up,
+    .tagline-down,
+    h2,
+    .btn-container {
       transform: translateY(0) translateX(0);
     }
   }
@@ -264,7 +262,9 @@ const scrollToServices = () => {
 
 @media (max-width: 575px) {
   .slider .swiper-slide {
-    .tagline-up, .tagline-down {
+
+    .tagline-up,
+    .tagline-down {
       font-size: 14px;
     }
   }
@@ -275,6 +275,4 @@ const scrollToServices = () => {
     stroke-dashoffset: 0;
   }
 }
-
-
 </style>

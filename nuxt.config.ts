@@ -57,6 +57,14 @@ export default defineNuxtConfig({
             ]
         }
     },
+    vite: {
+        ssr: {
+            noExternal: ["form-data"],
+        },
+        optimizeDeps: {
+            include: ['@babel/parser']
+        }
+    },
     hooks: {
         'nitro:config': async (nitroConfig) => {
             // @ts-ignore
