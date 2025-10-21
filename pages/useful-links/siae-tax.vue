@@ -114,7 +114,7 @@
       </div>
 
       <!-- Contact Section -->
-      <div class="mt-12 text-center">
+      <div class="mt-12 text-center font-montserrat">
         <p class="text-gray-600">
           For more information about SIAE Tax or planning your wedding in Italy,
           <a href="/contacts" class="text-blue-600 hover:text-blue-800">contact us</a>.
