@@ -4,10 +4,11 @@
   <HomeAbout />
   <HomeArtists :data="artists" :loading="loading" />
   <HomePackages :data="packages" :loading="loading" />
-  <HomeVideos :data="vimeo" :loading="loading" />
+  <HomeYoutube :data="youtube" :loading="loading" />
   <HomeLocations :data="locations" :loading="loading" />
   <HomeInstagram :data="instagram" :loading="loading" />
   <HomePlaylists :data="playlists" :loading="loading" />
+  <HomeGoogleReviews :data="googleReviews" :loading="loading" />
   <HomeReviews :data="reviews" :loading="loading" />
   <HomeLivesets :data="livesets" :loading="loading" />
   <HomeContacts />
@@ -23,7 +24,8 @@ import { usePackageService } from '~/api/services/packages'
 import { usePlaylistService } from "~/api/services/playlists"
 import { useReviewService } from "~/api/services/reviews";
 import { useServiceService } from "~/api/services/services"
-import { useVimeoService } from '~/api/services/vimeo'
+import { useYoutubeService } from '~/api/services/youtube'
+import { useGoogleReviewsService } from '~/api/services/googlereviews'
 
 
 const artists = ref([])
@@ -33,8 +35,9 @@ const locations = ref([])
 const packages = ref([])
 const playlists = ref([])
 const reviews = ref([])
+const googleReviews = ref([])
 const services = ref([])
-const vimeo = ref([])
+const youtube = ref([])
 const loading = ref(true)  // Inizia come true
 const error = ref(null)
 
@@ -46,7 +49,8 @@ const { getPackages } = usePackageService()
 const { getPlaylists } = usePlaylistService()
 const { getReviews } = useReviewService()
 const { getServices } = useServiceService()
-const { getVideos } = useVimeoService()
+const { getVideos: getYoutubeVideos } = useYoutubeService()
+const { getReviews: getGoogleReviews } = useGoogleReviewsService()
 
 const fetchAllData = async () => {
   loading.value = true  // Settiamo loading a true all'inizio del fetch
@@ -59,8 +63,9 @@ const fetchAllData = async () => {
       packagesData,
       playlistsData,
       reviewsData,
+      googleReviewsData,
       serivcesData,
-      vimeoData
+      youtubeData
     ] = await Promise.all([
       getArtists(),
       getPosts(),
@@ -69,8 +74,9 @@ const fetchAllData = async () => {
       getPackages(),
       getPlaylists(),
       getReviews(),
+      getGoogleReviews(),
       getServices(),
-      getVideos(),
+      getYoutubeVideos()
     ])
 
     artists.value = artistsData
@@ -80,8 +86,13 @@ const fetchAllData = async () => {
     packages.value = packagesData
     playlists.value = playlistsData
     reviews.value = reviewsData
+    googleReviews.value = googleReviewsData
     services.value = serivcesData
-    vimeo.value = vimeoData?.data ? vimeoData.data.slice(0, 6) : []
+    youtube.value = youtubeData?.data ? youtubeData.data.slice(0, 6) : []
+
+    console.log('📺 YouTube Data received:', youtubeData)
+    console.log('📺 YouTube videos assigned:', youtube.value)
+    console.log('📺 YouTube videos count:', youtube.value?.length)
 
   } catch (err) {
     console.error('Errore nel caricamento dei dati:', err)
@@ -91,8 +102,8 @@ const fetchAllData = async () => {
   }
 }
 
-watch([artists, instagram, livesets, locations, packages, playlists, reviews, services, vimeo],
-  ([newArtists, newInstagram, newLivesets, newLocations, newPackages, newPlaylists, newReviews, newServices, newVimeo]) => {
+watch([artists, instagram, livesets, locations, packages, playlists, reviews, googleReviews, services, youtube],
+  ([newArtists, newInstagram, newLivesets, newLocations, newPackages, newPlaylists, newReviews, newGoogleReviews, newServices, newYoutube]) => {
     if (!loading.value && newArtists?.length) {
       useHomeSeo();
     }

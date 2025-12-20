@@ -1,4 +1,3 @@
-
 <template>
   <div>
 
@@ -11,7 +10,8 @@
         </a>
       </li>
       <li class="flex items-center justify-center my-8">
-        <a :href="`https://wa.me/${config.public.whatsApp_1}?text=Send%20Message%20to%20Start%20the%20Chat`" target="_blank" class="flex items-center font-montserrat text-xl">
+        <a :href="`https://wa.me/${config.public.whatsApp_1}?text=Send%20Message%20to%20Start%20the%20Chat`"
+          target="_blank" class="flex items-center font-montserrat text-xl">
           <img src="/icons/whatsapp.png" width="30" class="image-filter mr-3" alt="WhatsApp">
           {{ config.public.phone_1 }}
         </a>
@@ -19,7 +19,7 @@
       <li class="flex items-center justify-center my-8">
         <a :href="`mailto:${config.public.mail}`" class="flex items-center font-montserrat text-xl ">
           <img src="/icons/email.png" width="30" class="image-filter mr-3" alt="Email">
-         Email
+          Email
         </a>
       </li>
       <li class="flex items-center justify-center my-8">
@@ -42,8 +42,8 @@
         </a>
       </li>
       <li class="flex items-center justify-center mx-2">
-        <a :href="config.public.linkVimeo" target="_blank" class="flex items-center">
-          <img src="/icons/vimeo.png" width="30" class="image-filter" alt="Vimeo">
+        <a :href="config.public.linkYoutube" target="_blank" class="flex items-center">
+          <img src="/icons/youtube.png" width="30" class="image-filter" alt="YouTube">
         </a>
       </li>
       <li class="flex items-center justify-center mx-2">
@@ -57,12 +57,10 @@
 </template>
 <script setup lang="ts">
 
-import {useRuntimeConfig} from "#app";
+import { useRuntimeConfig } from "#app";
 
 const config = useRuntimeConfig();
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

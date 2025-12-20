@@ -118,6 +118,7 @@ export default defineNuxtConfig({
             linkInstagram: process.env.NUXT_PUBLIC_INSTAGRAM_URL,
             linkFacebook: process.env.NUXT_PUBLIC_FACEBOOK_URL,
             linkVimeo: process.env.NUXT_PUBLIC_VIMEO_URL,
+            linkYoutube: process.env.NUXT_PUBLIC_YOUTUBE_URL || 'https://www.youtube.com/@wedding-deejay',
             linkTikTok: process.env.NUXT_PUBLIC_TIKTOK_URL,
             phone_1: process.env.NUXT_PUBLIC_PHONE_1,
             whatsApp_1: process.env.NUXT_PUBLIC_WHATSAPP_URL_1,

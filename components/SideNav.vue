@@ -4,7 +4,7 @@
 
     <div class="b-sidebar-right b-sidebar bg-secondary" ref="sidemenu">
       <button class="close-button text-white left-3 text-2xl top-5" @click="closeSidebar">
-        <font-awesome-icon :icon="['fas', 'times']" class="w-[20px] top-[10px]"/>
+        <font-awesome-icon :icon="['fas', 'times']" class="w-[20px] top-[10px]" />
       </button>
       <nav class="mobile-menu">
 
@@ -14,29 +14,29 @@
           <ul class="text-primary font-poppins font-bold flex justify-center mt-5 text-2xl space-x-3">
             <li>
               <a :href="config.public.linkFacebook" target="_blank">
-                <font-awesome-icon :icon="['fab', 'facebook']" class="w-[24px]"/>
+                <font-awesome-icon :icon="['fab', 'facebook']" class="w-[24px]" />
               </a>
             </li>
             <li>
               <a :href="config.public.linkInstagram" target="_blank">
-                <font-awesome-icon :icon="['fab', 'instagram']" class="w-[24px]"/>
+                <font-awesome-icon :icon="['fab', 'instagram']" class="w-[24px]" />
               </a>
             </li>
             <li>
-              <a :href="config.public.linkVimeo" target="_blank">
-                <font-awesome-icon :icon="['fab', 'vimeo']" class="w-[24px]"/>
+              <a :href="config.public.linkYoutube" target="_blank">
+                <font-awesome-icon :icon="['fab', 'youtube']" class="w-[24px]" />
               </a>
             </li>
             <li>
               <a :href="config.public.linkTikTok" target="_blank">
-                <font-awesome-icon :icon="['fab', 'tiktok']" class="w-[24px]"/>
+                <font-awesome-icon :icon="['fab', 'tiktok']" class="w-[24px]" />
               </a>
             </li>
 
             <li>
               <a :href="`https://wa.me/${config.public.whatsApp_1}?text=Send%20Message%20to%20Start%20the%20Chat`"
-                 target="_blank">
-                <font-awesome-icon :icon="['fab', 'whatsapp']" class="w-[24px]"/>
+                target="_blank">
+                <font-awesome-icon :icon="['fab', 'whatsapp']" class="w-[24px]" />
               </a>
             </li>
 
@@ -46,17 +46,14 @@
 
             <li class="m-5 text-center font-montserrat" key="home">
               <NuxtLink to="/" class="uppercase text-xl font-bold text-white"
-                        :class="isLinkActive('/') ? 'font-black !text-primary' : ''"
-              >
+                :class="isLinkActive('/') ? 'font-black !text-primary' : ''">
                 <span @click="closeSidebar()">HOME</span>
 
               </NuxtLink>
             </li>
             <li v-for="item in menuData" class="m-5 text-center font-montserrat" :key="item.slug">
-              <NuxtLink
-                  :to="'/' + item.slug" class="uppercase text-xl font-bold tracking-wider text-white"
-                  :class="isLinkActive(item.slug) ? 'font-black !text-primary' : ''"
-              >
+              <NuxtLink :to="'/' + item.slug" class="uppercase text-xl font-bold tracking-wider text-white"
+                :class="isLinkActive(item.slug) ? 'font-black !text-primary' : ''">
                 <span @click="closeSidebar()">{{ item.name }}</span>
               </NuxtLink>
             </li>
@@ -69,11 +66,11 @@
 
 
 <script setup>
-import {ref, onMounted} from 'vue';
-import {emitter as eventBus} from "../utils/eventBus";
+import { ref, onMounted } from 'vue';
+import { emitter as eventBus } from "../utils/eventBus";
 import menu from '~/static/data/menu.json';
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import {useRoute, useRuntimeConfig} from "#app";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useRoute, useRuntimeConfig } from "#app";
 
 const menuData = ref([]);
 const sidemenu = ref(null);
@@ -136,7 +133,6 @@ onMounted(() => {
 
 
 <style lang="scss" scoped>
-
 .close-button {
   position: absolute;
   border: 0;
@@ -218,6 +214,7 @@ onMounted(() => {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1 !important;
   }
@@ -227,6 +224,7 @@ onMounted(() => {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1 !important;
   }
@@ -236,6 +234,7 @@ onMounted(() => {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -245,6 +244,7 @@ onMounted(() => {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -266,6 +266,7 @@ onMounted(() => {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(320px);
   }
@@ -275,6 +276,7 @@ onMounted(() => {
   0% {
     -webkit-transform: translateX(0);
   }
+
   100% {
     -webkit-transform: translateX(320px);
   }
