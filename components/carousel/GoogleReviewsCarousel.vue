@@ -42,14 +42,6 @@
                     </p>
                 </div>
 
-                <!-- Review Photos (if any) -->
-                <div v-if="review.review_photos && review.review_photos.length > 0" class="mb-4">
-                    <div class="flex gap-2 overflow-x-auto">
-                        <img v-for="(photo, index) in review.review_photos.slice(0, 3)" :key="index" :src="photo"
-                            :alt="`Review photo ${index + 1}`" class="w-20 h-20 object-cover rounded" />
-                    </div>
-                </div>
-
                 <!-- Google Logo & Read More -->
                 <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
                     <div class="flex items-center gap-2">
