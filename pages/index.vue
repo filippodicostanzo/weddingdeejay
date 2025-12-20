@@ -9,7 +9,6 @@
   <HomeInstagram :data="instagram" :loading="loading" />
   <HomePlaylists :data="playlists" :loading="loading" />
   <HomeGoogleReviews :data="googleReviews" :loading="loading" />
-  <HomeReviews :data="reviews" :loading="loading" />
   <HomeLivesets :data="livesets" :loading="loading" />
   <HomeContacts />
 </template>
@@ -22,7 +21,6 @@ import { useLiveSetService } from "~/api/services/livesets";
 import { useLocationService } from "~/api/services/locations"
 import { usePackageService } from '~/api/services/packages'
 import { usePlaylistService } from "~/api/services/playlists"
-import { useReviewService } from "~/api/services/reviews";
 import { useServiceService } from "~/api/services/services"
 import { useYoutubeService } from '~/api/services/youtube'
 import { useGoogleReviewsService } from '~/api/services/googlereviews'
@@ -34,7 +32,6 @@ const livesets = ref([])
 const locations = ref([])
 const packages = ref([])
 const playlists = ref([])
-const reviews = ref([])
 const googleReviews = ref([])
 const services = ref([])
 const youtube = ref([])
@@ -47,7 +44,6 @@ const { getLiveSets } = useLiveSetService()
 const { getLocations } = useLocationService()
 const { getPackages } = usePackageService()
 const { getPlaylists } = usePlaylistService()
-const { getReviews } = useReviewService()
 const { getServices } = useServiceService()
 const { getVideos: getYoutubeVideos } = useYoutubeService()
 const { getReviews: getGoogleReviews } = useGoogleReviewsService()
@@ -62,7 +58,6 @@ const fetchAllData = async () => {
       locationsData,
       packagesData,
       playlistsData,
-      reviewsData,
       googleReviewsData,
       serivcesData,
       youtubeData
@@ -73,7 +68,6 @@ const fetchAllData = async () => {
       getLocations(),
       getPackages(),
       getPlaylists(),
-      getReviews(),
       getGoogleReviews(),
       getServices(),
       getYoutubeVideos()
@@ -85,7 +79,6 @@ const fetchAllData = async () => {
     locations.value = locationsData
     packages.value = packagesData
     playlists.value = playlistsData
-    reviews.value = reviewsData
     googleReviews.value = googleReviewsData
     services.value = serivcesData
     youtube.value = youtubeData?.data ? youtubeData.data.slice(0, 6) : []
@@ -102,8 +95,8 @@ const fetchAllData = async () => {
   }
 }
 
-watch([artists, instagram, livesets, locations, packages, playlists, reviews, googleReviews, services, youtube],
-  ([newArtists, newInstagram, newLivesets, newLocations, newPackages, newPlaylists, newReviews, newGoogleReviews, newServices, newYoutube]) => {
+watch([artists, instagram, livesets, locations, packages, playlists, googleReviews, services, youtube],
+  ([newArtists, newInstagram, newLivesets, newLocations, newPackages, newPlaylists, newGoogleReviews, newServices, newYoutube]) => {
     if (!loading.value && newArtists?.length) {
       useHomeSeo();
     }

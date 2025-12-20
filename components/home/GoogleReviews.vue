@@ -1,18 +1,18 @@
 <template>
-    <section class="py-24 bg-secondary" id="google-reviews">
+    <section class="py-24 bg-third" id="google-reviews">
         <div class="container mx-auto px-4">
             <div class="mb-12 text-center">
                 <h4 class="text-xl font-semibold text-primary mb-2 font-architects">What our clients say</h4>
-                <h2 class="text-4xl font-bold text-white font-montserrat">Google Reviews</h2>
-                <p class="text-gray-300 mt-2 font-montserrat">Real experiences from our amazing couples</p>
+                <h2 class="text-4xl font-bold text-gray-900 font-montserrat">Google Reviews</h2>
+                <p class="text-gray-600 mt-2 font-montserrat">Real experiences from our amazing couples</p>
             </div>
 
             <LoadSpinner v-if="loading" />
 
             <div v-else-if="!data || data.length === 0" class="flex justify-center items-center min-h-[200px]">
                 <div class="text-center">
-                    <p class="text-white text-lg">No reviews available at the moment.</p>
-                    <p class="text-gray-400 mt-2">Please check back later.</p>
+                    <p class="text-gray-900 text-lg">No reviews available at the moment.</p>
+                    <p class="text-gray-600 mt-2">Please check back later.</p>
                 </div>
             </div>
 
@@ -20,24 +20,24 @@
 
             <!-- Stats Section -->
             <div v-if="data && data.length > 0" class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
                     <div class="text-4xl font-bold text-primary mb-2">{{ averageRating }}</div>
                     <div class="flex justify-center mb-2">
                         <font-awesome-icon v-for="n in 5" :key="n"
-                            :icon="n <= Math.round(averageRating) ? 'fas fa-star' : 'far fa-star'"
+                            :icon="n <= Math.round(Number(averageRating)) ? 'fas fa-star' : 'far fa-star'"
                             class="text-yellow-400" />
                     </div>
-                    <div class="text-gray-300 text-sm font-montserrat">Average Rating</div>
+                    <div class="text-gray-600 text-sm font-montserrat">Average Rating</div>
                 </div>
 
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
                     <div class="text-4xl font-bold text-primary mb-2">{{ data.length }}</div>
-                    <div class="text-gray-300 text-sm font-montserrat">Total Reviews</div>
+                    <div class="text-gray-600 text-sm font-montserrat">Total Reviews</div>
                 </div>
 
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                <div class="bg-white rounded-lg p-6 text-center shadow-md">
                     <div class="text-4xl font-bold text-primary mb-2">{{ fiveStarPercentage }}%</div>
-                    <div class="text-gray-300 text-sm font-montserrat">5-Star Reviews</div>
+                    <div class="text-gray-600 text-sm font-montserrat">5-Star Reviews</div>
                 </div>
             </div>
         </div>
